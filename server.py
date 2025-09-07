@@ -4,58 +4,80 @@ import requests
 import urllib
 import uuid
 
-app = Flask(__name__)
 
 def get_access_token(authorization_code: str):
-    spotify_request_access_token_url = 'https://accounts.spotify.com/api/token'
+    spotify_request_access_token_url = "https://accounts.spotify.com/api/token"
     body = {
-        'grant_type': 'authorization_code',
-        'code': authorization_code,
-        'client_id' : os.getenv('SPOTIFY_CLIENT_ID'),
-        'client_secret': os.getenv('SPOTIFY_CLIENT_SECRET'),
-        'redirect_uri': os.getenv('SPOTIFY_REDIRECT_URI')
+        "grant_type": "authorization_code",
+        "code": authorization_code,
+        "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
+        "client_secret": os.getenv("SPOTIFY_CLIENT_SECRET"),
+        "redirect_uri": os.getenv("SPOTIFY_REDIRECT_URI"),
     }
-    response = requests.post(spotify_request_access_token_url, data = body)
+    response = requests.post(spotify_request_access_token_url, data=body)
     if response.status_code == 200:
         return response.json()
     else:
-        print(f"Token request failed: {response.status_code}, {response.text}")
-        raise Exception(f'Failed to obtain access token: {response.status_code}')
+        raise Exception(
+            f"Failed to obtain access token: {response.status_code}, {response.text}"
+        )
+
+
+app = Flask(__name__)
+
 
 @app.route("/status")
 def status():
     return "Spotify server v.0.1.0 running"
 
+
 @app.route("/login")
 def login():
     authentication_request_params = {
-        'response_type': 'code',
-        'client_id': os.getenv('SPOTIFY_CLIENT_ID'),
-        'redirect_uri': os.getenv('SPOTIFY_REDIRECT_URI'),
-        'scope': 'playlist-read-private playlist-read-collaborative user-top-read user-read-recently-played user-library-read',
-        'state': str(uuid.uuid4()),
-        'show_dialog': 'true'
-        }
-    auth_url = 'https://accounts.spotify.com/authorize/?' + urllib.parse.urlencode(authentication_request_params)
+        "response_type": "code",
+        "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
+        "redirect_uri": os.getenv("SPOTIFY_REDIRECT_URI"),
+        "scope": "playlist-read-private playlist-read-collaborative user-top-read user-read-recently-played user-library-read",
+        "state": str(uuid.uuid4()),
+        "show_dialog": "true",
+    }
+    auth_url = "https://accounts.spotify.com/authorize/?" + urllib.parse.urlencode(
+        authentication_request_params
+    )
     return redirect(auth_url)
+
 
 @app.route("/callback")
 def callback():
-    code = request.args.get('code')
+    code = request.args.get("code")
     if not code:
         return "No authorization code received", 400
     credentials = get_access_token(authorization_code=code)
-    os.environ['token'] = credentials['access_token']
-    return redirect('/playlists')
+    os.environ["token"] = credentials["access_token"]
+    return redirect("/me")
+
+
+@app.route("/me")
+def me():
+    return (
+        "Should be the user's username to show that they logged in to the right account"
+    )
+
+
+@app.route("/library")
+def library():
+    return "User library"
+
 
 @app.route("/playlists")
 def user_playlists():
     return "User playlists:"
 
+
 @app.route("/tracks")
 def user_tracks():
     return "User tracks:"
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
+if __name__ == "__main__":
+    app.run(debug=True)

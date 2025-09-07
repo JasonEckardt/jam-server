@@ -59,9 +59,28 @@ def callback():
 
 @app.route("/me")
 def me():
-    return (
-        "Should be the user's username to show that they logged in to the right account"
-    )
+    user_profile_url = "https://api.spotify.com/v1/me?"
+    user_top_items_url = "https://api.spotify.com/v1/me/top/"
+    audio_features_url = "https://api.spotify.com/v1/audio-features/"
+    limit_tracks = 20
+    headers = {"Authorization": f"Bearer {os.getenv('token')}"}
+    request_params_artists = {"limit": limit_tracks}
+    request_params_tracks = {"limit": 18}
+
+    user_profile = requests.get(user_profile_url, headers=headers)
+    if user_profile.status_code == 200:
+        user_profile = user_profile.json()
+        display_name = user_profile["display_name"]
+        top_artists_url = (
+            user_top_items_url
+            + "artists?"
+            + urllib.parse.urlencode(request_params_artists)
+        )
+        artists = requests.get(top_artists_url, headers=headers)
+        if artists.status_code == 200:
+            artists = artists.json()
+            artists = artists["items"]
+    return {"display_name": display_name, "top_artists": artists}
 
 
 @app.route("/library")

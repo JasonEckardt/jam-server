@@ -1,8 +1,6 @@
-# tests/test_routes.py
-import urllib
 from app import create_app
-
 import pytest
+import urllib
 
 
 @pytest.fixture

@@ -26,23 +26,6 @@ python3 run.py
 
 ## Contributing
 
-### Project Structure
-
-```
-├── app
-│   ├── __init__.py
-│   ├── __pycache__
-│   ├── api
-│   └── routes.py
-├── requirements.txt
-├── run.py
-├── scripts
-│   └── test.sh
-└── tests
-    ├── __pycache__
-    └── routes.py
-```
-
 ### Tests
 
 ```sh

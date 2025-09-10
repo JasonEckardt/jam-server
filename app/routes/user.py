@@ -22,8 +22,8 @@ def me():
 @user.route("/library")
 def library():
     headers = {"Authorization": f"Bearer {os.getenv('token')}"}
-    limit_artists = 5
-    limit_tracks = 20
+    limit_artists = 10
+    limit_tracks = 10
     request_params_artists = {"limit": limit_artists}
     request_params_tracks = {"limit": limit_tracks}
 
@@ -64,12 +64,32 @@ def user_playlists():
         return "Failed to fetch profile", 400
 
     playlists_request = requests.get(SpotifyAPI.USER_PLAYLISTS, headers=headers)
-    playlists = (
+    playlists_data = (
         playlists_request.json().get("items", [])
         if playlists_request.status_code == 200
         else []
     )
+
+    playlists = []
+    for playlist in playlists_data:
+        playlists.append(
+            {
+                "id": playlist.get("id"),
+                "description": playlist.get("description"),
+                "images": playlist.get("images"),
+                "link": f"/playlists/{playlist.get('id')}",
+                "name": playlist.get("name"),
+                "owner": playlist.get("owner"),
+                "track_count": playlist.get("tracks", {}).get("total"),
+            }
+        )
+
     return {"playlists": playlists}
+
+
+@user.route("/playlists/<playlist_id>")
+def playlist_tracks():
+    return {"playlist_tracks": playlist_tracks}
 
 
 @user.route("/tracks")

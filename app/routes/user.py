@@ -59,6 +59,18 @@ def library():
 def user_playlists():
     headers = {"Authorization": f"Bearer {os.getenv('token')}"}
 
+    user_profile = requests.get(SpotifyAPI.USER_PROFILE, headers=headers)
+    if user_profile.status_code != 200:
+        return "Failed to fetch profile", 400
+
+    playlists_request = requests.get(SpotifyAPI.USER_PLAYLISTS, headers=headers)
+    playlists = (
+        playlists_request.json().get("items", [])
+        if playlists_request.status_code == 200
+        else []
+    )
+    return {"playlists": playlists}
+
 
 @user.route("/tracks")
 def user_tracks():

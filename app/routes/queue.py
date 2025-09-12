@@ -2,7 +2,7 @@ from flask import Blueprint, request
 import re
 
 ## tmp ##
-## This will be replaced with Redis or SQLite later
+## This will be replaced with MySQL later
 class QueueStore:
   def __init__(self):
     self._queue= []

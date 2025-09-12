@@ -29,7 +29,7 @@ def library():
 
     user_profile = requests.get(SpotifyAPI.USER_PROFILE, headers=headers)
     if user_profile.status_code != 200:
-        return "Failed to fetch profile", 400
+        return {'error': 'Failed to fetch profile'}, 400
 
     user_top_artists_url = SpotifyAPI.get_user_top_items(
         "artists"
@@ -61,7 +61,7 @@ def user_playlists():
 
     user_profile = requests.get(SpotifyAPI.USER_PROFILE, headers=headers)
     if user_profile.status_code != 200:
-        return "Failed to fetch profile", 400
+        return {'error': 'Failed to fetch profile'}, 400
 
     playlists_request = requests.get(SpotifyAPI.USER_PLAYLISTS, headers=headers)
     playlists_data = (
@@ -116,4 +116,4 @@ def playlist_tracks(playlist_id):
 
 @user.route("/tracks")
 def top_tracks():
-    return "User tracks:"
+    return {'top_tracks', top_tracks}

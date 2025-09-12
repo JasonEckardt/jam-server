@@ -28,6 +28,7 @@ class SpotifyAPI:
     ARTIST_TOP_TRACKS = f"{BASE_URL}/artists/{{artist_id}}/top-tracks"
     TRACK_DETAILS = f"{BASE_URL}/tracks/{{track_id}}"
 
+
     @classmethod
     def get_user_top_items(cls, item_type):
         """Get URL for user's top artists or tracks"""

@@ -89,11 +89,7 @@ def user_playlists():
 @user.route("/playlists/<playlist_id>")
 def playlist_tracks(playlist_id):
     headers = {"Authorization": f"Bearer {os.getenv('token')}"}
-
-    tracks_request = requests.get(
-        f"{SpotifyAPI.BASE_URL}/playlists/{playlist_id}/tracks",
-        headers=headers,
-    )
+    tracks_request = requests.get(SpotifyAPI.get_playlist_tracks(playlist_id), headers=headers)
 
     if tracks_request.status_code != 200:
         return "Failed to fetch tracks", 400

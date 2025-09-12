@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 import re
 
 ## tmp ##
@@ -7,15 +7,15 @@ class QueueStore:
   def __init__(self):
     self._queue= []
 
-    def show(self):
-      reutnr list(self._queue)
+  def show(self):
+    return list(self._queue)
 
-    def add(self, track_id):
-      self._queue.append(track_id)
+  def add(self, track_id):
+    self._queue.append(track_id)
 
-    def remove(self, track_id):
-      if track_id in self._queue:
-        self._queue.remove(track_id)
+  def remove(self, track_id):
+    if track_id in self._queue:
+      self._queue.remove(track_id)
 
 def extract_track_id(url):
     """
@@ -28,7 +28,7 @@ def extract_track_id(url):
     return None
 
 
-queue = Blueprint('queue', '__name__')
+queue = Blueprint('queue', __name__)
 store = QueueStore()
 
 @queue.route('/queue', methods=['GET'])
@@ -47,6 +47,6 @@ def add_to_queue():
     store.add(track_id)
     return {"track_id": track_id}, 201
 
-@queue.route('/queue/<int:track_id>', methods='DELETE')
+@queue.route('/queue/<int:track_id>', methods=['DELETE'])
 def remove_from_queue(track_id):
   return f'delete {track_id}'

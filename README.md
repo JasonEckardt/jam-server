@@ -2,6 +2,10 @@
 
 A self-hosted Spotify Jam server to play music with your friends! Share a queue with your friends and connect your Spotify account to import songs into the shared queue. Playback from a Raspberry Pi connected to speakers via Bluetooth or Aux.
 
+Flask for API and backend
+Vite + React for frontend
+Redis for storage
+
 ## Usage
 
 ```sh

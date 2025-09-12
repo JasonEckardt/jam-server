@@ -4,7 +4,7 @@ A self-hosted Spotify Jam server to play music with your friends! Share a queue 
 
 - Flask for API and backend
 - Vite + React for frontend
-- Redis for storage
+- MySQL for storage
 
 ## Usage
 

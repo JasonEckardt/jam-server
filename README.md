@@ -14,9 +14,9 @@ pip install -r requirements.txt
 Setup your environment variables:
 ```
 # .env
-SPOTIFY_CLIENT_ID=<your_client_id>
-SPOTIFY_CLIENT_SECRET=<your_client_secret>
-SPOTIFY_REDIRECT_URI=<your_redirect_uri>
+export SPOTIFY_CLIENT_ID='<your_client_id>'
+export SPOTIFY_CLIENT_SECRET='<your_client_secret>'
+export SPOTIFY_REDIRECT_URI='<your_redirect_uri>'
 ```
 
 Run in project root:

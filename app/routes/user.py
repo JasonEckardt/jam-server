@@ -86,10 +86,36 @@ def user_playlists():
 
     return {"playlists": playlists}
 
-
 @user.route("/playlists/<playlist_id>")
-def playlist_tracks():
-    return {"playlist_tracks": playlist_tracks}
+def playlist_tracks(playlist_id):
+    headers = {"Authorization": f"Bearer {os.getenv('token')}"}
+
+    tracks_request = requests.get(
+        f"{SpotifyAPI.BASE_URL}/playlists/{playlist_id}/tracks",
+        headers=headers,
+    )
+
+    if tracks_request.status_code != 200:
+        return "Failed to fetch tracks", 400
+
+    tracks_data = tracks_request.json().get("items", [])
+
+    playlist_tracks = []
+    for item in tracks_data:
+        track = item.get("track", {})
+        playlist_tracks.append(
+            {
+                "id": track.get("id"),
+                "name": track.get("name"),
+                "artists": [a.get("name") for a in track.get("artists", [])],
+                "album": track.get("album", {}).get("name"),
+                "duration_ms": track.get("duration_ms"),
+                "preview_url": track.get("preview_url"),
+            }
+        )
+
+    return {"palylist_tracks": playlist_tracks}
+
 
 
 @user.route("/tracks")

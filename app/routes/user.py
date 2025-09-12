@@ -110,10 +110,10 @@ def playlist_tracks(playlist_id):
             }
         )
 
-    return {"palylist_tracks": playlist_tracks}
+    return {"playlist_tracks": playlist_tracks}
 
 
 
 @user.route("/tracks")
-def user_tracks():
+def top_tracks():
     return "User tracks:"

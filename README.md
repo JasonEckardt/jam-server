@@ -31,3 +31,84 @@ python3 run.py
 ```sh
 python3 -m pytest tests/*
 ```
+
+### JSON examples
+
+```js
+// http://<redirect_uri>/playlists/27Zm1P410dPfedsdoO9fqm
+// ...
+{
+      "album": "Tchaikovsky: Swan Lake Suites",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "Czech Symphony Orchestra",
+        "Michaela R\u00f3zsa R\u016f\u017ei\u010dkov\u00e1"
+      ],
+      "duration_ms": 180379,
+      "id": "6JyihARD2zGUa4uB4NfQiv",
+      "name": "Swan Lake (Suite), Op. 20a, TH.219: I. Scene - Swan Theme",
+      "preview_url": null
+    },
+// ...
+```
+
+```js
+// http://<redirect_uri>/playlists
+{
+  "playlists": [
+    {
+      "description": "Best classical music to study, chill, and relax. From Bach, Mozart, Vivaldi, Beethoven, Chopin, Debussy, Satie, Tchaikovsky, to Christmas Classics. Peaceful piano to Orchestras from Baroque to Romantic and Modern. From opera to chamber to symphony, all in one playlist. Only the best. Enjoy!",
+      "id": "27Zm1P410dPfedsdoO9fqm",
+      "images": [
+        {
+          "height": null,
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da841d36875da61b27546bdec036",
+          "width": null
+        }
+      ],
+      "link": "/playlists/27Zm1P410dPfedsdoO9fqm",
+      "name": "Classical Bangers \ud83c\udfb9\ud83c\udfbb",
+      "owner": {
+        "display_name": "Classical Bangers",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/11102108940"
+        },
+        "href": "https://api.spotify.com/v1/users/11102108940",
+        "id": "11102108940",
+        "type": "user",
+        "uri": "spotify:user:11102108940"
+      },
+      "track_count": 456
+    },
+// ...
+```
+
+```js
+// http://<redirect_uri>/me
+{
+  "display_name": "TechBase",
+  "external_urls": {
+    "spotify": "<some_url>"
+  },
+  "followers": {
+    "href": null,
+    "total": 1
+  },
+  "href": "<some_url>",
+  "id": "<some_id>",
+  "images": [
+    {
+      "height": 300,
+      "url": "<some_url>",
+      "width": 300
+    },
+    {
+      "height": 64,
+      "url": "<some_url>",
+      "width": 64
+    }
+  ],
+  "type": "user",
+  "uri": "spotify:user:<some_url>"
+}
+```

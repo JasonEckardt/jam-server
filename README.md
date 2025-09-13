@@ -38,10 +38,12 @@ python3 -m pytest tests/*
 
 ### Some queue testing commands
 
+You must be logged in to add Spotify tracks from the API.
+
 ```sh
 curl -X POST http://localhost:5000/queue \
   -H "Content-Type: application/json" \
-  -d '{"url": "https://open.spotify.com/track/5nTtCOCds6I0PHMNtqelas"}'
+  -d '{"url": "https://open.spotify.com/track/7vDj5t3DOFDbOkHyjb1wYB"}'
 ```
 
 and observe [localhost/queue](http://localhost:5000/queue)

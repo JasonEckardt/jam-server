@@ -1,4 +1,3 @@
-from app import create_app
 import urllib
 
 
@@ -7,12 +6,12 @@ def test_login_redirect(client, monkeypatch):
     monkeypatch.setenv("SPOTIFY_REDIRECT_URI", "http://localhost/callback")
 
     response = client.get("/login")
-    assert response.status_code == 302  # redirect
+    ## redirect
+    assert response.status_code == 302
 
     location = response.headers["Location"]
     assert location.startswith("https://accounts.spotify.com/authorize/?")
 
-    # parse query string
     qs = urllib.parse.urlparse(location).query
     params = dict(urllib.parse.parse_qsl(qs))
     assert params["client_id"] == "test-client-id"

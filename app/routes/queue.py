@@ -1,5 +1,8 @@
+from config.spotify_urls import SpotifyAPI
 from flask import Blueprint, request
+import os
 import re
+import requests
 
 
 ## tmp ##
@@ -19,35 +22,75 @@ class QueueStore:
             self._queue.remove(track_id)
 
 
+queue = Blueprint("queue", __name__)
+store = QueueStore()
+
+
 def extract_track_id(url):
-    match = re.search(r"spotify\.com/track/([A-Za-z0-9]+)", url)
+    match = re.search(r"spotify\.com/track/([A-Za-z0-9_-]+)", url)
     if match:
         return match.group(1)
     return None
 
 
-queue = Blueprint("queue", __name__)
-store = QueueStore()
+def get_track_info(track_id):
+    headers = {"Authorization": f"Bearer {os.getenv('token')}"}
+
+    track_info = requests.get(
+        SpotifyAPI.TRACK_DETAILS.format(track_id=track_id), headers=headers
+    )
+    if track_info.status_code != 200:
+        return {"error": "Failed to fetch profile"}, 400
+
+    track = track_info.json()
+    return track
 
 
 @queue.route("/queue", methods=["GET"])
 def get_queue():
-    return {"queue": store.show()}
+    queue_data = []
+    for track_id in store.show():
+        track = get_track_info(track_id)
+        queue_data.append(
+            {
+                "id": track.get("id"),
+                "name": track.get("name"),
+                "artists": [a.get("name") for a in track.get("artists", [])],
+                "album": track.get("album", {}).get("name"),
+                "duration_ms": track.get("duration_ms"),
+                "images": track.get("album", {}).get("images", []),
+            }
+        )
+    return {"queue": queue_data}
 
 
 @queue.route("/queue", methods=["POST"])
 def add_to_queue():
     data = request.json
+    headers = {"Authorization": f"Bearer {os.getenv('token')}"}
     url = data.get("url")
+
     if not url:
         return {"error": "URL not provided"}, 400
     track_id = extract_track_id(url)
+
     if not track_id:
         return {"error": "Invalid track URL"}, 400
+
+    response = requests.get(
+        f"https://api.spotify.com/v1/tracks/{track_id}", headers=headers
+    )
+    if response.status_code != 200:
+        return {
+            "error": "Failed to fetch track",
+            "status": response.status_code,
+        }, 400
+
     store.add(track_id)
     return {"track_id": track_id}, 201
 
 
-@queue.route("/queue/<int:track_id>", methods=["DELETE"])
+@queue.route("/queue/<track_id>", methods=["DELETE"])
 def remove_from_queue(track_id):
-    return f"delete {track_id}"
+    store.remove(track_id)
+    return {"removed_track_id": track_id}

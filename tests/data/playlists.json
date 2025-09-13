@@ -1,0 +1,178 @@
+{
+  "playlists": [
+    {
+      "description": "Best classical music to study, chill, and relax. From Bach, Mozart, Vivaldi, Beethoven, Chopin, Debussy, Satie, Tchaikovsky, to Christmas Classics. Peaceful piano to Orchestras from Baroque to Romantic and Modern. From opera to chamber to symphony, all in one playlist. Only the best. Enjoy!",
+      "id": "27Zm1P410dPfedsdoO9fqm",
+      "images": [
+        {
+          "height": null,
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da841d36875da61b27546bdec036",
+          "width": null
+        }
+      ],
+      "link": "/playlists/27Zm1P410dPfedsdoO9fqm",
+      "name": "Classical Bangers \ud83c\udfb9\ud83c\udfbb",
+      "owner": {
+        "display_name": "Classical Bangers",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/11102108940"
+        },
+        "href": "https://api.spotify.com/v1/users/11102108940",
+        "id": "11102108940",
+        "type": "user",
+        "uri": "spotify:user:11102108940"
+      },
+      "track_count": 456
+    },
+    {
+      "description": "Cus I can&#x27;t play the violin or the piano... I code...",
+      "id": "5I1TLuPEksLND0XBIZ8TcP",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://mosaic.scdn.co/640/ab67616d00001e021d9c6602aa95abd8c5b146daab67616d00001e026e7bb273ff9cb1de1e1d4d0aab67616d00001e028dd8211c6f6e49c9185e0c7dab67616d00001e02ae4dfa09519c27b64cd5a958",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://mosaic.scdn.co/300/ab67616d00001e021d9c6602aa95abd8c5b146daab67616d00001e026e7bb273ff9cb1de1e1d4d0aab67616d00001e028dd8211c6f6e49c9185e0c7dab67616d00001e02ae4dfa09519c27b64cd5a958",
+          "width": 300
+        },
+        {
+          "height": 60,
+          "url": "https://mosaic.scdn.co/60/ab67616d00001e021d9c6602aa95abd8c5b146daab67616d00001e026e7bb273ff9cb1de1e1d4d0aab67616d00001e028dd8211c6f6e49c9185e0c7dab67616d00001e02ae4dfa09519c27b64cd5a958",
+          "width": 60
+        }
+      ],
+      "link": "/playlists/5I1TLuPEksLND0XBIZ8TcP",
+      "name": "3 am coding",
+      "owner": {
+        "display_name": "TechBase",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/ymtjl4ol81ras9vfqgocc5s22"
+        },
+        "href": "https://api.spotify.com/v1/users/ymtjl4ol81ras9vfqgocc5s22",
+        "id": "ymtjl4ol81ras9vfqgocc5s22",
+        "type": "user",
+        "uri": "spotify:user:ymtjl4ol81ras9vfqgocc5s22"
+      },
+      "track_count": 14
+    },
+    {
+      "description": "oxygen for dark ambient lovers darkambient.com by 11:11 is a record label. want to work with us? <a href=\"https://1111.io/submit/?ref=darkambient\">submit your demo </a> / playlist curated by: <a href=\"https://open.spotify.com/artist/3aspJpj1ZByvp1P16mFeRC?si=ZfAztmQlRWyIMuPkFmrhEw\"> seeyouthere </a>",
+      "id": "6hyIAxKVYm38T50KUZkNeW",
+      "images": [
+        {
+          "height": null,
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8474d4b48ed41eb47bac47b1ca",
+          "width": null
+        }
+      ],
+      "link": "/playlists/6hyIAxKVYm38T50KUZkNeW",
+      "name": "dark ambient",
+      "owner": {
+        "display_name": "darkambient.com",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/7uhz7aepywb9idtg6squgnksr"
+        },
+        "href": "https://api.spotify.com/v1/users/7uhz7aepywb9idtg6squgnksr",
+        "id": "7uhz7aepywb9idtg6squgnksr",
+        "type": "user",
+        "uri": "spotify:user:7uhz7aepywb9idtg6squgnksr"
+      },
+      "track_count": 585
+    },
+    {
+      "description": "",
+      "id": "2popPWdheJcBO9ahQgYNbG",
+      "images": [
+        {
+          "height": null,
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84f54dd6cbefc853fe27d1a873",
+          "width": null
+        }
+      ],
+      "link": "/playlists/2popPWdheJcBO9ahQgYNbG",
+      "name": "Huh",
+      "owner": {
+        "display_name": "scholarpyre",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/scholarpyre"
+        },
+        "href": "https://api.spotify.com/v1/users/scholarpyre",
+        "id": "scholarpyre",
+        "type": "user",
+        "uri": "spotify:user:scholarpyre"
+      },
+      "track_count": 254
+    },
+    {
+      "description": "Contribute to the cause",
+      "id": "2UhvfD7LVjG67549E8Dr2C",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://mosaic.scdn.co/640/ab67616d00001e02337c5517a9a62e0c3f17d59fab67616d00001e02bfa99afb5ef0d26d5064b23bab67616d00001e02e79e653cbab18f762ad6e9eaab67616d00001e02f15af64cbad45e76c710518b",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://mosaic.scdn.co/300/ab67616d00001e02337c5517a9a62e0c3f17d59fab67616d00001e02bfa99afb5ef0d26d5064b23bab67616d00001e02e79e653cbab18f762ad6e9eaab67616d00001e02f15af64cbad45e76c710518b",
+          "width": 300
+        },
+        {
+          "height": 60,
+          "url": "https://mosaic.scdn.co/60/ab67616d00001e02337c5517a9a62e0c3f17d59fab67616d00001e02bfa99afb5ef0d26d5064b23bab67616d00001e02e79e653cbab18f762ad6e9eaab67616d00001e02f15af64cbad45e76c710518b",
+          "width": 60
+        }
+      ],
+      "link": "/playlists/2UhvfD7LVjG67549E8Dr2C",
+      "name": "Gin",
+      "owner": {
+        "display_name": "TechBase",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/ymtjl4ol81ras9vfqgocc5s22"
+        },
+        "href": "https://api.spotify.com/v1/users/ymtjl4ol81ras9vfqgocc5s22",
+        "id": "ymtjl4ol81ras9vfqgocc5s22",
+        "type": "user",
+        "uri": "spotify:user:ymtjl4ol81ras9vfqgocc5s22"
+      },
+      "track_count": 183
+    },
+    {
+      "description": "",
+      "id": "7aHg1ydSquZK1uqA5KTKWh",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://mosaic.scdn.co/640/ab67616d00001e023ac318439ae56ce048d7bf5dab67616d00001e02b11b3fc3c89477a7dd473bd7ab67616d00001e02b44a04404923d0361d8f8299ab67616d00001e02c2ced39899b0d67cd5a724fa",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://mosaic.scdn.co/300/ab67616d00001e023ac318439ae56ce048d7bf5dab67616d00001e02b11b3fc3c89477a7dd473bd7ab67616d00001e02b44a04404923d0361d8f8299ab67616d00001e02c2ced39899b0d67cd5a724fa",
+          "width": 300
+        },
+        {
+          "height": 60,
+          "url": "https://mosaic.scdn.co/60/ab67616d00001e023ac318439ae56ce048d7bf5dab67616d00001e02b11b3fc3c89477a7dd473bd7ab67616d00001e02b44a04404923d0361d8f8299ab67616d00001e02c2ced39899b0d67cd5a724fa",
+          "width": 60
+        }
+      ],
+      "link": "/playlists/7aHg1ydSquZK1uqA5KTKWh",
+      "name": "Good Shit \ud83d\udc40",
+      "owner": {
+        "display_name": "TechBase",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/ymtjl4ol81ras9vfqgocc5s22"
+        },
+        "href": "https://api.spotify.com/v1/users/ymtjl4ol81ras9vfqgocc5s22",
+        "id": "ymtjl4ol81ras9vfqgocc5s22",
+        "type": "user",
+        "uri": "spotify:user:ymtjl4ol81ras9vfqgocc5s22"
+      },
+      "track_count": 159
+    }
+  ]
+}

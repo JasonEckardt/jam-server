@@ -5,6 +5,9 @@ import urllib
 import uuid
 
 
+auth = Blueprint("auth", __name__)
+
+
 def get_access_token(authorization_code: str):
     spotify_request_access_token_url = "https://accounts.spotify.com/api/token"
     body = {
@@ -21,9 +24,6 @@ def get_access_token(authorization_code: str):
         raise Exception(
             f"Failed to obtain access token: {response.status_code}, {response.text}"
         )
-
-
-auth = Blueprint("auth", __name__)
 
 
 @auth.route("/login")

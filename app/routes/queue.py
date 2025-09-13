@@ -1,4 +1,4 @@
-from config.spotify_urls import SpotifyAPI
+from config.spotify_urls import urls
 from flask import Blueprint, request
 import os
 import re
@@ -22,6 +22,8 @@ class QueueStore:
             self._queue.remove(track_id)
 
 
+## @TODO Change the queue to be non-descructive, use a pointer to move through the queue! Append only
+
 queue = Blueprint("queue", __name__)
 store = QueueStore()
 
@@ -36,9 +38,7 @@ def extract_track_id(url):
 def get_track_info(track_id):
     headers = {"Authorization": f"Bearer {os.getenv('token')}"}
 
-    track_info = requests.get(
-        SpotifyAPI.TRACK_DETAILS.format(track_id=track_id), headers=headers
-    )
+    track_info = requests.get(urls.track(track_id), headers=headers)
     if track_info.status_code != 200:
         return {"error": "Failed to fetch profile"}, 400
 

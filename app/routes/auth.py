@@ -28,11 +28,15 @@ def get_access_token(authorization_code: str):
 
 @auth.route("/login")
 def login():
+    ## used until we have a better way of seperating playback admin user from guests
+    temp_scope = " user-read-playback-state user-modify-playback-state"
+
     authentication_request_params = {
         "response_type": "code",
         "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
         "redirect_uri": os.getenv("SPOTIFY_REDIRECT_URI"),
-        "scope": "playlist-read-private playlist-read-collaborative user-top-read user-read-recently-played user-library-read",
+        "scope": "playlist-read-private playlist-read-collaborative user-top-read user-read-recently-played user-library-read"
+        + temp_scope,
         "state": str(uuid.uuid4()),
         "show_dialog": "true",
     }

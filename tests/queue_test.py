@@ -1,5 +1,5 @@
 from app.routes.queue import store
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 
 def test_add_track_order(client):
@@ -34,20 +34,29 @@ def test_add_track_to_queue(client):
 
 
 def test_add_valid_and_invalid_tracks(client):
-    with patch("requests.get") as mock_get:
-        mock_get.return_value.status_code = 200
+    valid_response = MagicMock()
+    valid_response.status_code = 200
+    valid_response.json.return_value = {"id": "7vDj5t3DOFDbOkHyjb1wYB"}
+
+    invalid_response = MagicMock()
+    invalid_response.status_code = 404
+    invalid_response.json.return_value = {"error": "Failed to fetch track"}
+
+    with patch("app.routes.queue.requests.get") as mock_get:
+        mock_get.return_value = valid_response
         response = client.post(
-            "/queue", json={"url": "https://open.spotify.com/track/valid"}
+            "/queue",
+            json={"url": "https://open.spotify.com/track/7vDj5t3DOFDbOkHyjb1wYB"},
         )
         assert response.status_code == 201
-        assert response.get_json()["track_id"] == "valid"
+        assert response.get_json()["track_id"] == "7vDj5t3DOFDbOkHyjb1wYB"
 
-        mock_get.return_value.status_code = 404
+        mock_get.return_value = invalid_response
         response2 = client.post(
             "/queue", json={"url": "https://open.spotify.com/track/invalid"}
         )
         assert response2.status_code == 400
-        assert "Track does not exist" in response2.get_json()["error"]
+        assert "Failed to fetch track" in response2.get_json()["error"]
 
 
 def test_remove_track_from_queue(client):

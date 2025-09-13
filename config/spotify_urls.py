@@ -1,44 +1,55 @@
-class SpotifyAPI:
-    BASE_URL = "https://api.spotify.com/v1"
+BASE = "https://api.spotify.com/v1"
 
-    # user endpoints
-    USER_PROFILE = f"{BASE_URL}/me"
-    USER_TOP_ITEMS = f"{BASE_URL}/me/top"
-    USER_PLAYLISTS = f"{BASE_URL}/me/playlists"
-    USER_SAVED_TRACKS = f"{BASE_URL}/me/tracks"
-    USER_SAVED_ALBUMS = f"{BASE_URL}/me/albums"
 
-    # playlist endpoints
-    PLAYLIST_TRACKS = f"{BASE_URL}/playlists/{{playlist_id}}/tracks"
-    PLAYLIST_DETAILS = f"{BASE_URL}/playlists/{{playlist_id}}"
+class urls:
+    user_profile = f"{BASE}/me"
+    user_playlists = f"{BASE}/me/playlists"
+    user_top = f"{BASE}/me/top"
+    user_tracks = f"{BASE}/me/tracks"
+    user_albums = f"{BASE}/me/albums"
+
+    # player
+    player = f"{BASE}/me/player"
+    devices = f"{BASE}/me/player/devices"
+    playback = f"{BASE}/me/player/play"
+    pause = f"{BASE}/me/player/pause"
+    next = f"{BASE}/me/player/next"
+    previous = f"{BASE}/me/player/previous"
+    shuffle = f"{BASE}/me/player/shuffle"
+    repeat = f"{BASE}/me/player/repeat"
+    seek = f"{BASE}/me/player/seek"
+    volume = f"{BASE}/me/player/volume"
+    queue = f"{BASE}/me/player/queue"
 
     # search and browse
-    SEARCH = f"{BASE_URL}/search"
-    RECOMMENDATIONS = f"{BASE_URL}/recommendations"
+    search = f"{BASE}/search"
+    recommendations = f"{BASE}/recommendations"
 
-    # player endpoints
-    PLAYER_STATE = f"{BASE_URL}/me/player"
-    PLAYER_PLAY = f"{BASE_URL}/me/player/play"
-    PLAYER_PAUSE = f"{BASE_URL}/me/player/pause"
-    PLAYER_SKIP = f"{BASE_URL}/me/player/next"
+    # dynamic
+    @staticmethod
+    def playlist(id: str) -> str:
+        return f"{BASE}/playlists/{id}"
 
-    # album, artist, track details
-    ALBUM_DETAILS = f"{BASE_URL}/albums/{{album_id}}"
-    ARTIST_DETAILS = f"{BASE_URL}/artists/{{artist_id}}"
-    ARTIST_TOP_TRACKS = f"{BASE_URL}/artists/{{artist_id}}/top-tracks"
-    TRACK_DETAILS = f"{BASE_URL}/tracks/{{track_id}}"
+    @staticmethod
+    def playlist_tracks(id: str) -> str:
+        return f"{BASE}/playlists/{id}/tracks"
 
-    @classmethod
-    def get_user_top_items(cls, item_type):
-        """Get URL for user's top artists or tracks"""
-        return f"{cls.USER_TOP_ITEMS}/{item_type}?"
+    @staticmethod
+    def track(id: str) -> str:
+        return f"{BASE}/tracks/{id}"
 
-    @classmethod
-    def get_playlist_tracks(cls, playlist_id):
-        """Get URL for specific playlist's tracks"""
-        return cls.PLAYLIST_TRACKS.format(playlist_id=playlist_id)
+    @staticmethod
+    def artist(id: str) -> str:
+        return f"{BASE}/artists/{id}"
 
-    @classmethod
-    def get_track_details(cls, track_id):
-        """Get URL for specific track details"""
-        return cls.TRACK_DETAILS.format(track_id=track_id)
+    @staticmethod
+    def artist_top_tracks(id: str) -> str:
+        return f"{BASE}/artists/{id}/top-tracks"
+
+    @staticmethod
+    def album(id: str) -> str:
+        return f"{BASE}/albums/{id}"
+
+    @staticmethod
+    def user_top_items(type: str) -> str:
+        return f"{urls.top}/{type}"

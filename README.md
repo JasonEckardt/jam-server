@@ -9,10 +9,10 @@ A self-hosted Spotify Jam server to play music with your friends! Share a queue 
 ## Usage
 
 ```sh
-git clone
-python3 -m venv .venv
-. ./.venv/bin/activate
-pip install -r requirements.txt
+$ git clone
+$ python3 -m venv .venv
+$ . ./.venv/bin/activate
+$ pip install -r requirements.txt
 ```
 
 Setup your environment variables:
@@ -25,7 +25,7 @@ export SPOTIFY_REDIRECT_URI='<your_redirect_uri>'
 
 Run in project root:
 ```sh
-python3 run.py
+$ python3 run.py
 ```
 
 ## Contributing
@@ -33,20 +33,37 @@ python3 run.py
 ### Tests
 
 ```sh
-python3 -m pytest tests/*
+$ python3 -m pytest tests/*
 ```
 
-### Some queue testing commands
+### Some testing commands
 
-You must be logged in to add Spotify tracks from the API.
+You must be logged in to run these commands through http://localhost:5000/login
+
+#### Add to queue
+
+To add a song to the queue,
 
 ```sh
-curl -X POST http://localhost:5000/queue \
+$ curl -X POST http://localhost:5000/queue \
   -H "Content-Type: application/json" \
   -d '{"url": "https://open.spotify.com/track/7vDj5t3DOFDbOkHyjb1wYB"}'
 ```
 
 and observe [localhost/queue](http://localhost:5000/queue)
+
+#### Play current song
+
+To play the current song with a device.
+
+> Check what devices are available in [localhost/player/devices](http://localhost:5000/player/devices)
+
+```sh
+$ curl -X POST http://localhost:5000/player/play
+{
+  "status": "playing"
+}
+```
 
 ### JSON examples
 

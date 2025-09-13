@@ -1,13 +1,5 @@
 from app import create_app
-import pytest
 import urllib
-
-
-@pytest.fixture
-def client():
-    app = create_app()
-    app.config["TESTING"] = True
-    return app.test_client()
 
 
 def test_login_redirect(client, monkeypatch):

@@ -6,6 +6,13 @@ A self-hosted Spotify Jam server to play music with your friends! Share a queue 
 - Vite + React for frontend
 - MySQL for storage
 
+## Issues to Address
+
+- The admin user set as playback will have their music recommendations ruined
+- There is no generic 'playback' user at the moment
+- Playback without authentication & premium may get this project in trouble with Spotify
+- Parsing and downloading music and caching music is a pain in the ass
+
 ## Usage
 
 ```sh
@@ -34,6 +41,10 @@ $ python3 run.py
 
 ```sh
 $ python3 -m pytest tests/*
+```
+or
+```sh
+. scripts/test.sh
 ```
 
 ### Some testing commands

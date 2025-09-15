@@ -1,6 +1,5 @@
 from config.spotify_urls import urls
 from flask import Blueprint, request
-import os
 import re
 import requests
 
@@ -36,9 +35,7 @@ def extract_track_id(url):
 
 
 def get_track_info(track_id):
-    headers = {"Authorization": f"Bearer {os.getenv('token')}"}
-
-    track_info = requests.get(urls.track(track_id), headers=headers)
+    track_info = requests.get(urls.track(track_id), headers=urls.get_headers())
     if track_info.status_code != 200:
         return {"error": "Failed to fetch profile"}, 400
 
@@ -67,7 +64,6 @@ def get_queue():
 @queue.route("/queue", methods=["POST"])
 def add_to_queue():
     data = request.json
-    headers = {"Authorization": f"Bearer {os.getenv('token')}"}
     url = data.get("url")
 
     if not url:
@@ -78,7 +74,7 @@ def add_to_queue():
         return {"error": "Invalid track URL"}, 400
 
     response = requests.get(
-        f"https://api.spotify.com/v1/tracks/{track_id}", headers=headers
+        f"https://api.spotify.com/v1/tracks/{track_id}", headers=urls.get_headers()
     )
     if response.status_code != 200:
         return {

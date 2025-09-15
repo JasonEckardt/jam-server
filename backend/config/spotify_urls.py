@@ -1,3 +1,5 @@
+import os
+
 BASE = "https://api.spotify.com/v1"
 
 
@@ -26,6 +28,10 @@ class urls:
     recommendations = f"{BASE}/recommendations"
 
     # dynamic
+    @staticmethod
+    def get_headers():
+        return {"Authorization": f"Bearer {os.getenv('token')}"}
+
     @staticmethod
     def playlist(id: str) -> str:
         return f"{BASE}/playlists/{id}"

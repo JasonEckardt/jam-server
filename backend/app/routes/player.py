@@ -1,7 +1,6 @@
 from app.routes.queue import store
 from config.spotify_urls import urls
 from flask import Blueprint
-import os
 import requests
 
 
@@ -17,15 +16,9 @@ player = Blueprint("player", __name__)
 #             play_track(updated_queue[0])
 
 
-@player.route("/player")
-def player_state():
-    return "playback state"
-
-
-@player.route("/player/devices")
+@player.route("/devices")
 def devices():
-    headers = {"Authorization": f"Bearer {os.getenv('token')}"}
-    devices_request = requests.get(urls.devices, headers=headers)
+    devices_request = requests.get(urls.devices, headers=urls.get_headers())
     if devices_request.status_code == 200:
         devices = devices_request.json().get("devices", [])
         return {"devices": devices}
@@ -40,36 +33,56 @@ def devices():
         return {"error": error, "code": devices_request.status_code}
 
 
-# @player.route("/player/next", methods=["POST"])
-# def skip():
-#     next_track()
-#     return {"status": "ok"}
+@player.route("/player")
+def player_state():
+    devices_response = requests.get(urls.devices, headers=urls.get_headers())
+    try:
+        devices_data = devices_response.json()
+        devices_list = devices_data.get("devices", [])
+    except ValueError:
+        devices_list = []
+
+    if len(devices_list) == 0:
+        return {"message": "No devices available for player"}, 400
+
+    player_state_response = requests.get(urls.player, headers=urls.get_headers())
+    try:
+        data = player_state_response.json()
+    except ValueError:
+        data = {"message": "Failed to get player"}
+
+    if player_state_response.status_code == 200:
+        return data
+    else:
+        error = data.get("error", data)
+        return {"error": error, "code": player_state_response.status_code}
+
+
+@player.route("/player/next", methods=["POST"])
+def skip():
+    next_track()
+    return {"status": "ok"}
 
 
 @player.route("/player/pause", methods=["POST"])
-def pause_route():
-    headers = {"Authorization": f"Bearer {os.getenv('token')}"}
-    response = requests.put(urls.pause, headers=headers)
-
-    if response.status_code == 204:
+def pause_player():
+    pause_player_response = requests.put(urls.pause, headers=urls.get_headers())
+    if pause_player_response.status_code == 200:
         return {"status": "paused"}
-    else:
-        error = response.json().get("error", {"message": "Failed to pause track"})
-        return {"error": error, "code": response.status_code}
+    return {"status_code": pause_player_response.status_code}
 
 
 @player.route("/player/play", methods=["POST"])
-def play_route():
+def play_player():
     if not store.show():
         return {"error": "No track to play"}, 400
 
     track_id = store.show()[0]
-    headers = {"Authorization": f"Bearer {os.getenv('token')}"}
     data = {"uris": [f"spotify:track:{track_id}"]}
 
-    response = requests.put(urls.playback, headers=headers, json=data)
+    response = requests.put(urls.playback, headers=urls.get_headers(), json=data)
 
-    if response.status_code == 204:  # Spotify returns 204 for success
+    if response.status_code == 204:
         return {"status": "playing"}
     else:
         error = response.json().get("error", {"message": "Failed to play track"})

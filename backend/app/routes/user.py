@@ -1,3 +1,4 @@
+from app.api import spotify
 from flask import Blueprint
 import config.spotify_urls as urls
 import requests
@@ -7,16 +8,8 @@ user = Blueprint("user", __name__)
 
 @user.route("/me")
 def me():
-    response = requests.get(urls.user_profile, headers=urls.get_headers())
-
-    if response.status_code != 200:
-        return {
-            "error": "Failed to fetch profile",
-            "status": response.status_code,
-        }, response.status_code
-
-    profile = response.json()
-    return profile
+    user = spotify.request_api(urls.USER_PROFILE, urls.get_headers())
+    return user
 
 
 @user.route("/playlists")

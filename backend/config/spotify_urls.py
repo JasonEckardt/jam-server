@@ -2,60 +2,59 @@ import os
 
 BASE = "https://api.spotify.com/v1"
 
+# User endpoints
+USER_PROFILE = f"{BASE}/me"
+USER_PLAYLISTS = f"{BASE}/me/playlists"
+USER_TOP = f"{BASE}/me/top"
+USER_TRACKS = f"{BASE}/me/tracks"
+USER_ALBUMS = f"{BASE}/me/albums"
 
-class urls:
-    user_profile = f"{BASE}/me"
-    user_playlists = f"{BASE}/me/playlists"
-    user_top = f"{BASE}/me/top"
-    user_tracks = f"{BASE}/me/tracks"
-    user_albums = f"{BASE}/me/albums"
+# Player endpoints
+PLAYER = f"{BASE}/me/player"
+DEVICES = f"{BASE}/me/player/devices"
+PLAYBACK = f"{BASE}/me/player/play"
+PAUSE = f"{BASE}/me/player/pause"
+NEXT = f"{BASE}/me/player/next"
+PREVIOUS = f"{BASE}/me/player/previous"
+SHUFFLE = f"{BASE}/me/player/shuffle"
+REPEAT = f"{BASE}/me/player/repeat"
+SEEK = f"{BASE}/me/player/seek"
+VOLUME = f"{BASE}/me/player/volume"
+QUEUE = f"{BASE}/me/player/queue"
 
-    # player
-    player = f"{BASE}/me/player"
-    devices = f"{BASE}/me/player/devices"
-    playback = f"{BASE}/me/player/play"
-    pause = f"{BASE}/me/player/pause"
-    next = f"{BASE}/me/player/next"
-    previous = f"{BASE}/me/player/previous"
-    shuffle = f"{BASE}/me/player/shuffle"
-    repeat = f"{BASE}/me/player/repeat"
-    seek = f"{BASE}/me/player/seek"
-    volume = f"{BASE}/me/player/volume"
-    queue = f"{BASE}/me/player/queue"
+# Search and browse
+SEARCH = f"{BASE}/search"
+RECOMMENDATIONS = f"{BASE}/recommendations"
 
-    # search and browse
-    search = f"{BASE}/search"
-    recommendations = f"{BASE}/recommendations"
 
-    # dynamic
-    @staticmethod
-    def get_headers():
-        return {"Authorization": f"Bearer {os.getenv('token')}"}
+# Dynamic endpoint functions
+def album(id: str) -> str:
+    return f"{BASE}/albums/{id}"
 
-    @staticmethod
-    def playlist(id: str) -> str:
-        return f"{BASE}/playlists/{id}"
 
-    @staticmethod
-    def playlist_tracks(id: str) -> str:
-        return f"{BASE}/playlists/{id}/tracks"
+def artist(id: str) -> str:
+    return f"{BASE}/artists/{id}"
 
-    @staticmethod
-    def track(id: str) -> str:
-        return f"{BASE}/tracks/{id}"
 
-    @staticmethod
-    def artist(id: str) -> str:
-        return f"{BASE}/artists/{id}"
+def artist_top_tracks(id: str) -> str:
+    return f"{BASE}/artists/{id}/top-tracks"
 
-    @staticmethod
-    def artist_top_tracks(id: str) -> str:
-        return f"{BASE}/artists/{id}/top-tracks"
 
-    @staticmethod
-    def album(id: str) -> str:
-        return f"{BASE}/albums/{id}"
+def playlist(id: str) -> str:
+    return f"{BASE}/playlists/{id}"
 
-    @staticmethod
-    def user_top_items(type: str) -> str:
-        return f"{urls.top}/{type}"
+
+def playlist_tracks(id: str) -> str:
+    return f"{BASE}/playlists/{id}/tracks"
+
+
+def track(id: str) -> str:
+    return f"{BASE}/tracks/{id}"
+
+
+def user_top_items(type: str) -> str:
+    return f"{USER_TOP}/{type}"
+
+
+def get_headers() -> dict:
+    return {"Authorization": f"Bearer {os.getenv('token')}"}

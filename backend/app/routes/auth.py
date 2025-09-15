@@ -17,18 +17,18 @@ def get_access_token(authorization_code: str):
         "client_secret": os.getenv("SPOTIFY_CLIENT_SECRET"),
         "redirect_uri": os.getenv("SPOTIFY_REDIRECT_URI"),
     }
-    response = requests.post(spotify_request_access_token_url, data=body)
-    if response.status_code == 200:
-        return response.json()
+    token_response = requests.post(spotify_request_access_token_url, data=body)
+    if token_response.status_code == 200:
+        return token_response.json()
     else:
         raise Exception(
-            f"Failed to obtain access token: {response.status_code}, {response.text}"
+            f"Failed to obtain access token: {token_response.status_code}, {token_response.text}"
         )
 
 
 @auth.route("/login")
 def login():
-    ## used until we have a better way of seperating playback admin user from guests
+    # temp var, until we have a better way of seperating playback admin user from guests
     temp_scope = " user-read-playback-state user-modify-playback-state"
 
     authentication_request_params = {

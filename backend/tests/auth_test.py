@@ -6,7 +6,7 @@ def test_login_redirect(client, monkeypatch):
     monkeypatch.setenv("SPOTIFY_REDIRECT_URI", "http://localhost/callback")
 
     response = client.get("/login")
-    ## redirect
+    # redirect
     assert response.status_code == 302
 
     location = response.headers["Location"]

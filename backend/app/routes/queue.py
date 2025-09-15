@@ -1,11 +1,11 @@
-from config.spotify_urls import urls
 from flask import Blueprint, request
+import config.spotify_urls as urls
 import re
 import requests
 
 
-## tmp ##
-## This will be replaced with MySQL later
+# tmp
+# This will be replaced with MySQL later
 class QueueStore:
     def __init__(self):
         self._queue = []
@@ -21,7 +21,7 @@ class QueueStore:
             self._queue.remove(track_id)
 
 
-## @TODO Change the queue to be non-descructive, use a pointer to move through the queue! Append only
+# @TODO Change the queue to be non-descructive, use a pointer to move through the queue! Append only
 
 queue = Blueprint("queue", __name__)
 store = QueueStore()

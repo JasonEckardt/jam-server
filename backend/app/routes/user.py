@@ -1,63 +1,27 @@
-from config.spotify_urls import urls
 from flask import Blueprint
+import config.spotify_urls as urls
 import requests
-import urllib
 
 user = Blueprint("user", __name__)
 
 
 @user.route("/me")
 def me():
-    user_profile = requests.get(urls.user_profile, headers=urls.get_headers())
-    if user_profile.status_code != 200:
-        return {"error": "Failed to fetch profile"}, 400
+    response = requests.get(urls.user_profile, headers=urls.get_headers())
 
-    profile = user_profile.json()
+    if response.status_code != 200:
+        return {
+            "error": "Failed to fetch profile",
+            "status": response.status_code,
+        }, response.status_code
+
+    profile = response.json()
     return profile
 
 
-@user.route("/library")
-def library():
-    limit_artists = 10
-    limit_tracks = 10
-    request_params_artists = {"limit": limit_artists}
-    request_params_tracks = {"limit": limit_tracks}
-
-    user_profile = requests.get(urls.user_profile, headers=urls.get_headers())
-    if user_profile.status_code != 200:
-        return {"error": "Failed to fetch profile"}, 400
-
-    user_top_artists_url = f"{urls.user_top_items}/artists?" + urllib.parse.urlencode(
-        request_params_artists
-    )
-    user_top_tracks_url = f"{urls.user_top_items}/tracks?" + urllib.parse.urlencode(
-        request_params_tracks
-    )
-
-    artists_request = requests.get(user_top_artists_url, headers=urls.get_headers())
-    artists = (
-        artists_request.json().get("items", [])
-        if artists_request.status_code == 200
-        else []
-    )
-
-    tracks_request = requests.get(user_top_tracks_url, headers=urls.get_headers())
-    tracks = (
-        tracks_request.json().get("items", [])
-        if tracks_request.status_code == 200
-        else []
-    )
-
-    return {"top_artists": artists, "top_tracks": tracks}
-
-
 @user.route("/playlists")
-def user_playlists():
-    user_profile = requests.get(urls.user_profile, headers=urls.get_headers())
-    if user_profile.status_code != 200:
-        return {"error": "Failed to fetch profile"}, 400
-
-    playlists_request = requests.get(urls.user_playlists, headers=urls.get_headers())
+def playlists():
+    playlists_request = requests.get(urls.USER_PLAYLISTS, headers=urls.get_headers())
     playlists_data = (
         playlists_request.json().get("items", [])
         if playlists_request.status_code == 200
@@ -83,14 +47,14 @@ def user_playlists():
 
 @user.route("/playlists/<playlist_id>")
 def playlist_tracks(playlist_id):
-    tracks_request = requests.get(
+    playlist_tracks_response = requests.get(
         urls.playlist_tracks(playlist_id), headers=urls.get_headers()
     )
 
-    if tracks_request.status_code != 200:
+    if playlist_tracks_response.status_code != 200:
         return "Failed to fetch tracks", 400
 
-    tracks_data = tracks_request.json().get("items", [])
+    tracks_data = playlist_tracks_response.json().get("items", [])
 
     playlist_tracks = []
     for item in tracks_data:
@@ -111,4 +75,13 @@ def playlist_tracks(playlist_id):
 
 @user.route("/tracks")
 def top_tracks():
-    return {"top_tracks", top_tracks}
+    response = requests.get(urls.user_top_items("tracks"), headers=urls.get_headers())
+
+    if response.status_code != 200:
+        return {
+            "error": "Failed to fetch top tracks",
+            "status": response.status_code,
+        }, response.status_code
+
+    tracks = response.json().get("items", [])
+    return {"tracks": tracks}

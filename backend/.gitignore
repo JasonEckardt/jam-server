@@ -148,7 +148,8 @@ activemq-data/
 *.sage.py
 
 # Environments
-.env
+## Uncomment this when the repo goes public pls and thx ##
+# .env
 .envrc
 .venv
 env/

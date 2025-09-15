@@ -7,15 +7,6 @@ import requests
 player = Blueprint("player", __name__)
 
 
-# def next_track():
-#     queue = store.show()
-#     if queue:
-#         store.remove(queue[0])
-#         updated_queue = store.show()
-#         if updated_queue:
-#             play_track(updated_queue[0])
-
-
 @player.route("/devices")
 def devices():
     devices_request = requests.get(urls.devices, headers=urls.get_headers())
@@ -58,10 +49,39 @@ def player_state():
         return {"error": error, "code": player_state_response.status_code}
 
 
-# @player.route("/player/next", methods=["POST"])
-# def skip():
-#     next_track()
-#     return {"status": "ok"}
+@player.route("/player/next", methods=["POST"])
+def skip_player():
+    queue = store.show()
+    if not queue:
+        return {"error": "Queue is empty"}, 400
+
+    # Remove the current track
+    store.remove(queue[0])
+
+    updated_queue = store.show()
+    if not updated_queue:
+        # No next track, just pause playback
+        requests.put(urls.pause, headers=urls.get_headers())
+        return {"status": "no next track", "player": None}
+
+    # Play the next track
+    next_track_id = updated_queue[0]
+    data = {"uris": [f"spotify:track:{next_track_id}"]}
+    response = requests.put(urls.playback, headers=urls.get_headers(), json=data)
+
+    if response.status_code == 204:
+        # Fetch updated player state
+        player_response = requests.get(urls.player, headers=urls.get_headers())
+        player_data = (
+            player_response.json() if player_response.status_code == 200 else None
+        )
+        return {"status": "playing next track", "player": player_data}
+    else:
+        try:
+            error_data = response.json()
+        except ValueError:
+            error_data = {"message": "Failed to play next track"}
+        return {"error": error_data, "code": response.status_code}
 
 
 @player.route("/player/pause", methods=["POST"])
@@ -74,16 +94,18 @@ def pause_player():
 
 @player.route("/player/play", methods=["POST"])
 def play_player():
-    if not store.show():
-        return {"error": "No track to play"}, 400
+    response = requests.put(urls.playback, headers=urls.get_headers())
 
-    track_id = store.show()[0]
-    data = {"uris": [f"spotify:track:{track_id}"]}
-
-    response = requests.put(urls.playback, headers=urls.get_headers(), json=data)
-
-    if response.status_code == 204:
-        return {"status": "playing"}
+    if response.status_code == 204:  # success
+        player_response = requests.get(urls.player, headers=urls.get_headers())
+        if player_response.status_code == 200:
+            return {"status": "playing", "player": player_response.json()}
+        else:
+            return {"status": "playing", "player": None}
     else:
-        error = response.json().get("error", {"message": "Failed to play track"})
-        return {"error": error, "code": response.status_code}
+        # Only try to parse JSON if there is content
+        try:
+            error_data = response.json()
+        except ValueError:
+            error_data = {"message": "Failed to resume playback"}
+        return {"error": error_data, "code": response.status_code}

@@ -58,10 +58,10 @@ def player_state():
         return {"error": error, "code": player_state_response.status_code}
 
 
-@player.route("/player/next", methods=["POST"])
-def skip():
-    next_track()
-    return {"status": "ok"}
+# @player.route("/player/next", methods=["POST"])
+# def skip():
+#     next_track()
+#     return {"status": "ok"}
 
 
 @player.route("/player/pause", methods=["POST"])

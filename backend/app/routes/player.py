@@ -1,4 +1,4 @@
-from app.routes.queue import store
+from app.routes.queues import queues
 from flask import Blueprint
 import config.spotify_urls as urls
 import requests

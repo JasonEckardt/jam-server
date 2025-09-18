@@ -27,6 +27,11 @@ SEARCH = f"{BASE}/search"
 RECOMMENDATIONS = f"{BASE}/recommendations"
 
 
+# Helper function
+def get_headers() -> dict:
+    return {"Authorization": f"Bearer {os.getenv('token')}"}
+
+
 # Dynamic endpoint functions
 def album(id: str) -> str:
     return f"{BASE}/albums/{id}"
@@ -54,7 +59,3 @@ def track(id: str) -> str:
 
 def user_top_items(type: str) -> str:
     return f"{USER_TOP}/{type}"
-
-
-def get_headers() -> dict:
-    return {"Authorization": f"Bearer {os.getenv('token')}"}

@@ -1,18 +1,23 @@
 from app.api import spotify
-from flask import Blueprint
+from flask import Blueprint, redirect
 import config.spotify_urls as urls
+import os
 import requests
 
-user = Blueprint("user", __name__)
+users = Blueprint("users", __name__)
 
 
-@user.route("/me")
+@users.route("/me")
 def me():
     user = spotify.request_api(urls.USER_PROFILE, urls.get_headers())
+    if "error" in user:
+        return redirect(f"{os.getenv('HOST_URL')}/login")
+    user.update({"remember_token": False})
+
     return user
 
 
-@user.route("/playlists")
+@users.route("/playlists")
 def playlists():
     playlists_request = requests.get(urls.USER_PLAYLISTS, headers=urls.get_headers())
     playlists_data = (
@@ -38,7 +43,7 @@ def playlists():
     return {"playlists": playlists}
 
 
-@user.route("/playlists/<playlist_id>")
+@users.route("/playlists/<playlist_id>")
 def playlist_tracks(playlist_id):
     playlist_tracks_response = requests.get(
         urls.playlist_tracks(playlist_id), headers=urls.get_headers()
@@ -66,7 +71,7 @@ def playlist_tracks(playlist_id):
     return {"playlist_tracks": playlist_tracks}
 
 
-@user.route("/tracks")
+@users.route("/tracks")
 def top_tracks():
     response = requests.get(urls.user_top_items("tracks"), headers=urls.get_headers())
 

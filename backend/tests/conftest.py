@@ -10,10 +10,19 @@ def load_json(path):
 
 @pytest.fixture
 def client():
-    app = create_app()
-    app.config["TESTING"] = True
-    with app.test_client() as client:
-        yield client
+    test_config = {
+        "TESTING": True,
+        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",  # in-memory DB for tests
+        "SQLALCHEMY_TRACK_MODIFICATIONS": False,
+    }
+    app = create_app(test_config)
+    with app.app_context():
+        from app import db
+
+        db.create_all()
+        with app.test_client() as client:
+            yield client
+        db.drop_all()
 
 
 @pytest.fixture

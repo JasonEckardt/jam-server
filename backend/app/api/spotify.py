@@ -1,5 +1,6 @@
 import requests
 
+
 def request_api(url, headers):
     response = requests.get(url, headers=headers)
 
@@ -7,7 +8,6 @@ def request_api(url, headers):
         return {
             "error": response.reason,
             "status": response.status_code,
-        }, response.status_code
+        }
 
-    data = response.json()
-    return data
+    return response.json()

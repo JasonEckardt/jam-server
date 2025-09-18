@@ -1,0 +1,13 @@
+services:
+ mysql:
+    container_name: mysql
+    image: mysql
+    restart: unless-stopped 
+    environment:
+      MYSQL_ROOT_PASSWORD: spotifyjamserver
+      MYSQL_DATABASE: spotifyjam
+      MYSQL_USER: spotifyuser
+      MYSQL_PASSWORD: spotifypass
+    ports:
+      - '127.0.0.1:3306:3306'
+

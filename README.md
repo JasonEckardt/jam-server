@@ -6,14 +6,34 @@ A self-hosted Spotify Jam server to play music with your friends! Share a queue 
 - Vite + React for frontend
 - MySQL for storage
 
-## Issues to Address
+Docker Compose is used for development and production currently in `docker/` directory.
 
-- The admin user set as playback will have their music recommendations ruined
-- There is no generic 'playback' user at the moment
-- Playback without authentication & premium may get this project in trouble with Spotify
-- Parsing and downloading music and caching music is a pain in the ass
+## Docker
+
+1. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
+2. `cd` to the `docker/` directory in project root
+3. Run `docker compose up -d`
+4. If there are multiple docker compose files you can specify with `-f` flag
+
+> Using `ports:` in the YAML file exposes ports to `0.0.0.0` by default!
+
+To bring down docker containers
+
+```sh
+$ docker compose down
+# or
+$ docker compose down <container_name>
+```
 
 ## Usage
+
+Install dependencies for
+- MySQL
+
+```sh
+sudo apt update
+sudo apt install pkg-config default-libmysqlclient-dev build-essential
+```
 
 ```sh
 $ git clone
@@ -37,6 +57,19 @@ $ python3 run.py
 
 ## Contributing
 
+### Flask Migration commands
+
+When updating models
+```sh
+$ flask db migrate -m '<message>'
+$ flask db upgrade
+```
+
+To rollback
+```sh
+$ flask db downgrade
+```
+
 ### Tests
 
 ```sh
@@ -56,7 +89,7 @@ You must be logged in to run these commands through http://localhost:5000/login
 To add a song to the queue,
 
 ```sh
-$ curl -X POST http://localhost:5000/queue \
+$ curl -X POST http://localhost:5000/queues/main/tracks \
   -H "Content-Type: application/json" \
   -d '{"url": "https://open.spotify.com/track/7vDj5t3DOFDbOkHyjb1wYB"}'
 ```

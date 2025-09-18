@@ -1,8 +1,13 @@
+from app.api import spotify
 from flask import Blueprint, redirect, request
+from app.models.user import User
+import config.spotify_urls as urls
+from datetime import datetime, timedelta, timezone
 import os
 import requests
 import urllib
 import uuid
+from app import db
 
 
 auth = Blueprint("auth", __name__)
@@ -26,11 +31,35 @@ def get_access_token(authorization_code: str):
         )
 
 
+def refresh_access_token(refresh_token: str):
+    url = "https://accounts.spotify.com/api/token"
+    body = {
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token,
+        "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
+        "client_secret": os.getenv("SPOTIFY_CLIENT_SECRET"),
+    }
+    response = requests.post(url, data=body)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise Exception(f"Failed refresh: {response.status_code}, {response.text}")
+
+
+@auth.route("/callback")
+def callback():
+    code = request.args.get("code")
+    if not code:
+        return {"error": "Malformed, no authorization code received", "status": 400}
+    credentials = get_access_token(authorization_code=code)
+    os.environ["token"] = credentials["access_token"]
+
+    return redirect(f"{os.getenv('HOST_URL')}/me")
+
+
 @auth.route("/login")
 def login():
-    # temp var, until we have a better way of seperating playback admin user from guests
     temp_scope = " user-read-playback-state user-modify-playback-state"
-
     authentication_request_params = {
         "response_type": "code",
         "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
@@ -46,11 +75,9 @@ def login():
     return redirect(auth_url)
 
 
-@auth.route("/callback")
-def callback():
-    code = request.args.get("code")
-    if not code:
-        return "No authorization code received", 400
-    credentials = get_access_token(authorization_code=code)
-    os.environ["token"] = credentials["access_token"]
-    return redirect("/me")
+# @auth.route("/login/admin")
+# def login_admin():
+#     # Lock with local app admin user and password
+#     # Request a token with "user-read-playback-state user-modify-playback-state"
+
+#     return NotImplemented

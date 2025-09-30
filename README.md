@@ -8,24 +8,19 @@ A self-hosted Spotify Jam server to play music with your friends! Share a queue 
 
 Docker Compose is used for development and production currently in `docker/` directory.
 
-## Docker
+## Usage
 
-1. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
-2. `cd` to the `docker/` directory in project root
-3. Run `docker compose up -d`
-4. If there are multiple docker compose files you can specify with `-f` flag
+### Dev commands
 
-> Using `ports:` in the YAML file exposes ports to `0.0.0.0` by default!
-
-To bring down docker containers
-
+A script is provided to run `docker`, `flask`, and `vite`,
 ```sh
-$ docker compose down
-# or
-$ docker compose down <container_name>
+$ cd <PROJECT_ROOT>/scripts
+$ ./dev.sh
 ```
 
-## Usage
+> Running `exit.sh` is not necessary unless the script did not completely exit all programs.
+
+### Dependencies
 
 Install dependencies for
 - MySQL
@@ -55,6 +50,23 @@ Run in project root:
 $ python3 run.py
 ```
 
+## Docker
+
+1. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
+2. `cd` to the `docker/` directory in project root
+3. Run `docker compose up -d`
+4. If there are multiple docker compose files you can specify with `-f` flag
+
+> Using `ports:` in the YAML file exposes ports to `0.0.0.0` by default!
+
+To bring down docker containers
+
+```sh
+$ docker compose down
+# or
+$ docker compose down <container_name>
+```
+
 ## Contributing
 
 ### Flask Migration commands
@@ -73,47 +85,55 @@ $ flask db downgrade
 ### Tests
 
 ```sh
+$ cd <PROJECT_ROOT>/backend
 $ python3 -m pytest tests/*
 ```
 or
 ```sh
-. scripts/test.sh
+$ cd <PROJECT_ROOT>/scripts
+$ ./test.sh
 ```
 
 ### Some testing commands
 
-You must be logged in to run these commands through http://localhost:5000/login
+You must be logged in to run these commands through http://127.0.0.1:5000/login
 
 #### Add to queue
 
 To add a song to the queue,
 
 ```sh
-$ curl -X POST http://localhost:5000/queues/main/tracks \
+$ curl -X POST http://127.0.0.1:5000/queues/main/tracks \
   -H "Content-Type: application/json" \
+  -b "session=<session_key_from_cookies_storage>" \
   -d '{"url": "https://open.spotify.com/track/7vDj5t3DOFDbOkHyjb1wYB"}'
 ```
 
-and observe [localhost/queue](http://localhost:5000/queue)
+and observe [127.0.0.1/queues/main](http://127.0.0.1:5000/queues/main)
 
 #### Play current song
 
 To play the current song with a device.
 
-> Check what devices are available in [localhost/player/devices](http://localhost:5000/player/devices)
+> Check what devices are available in [127.0.0.1/player/devices](http://127.0.0.1:5000/player/devices)
 
 ```sh
-$ curl -X POST http://localhost:5000/player/play
+$ curl -X POST http://127.0.0.1:5000/player/play
 {
   "status": "playing"
 }
 ```
 
+#### Clear queue
+
+```sh
+$ curl -X POST http://127.0.0.1:5000/queues/main/clear
+```
+
 ### JSON examples
+#### `/playlists/<playlist_id>`
 
 ```js
-// http://<redirect_uri>/playlists/27Zm1P410dPfedsdoO9fqm
-// ...
 {
       "album": "Tchaikovsky: Swan Lake Suites",
       "artists": [
@@ -126,11 +146,11 @@ $ curl -X POST http://localhost:5000/player/play
       "name": "Swan Lake (Suite), Op. 20a, TH.219: I. Scene - Swan Theme",
       "preview_url": null
     },
-// ...
 ```
 
+#### `/playlists`
+
 ```js
-// http://<redirect_uri>/playlists
 {
   "playlists": [
     {
@@ -157,11 +177,13 @@ $ curl -X POST http://localhost:5000/player/play
       },
       "track_count": 456
     },
-// ...
+  ]
+}
 ```
 
+#### `/me`
+
 ```js
-// http://<redirect_uri>/me
 {
   "display_name": "TechBase",
   "external_urls": {
@@ -189,3 +211,21 @@ $ curl -X POST http://localhost:5000/player/play
   "uri": "spotify:user:<some_url>"
 }
 ```
+
+#### `/devices`
+
+```js
+{
+  "devices": [
+    {
+      "id": "05c3320cdf0ccef3f838b005799c85ee79edba4d",
+      "is_active": true,
+      "is_private_session": false,
+      "is_restricted": false,
+      "name": "<device_name>",
+      "supports_volume": true,
+      "type": "Computer",
+      "volume_percent": 100
+    }
+  ]
+}

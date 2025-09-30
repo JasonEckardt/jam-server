@@ -6,7 +6,7 @@ application = Blueprint("application", __name__)
 
 @application.route("/")
 def index():
-    return f'Welcome to party jam! <a href="{os.getenv("HOST_URL")}/me">Login</a>'
+    return f'Welcome to party jam! <a href="{os.getenv("BACKEND_URL")}/me">Login</a>'
 
 
 @application.route("/status")

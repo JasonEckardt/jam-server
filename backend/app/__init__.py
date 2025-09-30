@@ -1,6 +1,8 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 db = SQLAlchemy()
 
@@ -12,7 +14,16 @@ def create_app(test_config=None):
         "mysql+pymysql://spotifyuser:spotifypass@127.0.0.1:3306/spotifyjam"
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_pre_ping": True,
+        "pool_recycle": 280,
+    }
 
+    app.secret_key = os.getenv("SECRET_KEY")
+
+    # TODO: dev setting? probably not production ready
+    app.config.update(SESSION_COOKIE_SAMESITE="Lax", SESSION_COOKIE_SECURE=False)
+    CORS(app, supports_credentials=True, origins=[os.getenv("FRONTEND_URL")])
     if test_config:
         app.config.update(test_config)
 

@@ -1,4 +1,4 @@
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils";
 import type { HTMLAttributes, Ref } from "react";
 
 interface MainProps extends HTMLAttributes<HTMLElement> {
@@ -11,7 +11,7 @@ const AppMain = ({ fixed, className, ...props }: MainProps) => {
     <main
       className={cn(
         "peer-[.header-fixed]/header:mt-16",
-        "px-4 py-6",
+        "mt-10 px-4 py-6",
         fixed && "fixed-main flex grow flex-col overflow-hidden",
         className,
       )}

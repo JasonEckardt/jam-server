@@ -1,5 +1,5 @@
-import { Button } from "./shadcn/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./shadcn/card";
+import { Button } from "./ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 
 const Login = () => {
   return (

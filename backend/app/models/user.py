@@ -4,10 +4,14 @@ from app import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(128), nullable=False)
+    user_id = db.Column(db.String(128), nullable=False, unique=True)
     access_token = db.Column(db.String(512), nullable=False)
     refresh_token = db.Column(db.String(512), nullable=False)
     expires_at = db.Column(db.DateTime, nullable=False)
 
     def is_expired(self):
-        return datetime.now(timezone.utc) >= self.expires_at
+        if self.expires_at.tzinfo is None:
+            expires_at = self.expires_at.replace(tzinfo=timezone.utc)
+        else:
+            expires_at = self.expires_at
+        return datetime.now(timezone.utc) >= expires_at

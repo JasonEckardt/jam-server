@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetch } from "@/services/fetch";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 interface UseQueueHookProps {
   url: string;
@@ -13,17 +13,19 @@ interface UseQueueHookProps {
 const useQueue = (): UseQueueHookProps => {
   const [url, setUrl] = useState<string>("");
 
+  const queueId = "main";
+
   const { data: queue, mutate: getQueue } = useMutation({
     mutationKey: ["queue"],
-    mutationFn: () => fetch("/queue"),
+    mutationFn: () => fetch(`/queues/${queueId}`),
   });
 
   const { mutate: addToQueue } = useMutation({
     mutationKey: ["addToQueue"],
     mutationFn: () =>
-      fetch("/queue", {
+      fetch(`/queues/${queueId}/tracks`, {
         method: "POST",
-        body: { url },
+        body: JSON.stringify({ url }),
       }),
     onSuccess: () => {
       setUrl("");

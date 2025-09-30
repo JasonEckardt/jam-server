@@ -8,14 +8,14 @@ import MainPage from "@/pages";
 const router = createBrowserRouter([
   {
     element: <PublicRoute />,
-    children: [{ path: "/login", element: <Login /> }],
+    children: [
+      { path: "/login", element: <Login /> },
+      { path: "/", element: <MainPage /> },
+    ],
   },
   {
     element: <ProtectedRoute />,
-    children: [
-      { path: "/", element: <MainPage /> },
-      { path: "/me", element: <UserPage /> },
-    ],
+    children: [{ path: "/me", element: <UserPage /> }],
   },
   // { path: "*", element: <NotFoundRoute /> },
 ]);

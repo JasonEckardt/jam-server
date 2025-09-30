@@ -1,6 +1,6 @@
 import useQueue from "@/hooks/useQueue";
-import { Button } from "./shadcn/button";
-import { Input } from "./shadcn/input";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 const Queue = () => {
   const { url, queue, setUrl, handleAddTrack } = useQueue();

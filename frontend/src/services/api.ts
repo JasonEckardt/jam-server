@@ -5,6 +5,13 @@ export const api: AxiosInstance = axios.create({
   baseURL: "/api",
 });
 
+api.interceptors.request.use((config) => {
+  // Configs used in every request
+  config.headers.set("Accept", "application/json");
+
+  return config;
+});
+
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
@@ -12,7 +19,6 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      // Implement token refresh logic here if needed
     }
 
     return Promise.reject(error);

@@ -1,71 +1,65 @@
+from app import db
 from app.api import spotify
-from flask import Blueprint, redirect, request
 from app.models.user import User
-import config.spotify_urls as urls
 from datetime import datetime, timedelta, timezone
+from flask import Blueprint, redirect, request, session
+import config.spotify_urls as urls
 import os
 import requests
 import urllib
 import uuid
-from app import db
 
 
 auth = Blueprint("auth", __name__)
-
-
-def get_access_token(authorization_code: str):
-    spotify_request_access_token_url = "https://accounts.spotify.com/api/token"
-    body = {
-        "grant_type": "authorization_code",
-        "code": authorization_code,
-        "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
-        "client_secret": os.getenv("SPOTIFY_CLIENT_SECRET"),
-        "redirect_uri": os.getenv("SPOTIFY_REDIRECT_URI"),
-    }
-    token_response = requests.post(spotify_request_access_token_url, data=body)
-    if token_response.status_code == 200:
-        return token_response.json()
-    else:
-        raise Exception(
-            f"Failed to obtain access token: {token_response.status_code}, {token_response.text}"
-        )
-
-
-def refresh_access_token(refresh_token: str):
-    url = "https://accounts.spotify.com/api/token"
-    body = {
-        "grant_type": "refresh_token",
-        "refresh_token": refresh_token,
-        "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
-        "client_secret": os.getenv("SPOTIFY_CLIENT_SECRET"),
-    }
-    response = requests.post(url, data=body)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        raise Exception(f"Failed refresh: {response.status_code}, {response.text}")
 
 
 @auth.route("/callback")
 def callback():
     code = request.args.get("code")
     if not code:
-        return {"error": "Malformed, no authorization code received", "status": 400}
-    credentials = get_access_token(authorization_code=code)
-    os.environ["token"] = credentials["access_token"]
+        return {"error": "Malformed, no authorization code received"}, 400
 
-    return redirect(f"{os.getenv('HOST_URL')}/me")
+    credentials = spotify.get_access_token(authorization_code=code)
+    if "error" in credentials:
+        return {"error": f"Failed to get access token: {credentials['error']}"}, 400
+
+    headers = {"Authorization": f"Bearer {credentials['access_token']}"}
+    user_profile = requests.get(urls.USER_PROFILE, headers=headers).json()
+    spotify_uid = user_profile.get("id")
+
+    expires_at = datetime.now(timezone.utc) + timedelta(
+        seconds=credentials["expires_in"]
+    )
+
+    user = User.query.filter_by(user_id=spotify_uid).first()
+    if user:
+        user.access_token = credentials["access_token"]
+        user.refresh_token = credentials["refresh_token"]
+        user.expires_at = expires_at
+    else:
+        user = User(
+            user_id=spotify_uid,
+            access_token=credentials["access_token"],
+            refresh_token=credentials["refresh_token"],
+            expires_at=expires_at,
+        )
+        db.session.add(user)
+
+    db.session.commit()
+    session["user_id"] = spotify_uid
+    return redirect(f"{os.getenv('FRONTEND_URL')}/me")
 
 
 @auth.route("/login")
 def login():
-    temp_scope = " user-read-playback-state user-modify-playback-state"
+    temp_admin_scope = " user-read-playback-state user-modify-playback-state"
+
     authentication_request_params = {
         "response_type": "code",
         "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
         "redirect_uri": os.getenv("SPOTIFY_REDIRECT_URI"),
         "scope": "playlist-read-private playlist-read-collaborative user-top-read user-read-recently-played user-library-read"
-        + temp_scope,
+        + temp_admin_scope,
         "state": str(uuid.uuid4()),
         "show_dialog": "true",
     }
@@ -73,6 +67,12 @@ def login():
         authentication_request_params
     )
     return redirect(auth_url)
+
+
+@auth.route("/logout")
+def logout():
+    session.pop("user_id", None)
+    return redirect(f"{os.getenv('BACKEND_URL')}/login")
 
 
 # @auth.route("/login/admin")

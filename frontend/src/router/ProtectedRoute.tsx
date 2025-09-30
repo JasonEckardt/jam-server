@@ -2,11 +2,9 @@ import { useAuth } from "@/contexts/auth";
 import { Navigate, Outlet } from "react-router-dom";
 
 export const ProtectedRoute = () => {
-  const { isLogged, isInitialized } = useAuth();
+  const { isLogged } = useAuth();
 
-  console.log(isLogged, isInitialized);
-
-  if (!isInitialized) return null; // or a loading spinner
+  // TODO: Check for initialized when we start handling auth state like for user /me
 
   return isLogged ? <Outlet /> : <Navigate to="/login" replace />;
 };

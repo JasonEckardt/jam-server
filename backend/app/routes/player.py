@@ -1,41 +1,42 @@
-from app.routes.queues import queues
+from app import db
+from app.api import spotify
+from app.models.queue import Queue
+from app.routes import queues
 from flask import Blueprint
 import config.spotify_urls as urls
 import requests
 
-
 player = Blueprint("player", __name__)
+devices_data = dict()
 
 
 @player.route("/devices")
 def devices():
-    devices_request = requests.get(urls.DEVICES, headers=urls.get_headers())
-    if devices_request.status_code == 200:
-        devices = devices_request.json().get("devices", [])
-        return {"devices": devices}
-    else:
-        error = devices_request.json().get(
-            "error",
-            {
-                "message": "Failed to fetch devices",
-                "status": devices_request.status_code,
-            },
-        )
-        return {"error": error, "code": devices_request.status_code}
+    devices_response = spotify.request_api(urls.DEVICES, headers=urls.get_headers())
+    return devices_response
+
+
+@player.route("/devices/select/<string:id>", methods=["POST"])
+def devices_select(id: str) -> dict:
+    devices_response = spotify.request_api(urls.DEVICES, headers=urls.get_headers())
+
+    devices_list = devices_response.get("devices", [])
+    if not devices_list:
+        return {"error": "No devices available", "debug": devices_list}, 400
+
+    device_select = next((d for d in devices_list if d["id"] == id), None)
+    if not device_select:
+        return {"error": f"Device not found {id}"}, 404
+
+    queue = db.session.get(Queue, "main")
+    queue.active_device = device_select["id"]
+    db.session.commit()
+
+    return device_select
 
 
 @player.route("/player")
 def player_state():
-    devices_response = requests.get(urls.DEVICES, headers=urls.get_headers())
-    try:
-        devices_data = devices_response.json()
-        devices_list = devices_data.get("devices", [])
-    except ValueError:
-        devices_list = []
-
-    if len(devices_list) == 0:
-        return {"message": "No devices available for player"}, 400
-
     player_state_response = requests.get(urls.PLAYER, headers=urls.get_headers())
     try:
         data = player_state_response.json()
@@ -50,38 +51,9 @@ def player_state():
 
 
 @player.route("/player/next", methods=["POST"])
-def skip_player():
-    queue = store.show()
-    if not queue:
-        return {"error": "Queue is empty"}, 400
-
-    # Remove the current track
-    store.remove(queue[0])
-
-    updated_queue = store.show()
-    if not updated_queue:
-        # No next track, just pause playback
-        requests.put(urls.PAUSE, headers=urls.get_headers())
-        return {"status": "no next track", "player": None}
-
-    # Play the next track
-    next_track_id = updated_queue[0]
-    data = {"uris": [f"spotify:track:{next_track_id}"]}
-    response = requests.put(urls.PLAYBACK, headers=urls.get_headers(), json=data)
-
-    if response.status_code == 204:
-        # Fetch updated player state
-        player_response = requests.get(urls.PLAYER, headers=urls.get_headers())
-        player_data = (
-            player_response.json() if player_response.status_code == 200 else None
-        )
-        return {"status": "playing next track", "player": player_data}
-    else:
-        try:
-            error_data = response.json()
-        except ValueError:
-            error_data = {"message": "Failed to play next track"}
-        return {"error": error_data, "code": response.status_code}
+def player_next():
+    queue = db.session.get(Queue, "main")
+    return queue
 
 
 @player.route("/player/pause", methods=["POST"])

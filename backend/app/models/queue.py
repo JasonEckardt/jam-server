@@ -7,6 +7,7 @@ from sqlalchemy.ext.mutable import MutableList
 class Queue(db.Model):
     id = db.Column(db.String(36), primary_key=True)
     name = db.Column(db.String(128), nullable=False)
+    active_device = db.Column(db.String(64))
     current_track = db.Column(db.String(64))
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     tracks = db.Column(MutableList.as_mutable(JSON), default=list)

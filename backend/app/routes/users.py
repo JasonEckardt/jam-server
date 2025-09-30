@@ -1,5 +1,6 @@
 from app.api import spotify
-from flask import Blueprint, redirect
+from app.models.user import User
+from flask import Blueprint, redirect, session
 import config.spotify_urls as urls
 import os
 import requests
@@ -9,34 +10,45 @@ users = Blueprint("users", __name__)
 
 @users.route("/me")
 def me():
-    user = spotify.request_api(urls.USER_PROFILE, urls.get_headers())
+    token = spotify.get_current_user_token()
+    if not token:
+        return redirect(f"{os.getenv('BACKEND_URL')}/login")
+
+    headers = {"Authorization": f"Bearer {token}"}
+    user = spotify.request_api(urls.USER_PROFILE, headers)
     if "error" in user:
-        return redirect(f"{os.getenv('HOST_URL')}/login")
-    user.update({"remember_token": False})
+        return user, user.get("status", 502)
+
+    user_id = session.get("user_id")
+    if not user_id:
+        raise Exception(f"user_id missing for {user}")
+
+    user_db = User.query.filter_by(user_id=user_id).first()
+    if user_db:
+        user["expires_at"] = user_db.expires_at.isoformat()
 
     return user
 
 
 @users.route("/playlists")
 def playlists():
-    playlists_request = requests.get(urls.USER_PLAYLISTS, headers=urls.get_headers())
-    playlists_data = (
-        playlists_request.json().get("items", [])
-        if playlists_request.status_code == 200
-        else []
-    )
+    response = spotify.request_api(urls.USER_PLAYLISTS, headers=urls.get_headers())
+    if "error" in response:
+        return response, response.get("status", 502)
 
+    playlists_data = response.get("items", [])
     playlists = []
-    for playlist in playlists_data:
+
+    for p in playlists_data:
         playlists.append(
             {
-                "id": playlist.get("id"),
-                "description": playlist.get("description"),
-                "images": playlist.get("images"),
-                "link": f"/playlists/{playlist.get('id')}",
-                "name": playlist.get("name"),
-                "owner": playlist.get("owner"),
-                "track_count": playlist.get("tracks", {}).get("total"),
+                "id": p.get("id"),
+                "description": p.get("description"),
+                "images": p.get("images"),
+                "link": f"/playlists/{p.get('id')}",
+                "name": p.get("name"),
+                "owner": p.get("owner"),
+                "track_count": p.get("tracks", {}).get("total"),
             }
         )
 

@@ -1,7 +1,8 @@
-from flask import Blueprint, request
 from app import db
 from app.api import spotify
 from app.models.queue import Queue
+from app.models.user import User
+from flask import Blueprint, request, session
 import config.spotify_urls as urls
 import re
 
@@ -16,7 +17,7 @@ def extract_track_id(url):
 
 
 def get_or_create_queue(queue_id="main"):
-    queue = Queue.query.get(queue_id)
+    queue = db.session.get(Queue, queue_id)
     if not queue:
         # we may want to ask the admin for session name
         queue = Queue(id=queue_id, name="Main Session", tracks=[])
@@ -53,8 +54,8 @@ def list_queues():
     return {"queues": queues_list}, 200
 
 
-@queues.route("/queues/<queue_id>", methods=["GET"])
-def get_queue(queue_id):
+@queues.route("/queues/<string:queue_id>", methods=["GET"])
+def get_queue(queue_id: str):
     # Should be get_session and return 404 if session dne
     queue = get_or_create_queue(queue_id)
     queue_data = []
@@ -75,23 +76,38 @@ def get_queue(queue_id):
     return {"queue_id": queue.id, "name": queue.name, "tracks": queue_data}
 
 
-@queues.route("/queues/<queue_id>/tracks", methods=["POST"])
-def add_track(queue_id):
-    data = request.json
-
+@queues.route("/queues/<string:queue_id>/tracks", methods=["POST"])
+def add_track(queue_id: str):
+    data = request.get_json(force=True)
     url = data.get("url")
     if not url:
-        return {"error": "URL not provided"}
+        return {"error": "URL not provided"}, 400
 
     track_id = extract_track_id(url)
     if not track_id:
-        return {"error": "Invalid track URL"}
+        return {"error": "Invalid track URL"}, 400
+
+    user_id = session.get("user_id")
+    if not user_id:
+        return {"error": "User not logged in"}, 401
+
+    user = User.query.filter_by(user_id=user_id).first()
+    if not user:
+        return {"error": "User not found"}, 404
+
+    token = spotify.get_current_user_token()
+    if not token or user.is_expired():
+        token = spotify.refresh_access_token()
+
+    if not token:
+        return {"error": "Unable to obtain Spotify token"}, 401
 
     track_response = spotify.request_api(
-        urls.track(track_id), headers=urls.get_headers()
+        urls.track(track_id), headers={"Authorization": f"Bearer {token}"}
     )
     if "error" in track_response:
         return track_response, 401
+
     queue = get_or_create_queue(queue_id)
     queue.tracks.append(track_id)
     db.session.commit()
@@ -99,7 +115,20 @@ def add_track(queue_id):
     return {"track_id": track_id}, 201
 
 
+@queues.route("/queues/<queue_id>/clear", methods=["POST"])
+def clear_queue(queue_id):
+    # TODO: Make this admin only command
+    queue = Queue.query.filter_by(id=queue_id).first()
+    if not queue:
+        return {"error": "Queue not found"}, 404
+
+    queue.tracks = []
+    db.session.commit()
+
+    return {"success": True, "message": f"Queue {queue_id} cleared"}
+
+
 @queues.route("/queues/<queue_id>/tracks/<track_id>", methods=["DELETE"])
-def remove_track(queue_id, track_id):
+def remove_track(queue_id: str, track_id: str):
 
     return {"removed_track_id": track_id}, 204

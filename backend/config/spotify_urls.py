@@ -1,4 +1,4 @@
-import os
+from app.api import spotify
 
 BASE = "https://api.spotify.com/v1"
 
@@ -29,7 +29,10 @@ RECOMMENDATIONS = f"{BASE}/recommendations"
 
 # Helper function
 def get_headers() -> dict:
-    return {"Authorization": f"Bearer {os.getenv('token')}"}
+    token = spotify.get_current_user_token()
+    if not token:
+        return {"error": "Auth token missing", "status": "400"}
+    return {"Authorization": f"Bearer {token}"}
 
 
 # Dynamic endpoint functions

@@ -3,6 +3,8 @@ from app import db
 
 
 class User(db.Model):
+    __tablename__ = "users"
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(128), nullable=False, unique=True)
     access_token = db.Column(db.String(512), nullable=False)

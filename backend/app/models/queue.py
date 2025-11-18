@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timezone
 from app import db
-from sqlalchemy import JSON, Integer, String
+from sqlalchemy import JSON
 from sqlalchemy.ext.mutable import MutableList
 
 

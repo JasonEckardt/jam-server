@@ -7,7 +7,7 @@ class User(db.Model):
     user_id = db.Column(db.String(128), nullable=False, unique=True)
     access_token = db.Column(db.String(512), nullable=False)
     refresh_token = db.Column(db.String(512), nullable=False)
-    expires_at = db.Column(db.DateTime, nullable=False)
+    expires_at = db.Column(db.DateTime(timezone=True), nullable=False)
 
     def is_expired(self):
         if self.expires_at.tzinfo is None:

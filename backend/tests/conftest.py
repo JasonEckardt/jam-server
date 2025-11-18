@@ -3,6 +3,16 @@ import json
 import pytest
 
 
+@pytest.fixture(autouse=True)
+def test_env(monkeypatch):
+    monkeypatch.setenv("SECRET_KEY", "test-secret")
+    monkeypatch.setenv("CORS_ORIGINS", "*")
+    monkeypatch.setenv("FRONTEND_URL", "http://localhost:3000")
+    monkeypatch.setenv("BACKEND_URL", "http://localhost:5000")
+    monkeypatch.setenv("SPOTIFY_CLIENT_ID", "dummy")
+    monkeypatch.setenv("SPOTIFY_REDIRECT_URI", "http://localhost/callback")
+
+
 def load_json(path):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -12,7 +22,7 @@ def load_json(path):
 def client():
     test_config = {
         "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",  # in-memory DB for tests
+        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
         "SQLALCHEMY_TRACK_MODIFICATIONS": False,
     }
     app = create_app(test_config)

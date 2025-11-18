@@ -88,13 +88,14 @@ def playlist_tracks(playlist_id):
 
 @users.route("/tracks")
 def top_tracks():
-    response = requests.get(urls.user_top_items("tracks"), headers=urls.get_headers())
+    response, status_code = requests.get(
+        urls.user_top_items("tracks"), headers=urls.get_headers()
+    )
 
-    if response.status_code != 200:
+    if status_code != 200:
         return {
             "error": "Failed to fetch top tracks",
-            "status": response.status_code,
-        }, response.status_code
+        }, status_code
 
     tracks = response.json().get("items", [])
     return {"tracks": tracks}

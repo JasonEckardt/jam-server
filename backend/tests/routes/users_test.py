@@ -57,3 +57,23 @@ def test_playlists_no_items(mock_get, client):
     assert response.status_code == 200
     assert response_data == {"playlists": []}
     mock_get.assert_called_once()
+
+
+@patch("app.routes.users.requests.get")
+def test_playlists_failed(mock_get, client):
+    # Mock Spotify returning 404 Unauthorized
+    mock_response = Mock()
+    mock_response.status_code = 404
+    mock_response.reason = "Unauthorized"
+    mock_get.return_value = mock_response
+
+    # Call your /playlists endpoint
+    response = client.get("/playlists")
+    response_data = response.get_json()
+
+    # Assert status code and JSON response
+    assert response.status_code == 404
+    assert response_data == {"error": "Failed to fetch playlists: Unauthorized"}
+
+    # Ensure requests.get was called
+    mock_get.assert_called_once()

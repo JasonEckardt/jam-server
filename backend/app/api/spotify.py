@@ -64,8 +64,11 @@ def get_current_user_token() -> str:
     return user.access_token
 
 
-def request_api(url: str, headers: dict[str, str]) -> dict:
-    response = requests.get(url, headers=headers)
-    if response.status_code != 200:
-        return {"error": response.reason, "status": response.status_code}
-    return response.json()
+def request_api(url: str, headers: dict[str, str]) -> tuple[dict, int]:
+    try:
+        response = requests.get(url, headers=headers, timeout=5)
+        if response.status_code != 200:
+            return {"error": response.reason}, response.status_code
+        return response.json(), 200
+    except requests.exceptions.RequestException as e:
+        return {"error": str(e)}, 500

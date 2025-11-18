@@ -32,37 +32,40 @@ def me():
 
 @users.route("/playlists")
 def playlists():
-    response = spotify.request_api(urls.USER_PLAYLISTS, headers=urls.get_headers())
-    if "error" in response:
-        return response, response.get("status", 502)
+    playlist_response, status_code = spotify.request_api(
+        urls.USER_PLAYLISTS, headers=urls.get_headers()
+    )
+    if status_code != 200:
+        return {
+            "error": f"Failed to fetch playlists: {playlist_response['error']}"
+        }, status_code
 
-    playlists_data = response.get("items", [])
-    playlists = []
-
-    for p in playlists_data:
-        playlists.append(
-            {
-                "id": p.get("id"),
-                "description": p.get("description"),
-                "images": p.get("images"),
-                "link": f"/playlists/{p.get('id')}",
-                "name": p.get("name"),
-                "owner": p.get("owner"),
-                "track_count": p.get("tracks", {}).get("total"),
-            }
-        )
-
-    return {"playlists": playlists}
+    playlists_data = playlist_response.get("items", [])
+    playlists = [
+        {
+            "id": p.get("id"),
+            "description": p.get("description"),
+            "images": p.get("images"),
+            "link": f"/playlists/{p.get('id')}",
+            "name": p.get("name"),
+            "owner": p.get("owner"),
+            "track_count": p.get("tracks", {}).get("total"),
+        }
+        for p in playlists_data
+    ]
+    return {"playlists": playlists}, 200
 
 
 @users.route("/playlists/<playlist_id>")
 def playlist_tracks(playlist_id):
-    playlist_tracks_response = requests.get(
+    playlist_tracks_response, status_code = requests.get(
         urls.playlist_tracks(playlist_id), headers=urls.get_headers()
     )
 
-    if playlist_tracks_response.status_code != 200:
-        return "Failed to fetch tracks", 400
+    if status_code != 200:
+        return {
+            "error": f"Failed to fetch tracks: {playlist_tracks_response['error']}"
+        }, status_code
 
     tracks_data = playlist_tracks_response.json().get("items", [])
 

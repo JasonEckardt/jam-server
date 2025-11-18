@@ -60,9 +60,11 @@ def get_queue(queue_id: str):
     queue = get_or_create_queue(queue_id)
     queue_data = []
     for track_id in queue.tracks:
-        track = spotify.request_api(urls.track(track_id), headers=urls.get_headers())
-        if "error" in track:
-            return track
+        track, status_code = spotify.request_api(
+            urls.track(track_id), headers=urls.get_headers()
+        )
+        if status_code != 200:
+            return {"error": f"Failed to add track: {track['error']}"}
         queue_data.append(
             {
                 "id": track.get("id"),
@@ -102,11 +104,11 @@ def add_track(queue_id: str):
     if not token:
         return {"error": "Unable to obtain Spotify token"}, 401
 
-    track_response = spotify.request_api(
+    track_response, status_code = spotify.request_api(
         urls.track(track_id), headers={"Authorization": f"Bearer {token}"}
     )
-    if "error" in track_response:
-        return track_response, 401
+    if status_code != 200:
+        return {"error": f"Failed to get track: {track_response['error']}"}, 401
 
     queue = get_or_create_queue(queue_id)
     queue.tracks.append(track_id)
@@ -117,7 +119,7 @@ def add_track(queue_id: str):
 
 @queues.route("/queues/<queue_id>/clear", methods=["POST"])
 def clear_queue(queue_id):
-    # TODO: Make this admin only command
+    #  TODO Make this admin only command
     queue = Queue.query.filter_by(id=queue_id).first()
     if not queue:
         return {"error": "Queue not found"}, 404
@@ -125,7 +127,7 @@ def clear_queue(queue_id):
     queue.tracks = []
     db.session.commit()
 
-    return {"success": True, "message": f"Queue {queue_id} cleared"}
+    return f"Queue {queue_id} cleared", 200
 
 
 @queues.route("/queues/<queue_id>/tracks/<track_id>", methods=["DELETE"])

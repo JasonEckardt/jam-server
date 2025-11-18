@@ -12,8 +12,10 @@ devices_data = dict()
 
 @player.route("/devices")
 def devices():
-    devices_response = spotify.request_api(urls.DEVICES, headers=urls.get_headers())
-    return devices_response
+    devices_response, status = spotify.request_api(
+        urls.DEVICES, headers=urls.get_headers()
+    )
+    return devices_response, status
 
 
 @player.route("/devices/select/<string:id>", methods=["POST"])
@@ -22,11 +24,11 @@ def devices_select(id: str) -> dict:
 
     devices_list = devices_response.get("devices", [])
     if not devices_list:
-        return {"error": "No devices available", "debug": devices_list}, 400
+        return {"error": "Error getting devices."}, 400
 
     device_select = next((d for d in devices_list if d["id"] == id), None)
     if not device_select:
-        return {"error": f"Device not found {id}"}, 404
+        return {"error": f"Device {id} not found."}, 404
 
     queue = db.session.get(Queue, "main")
     queue.active_device = device_select["id"]

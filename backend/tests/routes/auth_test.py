@@ -1,12 +1,7 @@
-import os
 import urllib
-from datetime import datetime, timezone
-from unittest.mock import patch
-
-import pytest
-from flask import session
 from app.api import spotify
 from app.models import User
+from datetime import datetime, timezone
 
 
 def test_login_redirect(client, monkeypatch):

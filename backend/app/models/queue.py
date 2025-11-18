@@ -1,14 +1,20 @@
+import uuid
 from datetime import datetime, timezone
 from app import db
-from sqlalchemy import JSON
+from sqlalchemy import JSON, Integer, String
 from sqlalchemy.ext.mutable import MutableList
 
 
 class Queue(db.Model):
-    id = db.Column(db.String(36), primary_key=True)
+    __tablename__ = "queues"
+
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     name = db.Column(db.String(128), nullable=False)
-    active_device = db.Column(db.String(64))
-    current_track = db.Column(db.String(64))
-    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    active_device = db.Column(db.String(64), nullable=True)
+    current_track = db.Column(db.String(64), nullable=True)
+    progress_ms = db.Column(db.Integer, nullable=True)
     tracks = db.Column(MutableList.as_mutable(JSON), default=list)
     users = db.Column(MutableList.as_mutable(JSON), default=list)
+    created_at = db.Column(
+        db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )

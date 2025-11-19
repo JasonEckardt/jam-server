@@ -10,7 +10,7 @@ import { Button } from "./ui/button";
 const Header = () => {
   const url = window.location.pathname;
 
-  // TODO Create an isLoggedIn var and show Me only when logged in.
+  // TODO: Create an isLoggedIn var and show Me only when logged in.
   // Optionally, show Admin button only to admin
 
   // Navigation links array to be used in both desktop and mobile menus

@@ -20,6 +20,11 @@ const Player = () => {
       .catch(err => console.error(err));
   }, []);
 
+  /*TODO
+    Returns the track at the top of the queue,
+    this should probably use the useQueue hook that we set up earlier
+    also this probably does not update when the song ends.
+  */
   return (
     <Card className="max-w-xl">
       <CardHeader>

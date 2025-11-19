@@ -17,7 +17,7 @@ const useQueue = (): UseQueueHookProps => {
 
   const { data: queue, mutate: getQueue } = useMutation({
     mutationKey: ["queue"],
-    mutationFn: () => fetch(`/queues/${queueId}`),
+    mutationFn: () => fetch(`api/queues/${queueId}`),
   });
 
   const { mutate: addToQueue } = useMutation({

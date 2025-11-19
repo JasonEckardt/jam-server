@@ -131,7 +131,7 @@ def add_track(queue_id: str):
 
 @queues.route("/queues/<queue_id>/clear", methods=["POST"])
 def clear_queue(queue_id):
-    #  TODO Make this admin only command
+    # TODO: Make this admin only command
     queue = Queue.query.filter_by(id=queue_id).first()
     if not queue:
         return {"error": "Queue not found"}, 404

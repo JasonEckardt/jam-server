@@ -98,6 +98,18 @@ $ ./test.sh
 
 You must be logged in to run these commands through http://127.0.0.1:5000/login
 
+#### Create a queue
+
+```sh
+curl -X POST http://localhost:5000/queues/my_queue
+```
+
+where `<my_queue>` is a name of your choosing such as
+
+```sh
+curl -X POST http://localhost:5000/queues/main
+```
+
 #### Add to queue
 
 To add a song to the queue,

@@ -76,7 +76,7 @@ def get_queue(queue_id: str):
                 "images": track.get("album", {}).get("images", []),
             }
         )
-    return {"queue_id": queue.id, "name": queue.name, "tracks": queue_data}
+    return {"queue_id": queue.id, "name": queue.name, "tracks": queue_data}, 200
 
 
 @queues.route("/queues/new/<string:queue_name>", methods=["POST"])
@@ -87,7 +87,7 @@ def create_queue(queue_name: str):
         return {"error": f"Queue {queue_name}, {queue_id} already exists."}, 409
     db.session.add(queue)
     db.session.commit()
-    return {"message": f"Created queue {queue_name} with id {queue_id}"}, 200
+    return {"queue_id": queue.id, "name": queue.name, "tracks": queue.tracks}, 201
 
 
 @queues.route("/queues/<string:queue_id>/tracks", methods=["POST"])

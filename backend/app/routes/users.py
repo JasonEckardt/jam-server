@@ -15,9 +15,9 @@ def me():
         return redirect(f"{os.getenv('BACKEND_URL')}/login")
 
     headers = {"Authorization": f"Bearer {token}"}
-    user = spotify.request_api(urls.USER_PROFILE, headers)
-    if "error" in user:
-        return user, user.get("status", 502)
+    user, status_code = spotify.request_api(urls.USER_PROFILE, headers)
+    if status_code != 200:
+        return {"Failed to login: {user}"}, status_code
 
     user_id = session.get("user_id")
     if not user_id:

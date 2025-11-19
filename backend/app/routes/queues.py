@@ -5,6 +5,7 @@ from app.models.user import User
 from flask import Blueprint, request, session
 import config.spotify_urls as urls
 import re
+import uuid
 
 queues = Blueprint("queues", __name__)
 
@@ -57,7 +58,7 @@ def list_queues():
 @queues.route("/queues/<string:queue_id>", methods=["GET"])
 def get_queue(queue_id: str):
     # Should be get_session and return 404 if session dne
-    queue = get_or_create_queue(queue_id)
+    queue = db.session.get(Queue, queue_id)
     queue_data = []
     for track_id in queue.tracks:
         track, status_code = spotify.request_api(
@@ -76,6 +77,17 @@ def get_queue(queue_id: str):
             }
         )
     return {"queue_id": queue.id, "name": queue.name, "tracks": queue_data}
+
+
+@queues.route("/queues/new/<string:queue_name>", methods=["POST"])
+def create_queue(queue_name: str):
+    queue_id = "main"
+    queue = Queue(id=queue_id, name=queue_name, tracks=[])
+    if queue:
+        return {"error": f"Queue {queue_name}, {queue_id} already exists."}, 409
+    db.session.add(queue)
+    db.session.commit()
+    return {"message": f"Created queue {queue_name} with id {queue_id}"}, 200
 
 
 @queues.route("/queues/<string:queue_id>/tracks", methods=["POST"])
@@ -110,7 +122,7 @@ def add_track(queue_id: str):
     if status_code != 200:
         return {"error": f"Failed to get track: {track_response['error']}"}, 401
 
-    queue = get_or_create_queue(queue_id)
+    queue = db.session.get(Queue, queue_id)
     queue.tracks.append(track_id)
     db.session.commit()
 

@@ -8,12 +8,18 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "./ui/button";
 
 const Header = () => {
-  const url = window.location.href;
-  const isLoginPage = url.includes("/login");
+  const url = window.location.pathname;
+
+  // TODO Create an isLoggedIn var and show Me only when logged in.
+  // Optionally, show Admin button only to admin
 
   // Navigation links array to be used in both desktop and mobile menus
-  // TODO: Update with actual navigation links and active states
-  const navigationLinks = [{ href: "/", label: "Home", active: !isLoginPage }];
+  // Home is active on root url, other links active when url includes href
+  const navigationLinks = [{ href: "/", label: "Home" }, { href: "/playlists", label: "Library" }, { href: "/me", label: "Me" }, { href: "/admin", label: "Admin" }]
+    .map(link => ({
+      ...link,
+      active: link.href === "/" ? url === "/" : url.includes(link.href)
+    }));
 
   return (
     <header className="border-b px-4 md:px-6">
@@ -89,7 +95,7 @@ const Header = () => {
           </div>
         </div>
         {/* Right side */}
-        {!isLoginPage && (
+        {!url.includes("/login") && (
           <Button asChild size="sm" className="bg-green-500 text-sm">
             <a href="/login">Login</a>
           </Button>

@@ -12,5 +12,5 @@ services:
       - '127.0.0.1:3306:3306'
     volumes:
       - type: bind
-        source: ./volumes/mysql_development
+        source: ./tmp/mysql_development
         target: /var/lib/mysql

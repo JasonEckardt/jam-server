@@ -8,7 +8,7 @@ source "$PROJECT_ROOT/backend/.venv/bin/activate"
 
 # Run in a subshell so cd doesn't affect parent process
 (
-  cd "$PROJECT_ROOT/docker"
+  cd "$PROJECT_ROOT"
   docker compose up -d
 
   cd "$PROJECT_ROOT/backend"

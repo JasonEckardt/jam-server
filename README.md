@@ -22,19 +22,12 @@ $ ./dev.sh
 
 ### Dependencies
 
-Install dependencies for
-- MySQL
-
+Create a virtual environment and install Python dependencies. Start in the project root directory.
 ```sh
-sudo apt update
-sudo apt install pkg-config default-libmysqlclient-dev build-essential
-```
-
-```sh
-$ git clone
-$ python3 -m venv .venv
-$ . ./.venv/bin/activate
-$ pip install -r requirements.txt
+cd ./backend
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 Setup your environment variables:
@@ -43,11 +36,6 @@ Setup your environment variables:
 export SPOTIFY_CLIENT_ID='<your_client_id>'
 export SPOTIFY_CLIENT_SECRET='<your_client_secret>'
 export SPOTIFY_REDIRECT_URI='<your_redirect_uri>'
-```
-
-Run in project root:
-```sh
-$ python3 run.py
 ```
 
 ## Docker

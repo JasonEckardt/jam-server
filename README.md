@@ -14,8 +14,14 @@ Docker Compose is used for development and production currently in `docker/` dir
 
 A script is provided to run `docker`, `flask`, and `vite`,
 ```sh
-$ cd <PROJECT_ROOT>/scripts
-$ ./dev.sh
+cd <PROJECT_ROOT>/scripts
+./dev.sh
+```
+
+For the first boot or whenever you reset the database,
+```sh
+cd backend
+flask db upgrade
 ```
 
 > Running `exit.sh` is not necessary unless the script did not completely exit all programs.
@@ -50,9 +56,9 @@ export SPOTIFY_REDIRECT_URI='<your_redirect_uri>'
 To bring down docker containers
 
 ```sh
-$ docker compose down
+docker compose down
 # or
-$ docker compose down <container_name>
+docker compose down <container_name>
 ```
 
 ## Contributing
@@ -61,25 +67,25 @@ $ docker compose down <container_name>
 
 When updating models
 ```sh
-$ flask db migrate -m '<message>'
-$ flask db upgrade
+flask db migrate -m '<message>'
+flask db upgrade
 ```
 
 To rollback
 ```sh
-$ flask db downgrade
+flask db downgrade
 ```
 
 ### Tests
 
 ```sh
-$ cd <PROJECT_ROOT>/backend
-$ python3 -m pytest tests/*
+cd <PROJECT_ROOT>/backend
+python3 -m pytest tests/*
 ```
 or
 ```sh
-$ cd <PROJECT_ROOT>/scripts
-$ ./test.sh
+cd <PROJECT_ROOT>/scripts
+./test.sh
 ```
 
 ### Some testing commands

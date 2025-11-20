@@ -58,7 +58,7 @@ def list_queues():
 @queues.route("/queues/<string:queue_id>", methods=["GET"])
 def get_queue(queue_id: str):
     # Should be get_session and return 404 if session dne
-    queue = db.session.get(Queue, queue_id)
+    queue = get_or_create_queue()
     queue_data = []
     for track_id in queue.tracks:
         track, status_code = spotify.request_api(

@@ -1,40 +1,11 @@
 from app import db
 from app.api import spotify
 from app.models.queue import Queue
-from app.routes import queues
 from flask import Blueprint
 import config.spotify_urls as urls
 import requests
 
 player = Blueprint("player", __name__)
-devices_data = dict()
-
-
-@player.route("/devices")
-def devices():
-    devices_response, status = spotify.request_api(
-        urls.DEVICES, headers=urls.get_headers()
-    )
-    return devices_response, status
-
-
-@player.route("/devices/select/<string:id>", methods=["POST"])
-def devices_select(id: str) -> dict:
-    devices_response = spotify.request_api(urls.DEVICES, headers=urls.get_headers())
-
-    devices_list = devices_response.get("devices", [])
-    if not devices_list:
-        return {"error": "Error getting devices."}, 400
-
-    device_select = next((d for d in devices_list if d["id"] == id), None)
-    if not device_select:
-        return {"error": f"Device {id} not found."}, 404
-
-    queue = db.session.get(Queue, "main")
-    queue.active_device = device_select["id"]
-    db.session.commit()
-
-    return device_select
 
 
 @player.route("/player")
@@ -68,6 +39,30 @@ def pause_player():
 
 @player.route("/player/play", methods=["POST"])
 def play_player():
+    # First, get the active device ID from the queue
+    queue = db.session.get(Queue, "main")
+    if not queue.active_device:
+        return {"error": "No active device selected."}, 400
+
+    # Now, we need to check the private mode of the active device.
+    # We will call the devices endpoint to get the list of devices and then check the active device's `is_private_session`.
+    devices_response, status = spotify.request_api(
+        urls.DEVICES, headers=urls.get_headers()
+    )
+    if status != 200:
+        return {"error": "Failed to get devices."}, status
+
+    devices_list = devices_response.get("devices", [])
+    active_device = next(
+        (d for d in devices_list if d["id"] == queue.active_device), None
+    )
+    if not active_device:
+        return {"error": "Active device not found in the list."}, 400
+
+    if not active_device.get("is_private_session", False):
+        return {"error": "Private mode is not enabled."}, 403
+
+    # If we passed the check, then proceed with the playback
     response = requests.put(urls.PLAYBACK, headers=urls.get_headers())
 
     if response.status_code == 204:  # success

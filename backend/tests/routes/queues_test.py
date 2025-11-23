@@ -5,15 +5,15 @@ from unittest.mock import patch, MagicMock
 @patch("app.routes.queues.db.session.commit")
 def test_get_session(mock_commit, mock_get, client):
     mock_queue = MagicMock()
-    mock_queue.id = "test"
-    mock_queue.name = "Test Queue"
+    mock_queue.id = "main"
+    mock_queue.name = "Main Session"
     mock_queue.tracks = ["123"]
     mock_queue.now_playing = None
     mock_queue.created_at.isoformat.return_value = "2025-01-01T00:00:00"
 
     mock_get.return_value = mock_queue
 
-    response = client.get("/queues/test")
+    response = client.get("/queues/main")
     assert response.status_code == 200
     assert response.json["queue_id"] == "main"
 

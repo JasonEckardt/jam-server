@@ -57,8 +57,9 @@ def list_queues():
 
 @queues.route("/queues/<string:queue_id>", methods=["GET"])
 def get_queue(queue_id: str):
-    # Should be get_session and return 404 if session dne
-    queue = get_or_create_queue()
+    queue = db.session.get(Queue, queue_id)
+    if not queue:
+        return {"error": f"Queue {queue_id} was not found"}, 404
     queue_data = []
     for track_id in queue.tracks:
         track, status_code = spotify.request_api(
@@ -76,7 +77,13 @@ def get_queue(queue_id: str):
                 "images": track.get("album", {}).get("images", []),
             }
         )
-    return {"queue_id": queue.id, "name": queue.name, "tracks": queue_data}, 200
+    now_playing = queue_data[0] if queue_data else None
+    return {
+        "queue_id": queue.id,
+        "name": queue.name,
+        "now_playing": now_playing,
+        "tracks": queue_data,
+    }, 200
 
 
 @queues.route("/queues/new/<string:queue_name>", methods=["POST"])

@@ -1,4 +1,5 @@
 import pymysql
+
 pymysql.install_as_MySQLdb()
 
 from flask import Flask
@@ -35,12 +36,14 @@ def create_app(test_config=None):
 
     from .routes.application import application
     from .routes.auth import auth
+    from .routes.devices import devices
     from .routes.player import player
     from .routes.queues import queues
     from .routes.users import users
 
     app.register_blueprint(application)
     app.register_blueprint(auth)
+    app.register_blueprint(devices)
     app.register_blueprint(player)
     app.register_blueprint(queues)
     app.register_blueprint(users)

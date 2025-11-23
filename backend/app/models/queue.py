@@ -10,7 +10,7 @@ class Queue(db.Model):
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     name = db.Column(db.String(128), nullable=False)
     active_device = db.Column(db.String(64), nullable=True)
-    current_track = db.Column(db.String(64), nullable=True)
+    now_playing = db.Column(db.String(64), nullable=True)
     progress_ms = db.Column(db.Integer, nullable=True)
     tracks = db.Column(MutableList.as_mutable(JSON), default=list)
     users = db.Column(MutableList.as_mutable(JSON), default=list)

@@ -1,0 +1,112 @@
+{
+  "playlists": [
+    {
+      "description": "Best classical music to study, chill, and relax. From Bach, Mozart, Vivaldi, Beethoven, Chopin, Debussy, Satie, Tchaikovsky, to Christmas Classics. Peaceful piano to Orchestras from Baroque to Romantic and Modern. From opera to chamber to symphony, all in one playlist. Only the best. Enjoy!",
+      "id": "1234",
+      "images": [],
+      "link": "/playlists/some-playlist",
+      "name": "Classical Bangers 🎹🎻",
+      "owner": {
+        "display_name": "Classical Bangers",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/some-user"
+        },
+        "href": "https://api.spotify.com/v1/users/some-user",
+        "id": "some-user",
+        "type": "user",
+        "uri": "spotify:user:some-user"
+      },
+      "track_count": 468
+    },
+    {
+      "description": "Cus I can&#x27;t play the violin or the piano... I code...",
+      "id": "1234",
+      "images": [],
+      "link": "/playlists/some-playlist",
+      "name": "3 am coding",
+      "owner": {
+        "display_name": "TechBase",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/some-user"
+        },
+        "href": "https://api.spotify.com/v1/users/some-user",
+        "id": "some-user",
+        "type": "user",
+        "uri": "spotify:user:some-user"
+      },
+      "track_count": 14
+    },
+    {
+      "description": "oxygen for dark ambient lovers darkambient.com by 11:11 is a record label. want to work with us? <a href=\"https://1111.io/submit/?ref=darkambient\">submit your demo </a> / playlist curated by: <a href=\"https://open.spotify.com/artist/3aspJpj1ZByvp1P16mFeRC?si=ZfAztmQlRWyIMuPkFmrhEw\"> seeyouthere </a>",
+      "id": "1234",
+      "images": [],
+      "link": "/playlists/some-playlist",
+      "name": "dark ambient",
+      "owner": {
+        "display_name": "darkambient.com",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/some-user"
+        },
+        "href": "https://api.spotify.com/v1/users/some-user",
+        "id": "some-user",
+        "type": "user",
+        "uri": "spotify:user:some-user"
+      },
+      "track_count": 660
+    },
+    {
+      "description": "",
+      "id": "1234",
+      "images": [],
+      "link": "/playlists/some-playlist",
+      "name": "Huh",
+      "owner": {
+        "display_name": "scholarpyre",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/some-user"
+        },
+        "href": "https://api.spotify.com/v1/users/some-user",
+        "id": "some-user",
+        "type": "user",
+        "uri": "spotify:user:some-user"
+      },
+      "track_count": 254
+    },
+    {
+      "description": "Contribute to the cause",
+      "id": "1234",
+      "images": [],
+      "link": "/playlists/some-playlist",
+      "name": "Gin",
+      "owner": {
+        "display_name": "TechBase",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/some-user"
+        },
+        "href": "https://api.spotify.com/v1/users/some-user",
+        "id": "some-user",
+        "type": "user",
+        "uri": "spotify:user:some-user"
+      },
+      "track_count": 209
+    },
+    {
+      "description": "",
+      "id": "1234",
+      "images": [],
+      "link": "/playlists/some-playlist",
+      "name": "Good Shit 👀",
+      "owner": {
+        "display_name": "TechBase",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/some-user"
+        },
+        "href": "https://api.spotify.com/v1/users/some-user",
+        "id": "some-user",
+        "type": "user",
+        "uri": "spotify:user:some-user"
+      },
+      "track_count": 159
+    }
+  ]
+}

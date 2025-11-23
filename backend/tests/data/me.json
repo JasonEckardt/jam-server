@@ -1,0 +1,27 @@
+{
+  "display_name": "TechBase",
+  "expires_at": "2025-11-18T18:12:10",
+  "external_urls": {
+    "spotify": "https://open.spotify.com/user/ymt"
+  },
+  "followers": {
+    "href": null,
+    "total": 2
+  },
+  "href": "https://api.spotify.com/v1/users/ymt",
+  "id": "ymt",
+  "images": [
+    {
+      "height": 300,
+      "url": "https://i.scdn.co/image/ab6",
+      "width": 300
+    },
+    {
+      "height": 64,
+      "url": "https://i.scdn.co/image/ab6",
+      "width": 64
+    }
+  ],
+  "type": "user",
+  "uri": "spotify:user:ymt"
+}

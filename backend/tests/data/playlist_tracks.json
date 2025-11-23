@@ -1,0 +1,1177 @@
+{
+  "playlist_tracks": [
+    {
+      "album": "Tchaikovsky: Swan Lake Suites",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 180379,
+      "id": "someid",
+      "name": "Swan Lake (Suite), Op. 20a, TH.219: I. Scene - Swan Theme",
+      "preview_url": null
+    },
+    {
+      "album": "LACRIMOSA",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Choir"
+      ],
+      "duration_ms": 193249,
+      "id": "someid",
+      "name": "Requiem: K. 626: Lacrimosa",
+      "preview_url": null
+    },
+    {
+      "album": "Romeo and Juliet: Suite No. 2 Montague and Capulets (Excerpt) Op. 64ter",
+      "artists": [
+        "Sergei Prokofiev",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 235504,
+      "id": "someid",
+      "name": "Romeo and Juliet Suite No. 2 Montague and Capulets (Excerpt) Op. 64ter",
+      "preview_url": null
+    },
+    {
+      "album": "Suite bergamasque, L. 75: III. Clair de lune",
+      "artists": [
+        "Claude Debussy",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 276255,
+      "id": "someid",
+      "name": "Clair de Lune",
+      "preview_url": null
+    },
+    {
+      "album": "Nocturne Op. 9, No. 2 in E-Flat Major",
+      "artists": [
+        "Joshua Bell"
+      ],
+      "duration_ms": 294000,
+      "id": "someid",
+      "name": "Nocturne Op. 9, No. 2 in E-Flat Major",
+      "preview_url": null
+    },
+    {
+      "album": "Classical Christmas: Greatest Orchestral Holiday Classics",
+      "artists": [
+        "The City of Prague Philharmonic Orchestra",
+        "Richard Hein",
+        "Voices West"
+      ],
+      "duration_ms": 144394,
+      "id": "someid",
+      "name": "Joy to the World",
+      "preview_url": null
+    },
+    {
+      "album": "Gymnopédie No.1",
+      "artists": [
+        "Erik Satie",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 200031,
+      "id": "someid",
+      "name": "Gymnopédie No.1",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven: Für Elise, Bagatelle No. 25 in A minor, Wo0 59",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Mimosa"
+      ],
+      "duration_ms": 193860,
+      "id": "someid",
+      "name": "Beethoven: Für Elise, Bagatelle No. 25 in A minor, Wo0 59",
+      "preview_url": null
+    },
+    {
+      "album": "VERDI REQUIEM",
+      "artists": [
+        "Giuseppe Verdi",
+        "Czech Symphony Orchestra",
+        "Czech Symphony Choir",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 144043,
+      "id": "someid",
+      "name": "Requiem: II. Dies irae",
+      "preview_url": null
+    },
+    {
+      "album": "Clair de Lune",
+      "artists": [
+        "Claude Debussy",
+        "Sonia Bize"
+      ],
+      "duration_ms": 334937,
+      "id": "someid",
+      "name": "Clair de Lune",
+      "preview_url": null
+    },
+    {
+      "album": "Classical Christmas: Greatest Orchestral Holiday Classics",
+      "artists": [
+        "The City of Prague Philharmonic Orchestra",
+        "Friedmann Riehle"
+      ],
+      "duration_ms": 154435,
+      "id": "someid",
+      "name": "The Nutcracker, Op. 71, Act I, Scene II: March",
+      "preview_url": null
+    },
+    {
+      "album": "À Chloris (Arr. for guitar and harp)",
+      "artists": [
+        "Reynaldo Hahn",
+        "Duo Multicorde",
+        "Andrés Madariaga",
+        "Maria-Theresa Freibott"
+      ],
+      "duration_ms": 168828,
+      "id": "someid",
+      "name": "À Chloris (Arr. for guitar and harp)",
+      "preview_url": null
+    },
+    {
+      "album": "Can-Can From Orpheus in the Underworld",
+      "artists": [
+        "Jacques Offenbach",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 139841,
+      "id": "someid",
+      "name": "Can-Can From Orpheus in the Underworld",
+      "preview_url": null
+    },
+    {
+      "album": "William Tell: Overture (Finale)",
+      "artists": [
+        "Gioachino Rossini",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 213170,
+      "id": "someid",
+      "name": "William Tell: Overture (Finale)",
+      "preview_url": null
+    },
+    {
+      "album": "Bach: Cello Suites 1 & 2",
+      "artists": [
+        "Johann Sebastian Bach",
+        "Steven Honigberg"
+      ],
+      "duration_ms": 151922,
+      "id": "someid",
+      "name": "Cello Suite No. 1 in G Major, BWV 1007: I. Prélude",
+      "preview_url": null
+    },
+    {
+      "album": "Danse Macabre in G Minor, Op. 40",
+      "artists": [
+        "Camille Saint-Saëns",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková",
+        "Pavel Sochurek"
+      ],
+      "duration_ms": 451488,
+      "id": "someid",
+      "name": "Danse Macabre in G Minor, Op. 40",
+      "preview_url": null
+    },
+    {
+      "album": "Hiraeth",
+      "artists": [
+        "José Salinas"
+      ],
+      "duration_ms": 301585,
+      "id": "someid",
+      "name": "Dans le train",
+      "preview_url": null
+    },
+    {
+      "album": "2 Arabesques, L. 66: Arabesque No. 1",
+      "artists": [
+        "Claude Debussy",
+        "Sonia Bize"
+      ],
+      "duration_ms": 255388,
+      "id": "someid",
+      "name": "2 Arabesques, L. 66: Arabesque No. 1",
+      "preview_url": null
+    },
+    {
+      "album": "Two Pieces, Op. 47: 1. Lotus Land",
+      "artists": [
+        "Cyril Scott",
+        "Adriano Spampanato"
+      ],
+      "duration_ms": 307411,
+      "id": "someid",
+      "name": "Two Pieces, Op. 47: 1. Lotus Land",
+      "preview_url": null
+    },
+    {
+      "album": "Nutcracker Highlights",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "The City of Prague Philharmonic Orchestra",
+        "Friedmann Riehle",
+        "Prague Philharmonic Orchestra"
+      ],
+      "duration_ms": 432569,
+      "id": "someid",
+      "name": "The Nutcracker, Op. 71, Act II, Scene XIV: Waltz of the Flowers",
+      "preview_url": null
+    },
+    {
+      "album": "Vivaldi: The Four Seasons",
+      "artists": [
+        "Antonio Vivaldi",
+        "The City of Prague Philharmonic Chamber Group",
+        "Richard Hein",
+        "The City of Prague Philharmonic Orchestra",
+        "Vlastimil Kobrie"
+      ],
+      "duration_ms": 211198,
+      "id": "someid",
+      "name": "Concerto No. 4 in F Minor, Op. 8, RV 297, \"L'inverno\" (Winter): I. Allegro Non Molto",
+      "preview_url": null
+    },
+    {
+      "album": "Gymnopédie No.1",
+      "artists": [
+        "Erik Satie",
+        "Mimosa"
+      ],
+      "duration_ms": 220386,
+      "id": "someid",
+      "name": "Gymnopédie No.1",
+      "preview_url": null
+    },
+    {
+      "album": "Peer Gynt Suite No.1, Op.46: I Morning Mood (Arr. for guitar and harp)",
+      "artists": [
+        "Edvard Grieg",
+        "Duo Multicorde",
+        "Andrés Madariaga",
+        "Maria-Theresa Freibott"
+      ],
+      "duration_ms": 236250,
+      "id": "someid",
+      "name": "Peer Gynt Suite No.1, Op.46: I Morning Mood (Arr. for guitar and harp)",
+      "preview_url": null
+    },
+    {
+      "album": "Hungarian Dance No. 5 in G Minor, WoO 1",
+      "artists": [
+        "Johannes Brahms",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 183384,
+      "id": "someid",
+      "name": "Hungarian Dance No. 5 in G Minor, WoO 1",
+      "preview_url": null
+    },
+    {
+      "album": "Il Barbiere di Siviglia: Overture: Allegro Vivo (Excerpt)",
+      "artists": [
+        "Gioachino Rossini",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 319524,
+      "id": "someid",
+      "name": "Il Barbiere di Siviglia: Overture: Allegro Vivo (Excerpt)",
+      "preview_url": null
+    },
+    {
+      "album": "Nutcracker Highlights",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 315481,
+      "id": "someid",
+      "name": "The Nutcracker Op. 71 XVa. Pas de deux - Intrada",
+      "preview_url": null
+    },
+    {
+      "album": "Tchaikovsky: Swan Lake Suites",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 92143,
+      "id": "someid",
+      "name": "Swan Lake (Suite), Op. 20a, TH.219: 3. Scene - Danse de Petits Cygnes",
+      "preview_url": null
+    },
+    {
+      "album": "Masquerade Suite: Waltz",
+      "artists": [
+        "Aram Khachaturian",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Orchestra"
+      ],
+      "duration_ms": 268290,
+      "id": "someid",
+      "name": "Masquerade Suite: Waltz",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven V",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Orchestra"
+      ],
+      "duration_ms": 360299,
+      "id": "someid",
+      "name": "Symphony No. 5 in C Minor, Op. 67: 1. Allegro con brio",
+      "preview_url": null
+    },
+    {
+      "album": "Moonlight Sonata 1st Movement (arr. for string orchestra)",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 376524,
+      "id": "someid",
+      "name": "Beethoven: Moonlight Sonata (Op. 27, No. 2, 1st Movement) — Arr. for String Orchestra",
+      "preview_url": null
+    },
+    {
+      "album": "LACRIMOSA",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Choir"
+      ],
+      "duration_ms": 109394,
+      "id": "someid",
+      "name": "Requiem: K. 626: Dies irae",
+      "preview_url": null
+    },
+    {
+      "album": "Barber: Adagio For Strings, Op. 11",
+      "artists": [
+        "Samuel Barber",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Orchestra"
+      ],
+      "duration_ms": 481369,
+      "id": "someid",
+      "name": "Barber: Adagio For Strings, Op. 11",
+      "preview_url": null
+    },
+    {
+      "album": "Trois Quatuors Op.6 pour flûte, clarinette, cor et basson",
+      "artists": [
+        "André-Frédéric Eler",
+        "Quodlibet Winds"
+      ],
+      "duration_ms": 508855,
+      "id": "someid",
+      "name": "Trois Quatuors Op.6 pour flûte, clarinette, cor et basson: Allegro con spirito",
+      "preview_url": null
+    },
+    {
+      "album": "Fantasia On Greensleeves",
+      "artists": [
+        "Ralph Vaughan Williams",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Orchestra"
+      ],
+      "duration_ms": 255831,
+      "id": "someid",
+      "name": "Fantasia On Greensleeves",
+      "preview_url": null
+    },
+    {
+      "album": "Tchaikovsky: Swan Lake Suites",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 467476,
+      "id": "someid",
+      "name": "Swan Lake (Suite), Op. 20a, TH.219: 2. Scene - Valse in A Major",
+      "preview_url": null
+    },
+    {
+      "album": "Hiraeth",
+      "artists": [
+        "José Salinas"
+      ],
+      "duration_ms": 391583,
+      "id": "someid",
+      "name": "Hiraeth",
+      "preview_url": null
+    },
+    {
+      "album": "Epic Orchestra",
+      "artists": [
+        "Georges Bizet",
+        "The City of Prague Philharmonic Orchestra",
+        "Friedmann Riehle"
+      ],
+      "duration_ms": 133461,
+      "id": "someid",
+      "name": "Carmen: Overture",
+      "preview_url": null
+    },
+    {
+      "album": "Mythical Horizons",
+      "artists": [
+        "Edvard Grieg",
+        "The City of Prague Philharmonic Orchestra",
+        "Richard Hein"
+      ],
+      "duration_ms": 176738,
+      "id": "someid",
+      "name": "Peer Gynt Suite No. 1, Op. 46: IV. In the Hall of the Mountain King",
+      "preview_url": null
+    },
+    {
+      "album": "Arseniy Gusev: Three Toccatas",
+      "artists": [
+        "Arseniy Gusev"
+      ],
+      "duration_ms": 285000,
+      "id": "someid",
+      "name": "Toccata No. 1",
+      "preview_url": null
+    },
+    {
+      "album": "Hiraeth",
+      "artists": [
+        "José Salinas"
+      ],
+      "duration_ms": 254798,
+      "id": "someid",
+      "name": "Cristina",
+      "preview_url": null
+    },
+    {
+      "album": "Quartetto Op.41",
+      "artists": [
+        "François René Gebauer",
+        "Quodlibet Winds"
+      ],
+      "duration_ms": 417537,
+      "id": "someid",
+      "name": "Quartetto Op.41: Rondo: Allegro",
+      "preview_url": null
+    },
+    {
+      "album": "An Idea",
+      "artists": [
+        "Anonimo Anonimo",
+        "Andrés Madariaga"
+      ],
+      "duration_ms": 151413,
+      "id": "someid",
+      "name": "Romanza (Spanish Romance)",
+      "preview_url": null
+    },
+    {
+      "album": "Le Cygne (arr. for harp and cello)",
+      "artists": [
+        "Camille Saint-Saëns",
+        "Steven Honigberg",
+        "Sonia Bize"
+      ],
+      "duration_ms": 170676,
+      "id": "someid",
+      "name": "Le Cygne (arr. for harp and cello)",
+      "preview_url": null
+    },
+    {
+      "album": "Mythical Horizons",
+      "artists": [
+        "Edvard Grieg",
+        "The City of Prague Philharmonic Orchestra",
+        "Richard Hein"
+      ],
+      "duration_ms": 235662,
+      "id": "someid",
+      "name": "Peer Gynt Suite No. 1, Op. 46: I. Morning Mood",
+      "preview_url": null
+    },
+    {
+      "album": "Polovetsian Dances",
+      "artists": [
+        "Alexander Borodin",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Choir"
+      ],
+      "duration_ms": 157253,
+      "id": "someid",
+      "name": "Polovetsian Dances from Prince Igor: Introduzione",
+      "preview_url": null
+    },
+    {
+      "album": "Madama Butterfly, Act II: Coro a bocca chiusa \"Humming Chorus\" (arr. for 2 pianos)",
+      "artists": [
+        "Giacomo Puccini",
+        "Mimosa"
+      ],
+      "duration_ms": 161876,
+      "id": "someid",
+      "name": "Madama Butterfly, Act II: Coro a bocca chiusa \"Humming Chorus\" (arr. for 2 pianos)",
+      "preview_url": null
+    },
+    {
+      "album": "Quartetto Op.41",
+      "artists": [
+        "François René Gebauer",
+        "Quodlibet Winds"
+      ],
+      "duration_ms": 551097,
+      "id": "someid",
+      "name": "Quartetto Op.41: Allegro maestoso",
+      "preview_url": null
+    },
+    {
+      "album": "Rêverie, L.68",
+      "artists": [
+        "Claude Debussy",
+        "Sonia Bize"
+      ],
+      "duration_ms": 241286,
+      "id": "someid",
+      "name": "Rêverie, L.68",
+      "preview_url": null
+    },
+    {
+      "album": "Radetzky March, Op. 228",
+      "artists": [
+        "Johann Strauss I",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 136805,
+      "id": "someid",
+      "name": "Radetzky March, Op. 228",
+      "preview_url": null
+    },
+    {
+      "album": "Die Fledermaus: Overture",
+      "artists": [
+        "Johann Strauss II",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 544000,
+      "id": "someid",
+      "name": "Die Fledermaus: Overture",
+      "preview_url": null
+    },
+    {
+      "album": "Nutcracker Highlights",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 82587,
+      "id": "someid",
+      "name": "The Nutcracker Op. 71 XIIIa. Chocolate (Spanish Dance)",
+      "preview_url": null
+    },
+    {
+      "album": "Trois Quatuors Op.6 pour flûte, clarinette, cor et basson",
+      "artists": [
+        "André-Frédéric Eler",
+        "Quodlibet Winds"
+      ],
+      "duration_ms": 508855,
+      "id": "someid",
+      "name": "Trois Quatuors Op.6 pour flûte, clarinette, cor et basson: Thème et variations: Andante",
+      "preview_url": null
+    },
+    {
+      "album": "Autumn’s Gaze",
+      "artists": [
+        "Isaac Albéniz",
+        "Andrés Madariaga"
+      ],
+      "duration_ms": 416048,
+      "id": "someid",
+      "name": "Asturias (Leyenda)",
+      "preview_url": null
+    },
+    {
+      "album": "Not Too Sweet",
+      "artists": [
+        "Joe Hisaishi",
+        "Annie Wu",
+        "Markus Kaitila"
+      ],
+      "duration_ms": 136567,
+      "id": "someid",
+      "name": "Merry-Go-Round of Life",
+      "preview_url": null
+    },
+    {
+      "album": "La Gioconda / Act 3: Dance of the Hours",
+      "artists": [
+        "Amilcare Ponchielli",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Orchestra"
+      ],
+      "duration_ms": 85506,
+      "id": "someid",
+      "name": "La Gioconda / Act 3: Dance of the Hours",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven: Symphony No. 6",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 715988,
+      "id": "someid",
+      "name": "Symphony 6. in F Major, Op.68 \"Pastoral\": I. Erwachen heiterer Empfindungen bei der Ankunft auf dem Lande. Allegro ma non troppo",
+      "preview_url": null
+    },
+    {
+      "album": "Inwood Improvisations",
+      "artists": [
+        "Theodore Lee"
+      ],
+      "duration_ms": 124203,
+      "id": "someid",
+      "name": "Inwood Improv: Inwood Dreams",
+      "preview_url": null
+    },
+    {
+      "album": "Symphony No. 25 in G Minor, K.183: I. Allegro Con Brio Wolfgang Amadeus Mozart, Czech Symphony Orchestra, Michaela Rózsa Růžičková",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 325260,
+      "id": "someid",
+      "name": "Symphony No. 25 in G Minor, K.183: I. Allegro Con Brio Wolfgang Amadeus Mozart, Czech Symphony Orchestra, Michaela Rózsa Růžičková",
+      "preview_url": null
+    },
+    {
+      "album": "Also Sprach Zarathustra, Op 30: 1. Prelude: Sonnenaufgang",
+      "artists": [
+        "Richard Strauss",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 99172,
+      "id": "someid",
+      "name": "Also Sprach Zarathustra, Op 30: 1. Prelude: Sonnenaufgang",
+      "preview_url": null
+    },
+    {
+      "album": "Enfleurage",
+      "artists": [
+        "Johann Sebastian Bach",
+        "Arseniy Gusev"
+      ],
+      "duration_ms": 187158,
+      "id": "someid",
+      "name": "Ouvertüre nach Französischer Art, BWV 831: 8. Echo",
+      "preview_url": null
+    },
+    {
+      "album": "¡Viva la danza!",
+      "artists": [
+        "Duo Multicorde"
+      ],
+      "duration_ms": 344000,
+      "id": "someid",
+      "name": "Viejo Zortzico",
+      "preview_url": null
+    },
+    {
+      "album": "LACRIMOSA",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Choir"
+      ],
+      "duration_ms": 126229,
+      "id": "someid",
+      "name": "Ave verum corpus, K.618",
+      "preview_url": null
+    },
+    {
+      "album": "Anhelo",
+      "artists": [
+        "José Salinas"
+      ],
+      "duration_ms": 199567,
+      "id": "someid",
+      "name": "Anhelo",
+      "preview_url": null
+    },
+    {
+      "album": "Faure: Pavane / Sicilienne",
+      "artists": [
+        "Gabriel Fauré",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 422183,
+      "id": "someid",
+      "name": "Pavane, Op. 50",
+      "preview_url": null
+    },
+    {
+      "album": "Rose Garden",
+      "artists": [
+        "Claude Debussy",
+        "Lily Honigberg",
+        "Sonia Bize"
+      ],
+      "duration_ms": 259272,
+      "id": "someid",
+      "name": "La plus que lente, L. 121 (arr. for violin & harp)",
+      "preview_url": null
+    },
+    {
+      "album": "Waltz No. 19 in A minor, Op. Posth.",
+      "artists": [
+        "Frédéric Chopin",
+        "Mimosa"
+      ],
+      "duration_ms": 143774,
+      "id": "someid",
+      "name": "Waltz No. 19 in A minor, Op. Posth.",
+      "preview_url": null
+    },
+    {
+      "album": "J.S. Bach: Concerto in D Minor, BWV 974: II. Adagio",
+      "artists": [
+        "Johann Sebastian Bach",
+        "Mimosa"
+      ],
+      "duration_ms": 209230,
+      "id": "someid",
+      "name": "Concerto in D Minor, BWV 974: II. Adagio",
+      "preview_url": null
+    },
+    {
+      "album": "Vivaldi: The Four Seasons",
+      "artists": [
+        "Antonio Vivaldi",
+        "The City of Prague Philharmonic Chamber Group",
+        "Richard Hein",
+        "The City of Prague Philharmonic Orchestra",
+        "Vlastimil Kobrie"
+      ],
+      "duration_ms": 191544,
+      "id": "someid",
+      "name": "Concerto No. 1 in E Major, Op. 8, RV 269, “La primavera” (Spring) : I. Allegro",
+      "preview_url": null
+    },
+    {
+      "album": "Mozart: Symphony No. 40, Eine Kleine Nachtmusick & Other Mozart Favorites",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "The City of Prague Philharmonic Orchestra",
+        "Richard Hein"
+      ],
+      "duration_ms": 426171,
+      "id": "someid",
+      "name": "Symphony No. 40 in G Minor, K. 550: I. Molto Allegro",
+      "preview_url": null
+    },
+    {
+      "album": "¡Viva la danza!",
+      "artists": [
+        "Manuel de Falla",
+        "Duo Multicorde",
+        "Andrés Madariaga",
+        "Maria-Theresa Freibott"
+      ],
+      "duration_ms": 219196,
+      "id": "someid",
+      "name": "La Vida Breve: Danza Española No. 1 (Arr. for Harp & Guitar)",
+      "preview_url": null
+    },
+    {
+      "album": "Mendelssohn Piano Trios, Op. 49 & 66",
+      "artists": [
+        "Felix Mendelssohn",
+        "Steven Honigberg",
+        "Joseph Yungen",
+        "Peiming Lin"
+      ],
+      "duration_ms": 514576,
+      "id": "someid",
+      "name": "Piano Trio No.1 in D Minor, Op. 49: IV. Finale: Allegro assai apassionato",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven: Symphony No. 5",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 592756,
+      "id": "someid",
+      "name": "Symphony 5. in C Minor, Op.67 II. Andante con moto",
+      "preview_url": null
+    },
+    {
+      "album": "Classical Christmas: Greatest Orchestral Holiday Classics",
+      "artists": [
+        "The City of Prague Philharmonic Orchestra",
+        "Richard Hein",
+        "The City of Prague Choir"
+      ],
+      "duration_ms": 222211,
+      "id": "someid",
+      "name": "Messiah, HWV 56, Pt. 2: Hallelujah Chorus",
+      "preview_url": null
+    },
+    {
+      "album": "Prelude: 49th Parallel",
+      "artists": [
+        "Ralph Vaughan Williams",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 138050,
+      "id": "someid",
+      "name": "Prelude: 49th Parallel",
+      "preview_url": null
+    },
+    {
+      "album": "Selene",
+      "artists": [
+        "José Salinas"
+      ],
+      "duration_ms": 237151,
+      "id": "someid",
+      "name": "Feuilles d’automne",
+      "preview_url": null
+    },
+    {
+      "album": "Shostakovich: Jazz Suites Nos. 1 - 2 / The Bolt / Tahiti Trot",
+      "artists": [
+        "Dmitri Shostakovich",
+        "Russian State Symphony Orchestra",
+        "Dmitry Yablonsky"
+      ],
+      "duration_ms": 193600,
+      "id": "someid",
+      "name": "Jazz Suite No. 2: VI. Waltz 2",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven: Symphony No. 5",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 302356,
+      "id": "someid",
+      "name": "Symphony 5. in C Minor, Op.67 III. Scherzo. Allegro",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven: Symphony No. 5",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 533374,
+      "id": "someid",
+      "name": "Symphony 5. in C Minor, Op.67 IV. Allegro - Presto",
+      "preview_url": null
+    },
+    {
+      "album": "Trois Quatuors Concertants Op.4 pour flûte, clarinette, cor et basson: Quatuor II",
+      "artists": [
+        "Vincenzo Gambaro",
+        "Quodlibet Winds"
+      ],
+      "duration_ms": 165395,
+      "id": "someid",
+      "name": "Trois Quatuors Concertants Op.4 pour flûte, clarinette, cor et basson: Quatuor II: Menuetto vivace",
+      "preview_url": null
+    },
+    {
+      "album": "Mendelssohn Piano Trios, Op. 49 & 66",
+      "artists": [
+        "Felix Mendelssohn",
+        "Steven Honigberg",
+        "Joseph Yungen",
+        "Peiming Lin"
+      ],
+      "duration_ms": 418671,
+      "id": "someid",
+      "name": "Piano Trio No.1 in D Minor, Op. 49: II. Andante con moto tranquillo",
+      "preview_url": null
+    },
+    {
+      "album": "On Hearing the First Cuckoo in Spring",
+      "artists": [
+        "Frederick Delius",
+        "Michaela Rózsa Růžičková",
+        "Czech Symphony Orchestra"
+      ],
+      "duration_ms": 324356,
+      "id": "someid",
+      "name": "On Hearing the First Cuckoo in Spring",
+      "preview_url": null
+    },
+    {
+      "album": "Delibes - Coppelia Act 1 - Valse",
+      "artists": [
+        "Léo Delibes",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 150022,
+      "id": "someid",
+      "name": "Coppelia: Act I. Valse",
+      "preview_url": null
+    },
+    {
+      "album": "Gnossienne: No. 1 (Arr. for Viola and Harp)",
+      "artists": [
+        "Erik Satie",
+        "Carrie Frey",
+        "Sonia Bize"
+      ],
+      "duration_ms": 216028,
+      "id": "someid",
+      "name": "Gnossienne: No. 1 (Arr. for Viola and Harp)",
+      "preview_url": null
+    },
+    {
+      "album": "Maurice Ravel - Antar",
+      "artists": [
+        "Maurice Ravel",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 67783,
+      "id": "someid",
+      "name": "Antar (Nikolai Rimsky-Korsakov): 7. Allegretto",
+      "preview_url": null
+    },
+    {
+      "album": "Cavalleria Rusticana: Intermezzo",
+      "artists": [
+        "Pietro Mascagni",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 195690,
+      "id": "someid",
+      "name": "Cavalleria Rusticana: Intermezzo",
+      "preview_url": null
+    },
+    {
+      "album": "À la manière de…, Op.17: II. Gabriel Fauré: Romance sans paroles",
+      "artists": [
+        "Alfredo Casella",
+        "Adriano Spampanato"
+      ],
+      "duration_ms": 120681,
+      "id": "someid",
+      "name": "À la manière de…, Op.17: II. Gabriel Fauré: Romance sans paroles",
+      "preview_url": null
+    },
+    {
+      "album": "Vivaldi: The Four Seasons",
+      "artists": [
+        "Antonio Vivaldi",
+        "The City of Prague Philharmonic Chamber Group",
+        "Richard Hein",
+        "The City of Prague Philharmonic Orchestra",
+        "Vlastimil Kobrie"
+      ],
+      "duration_ms": 166645,
+      "id": "someid",
+      "name": "Concerto No. 2 in G Minor, Op. 8, RV 315, “L’estate” (Summer): III. Presto",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven: Symphony No. 6",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 797852,
+      "id": "someid",
+      "name": "Symphony 6. in F Major, Op.68 \"Pastoral\": II. Szene am Bach. Andante molto mosso",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven: Symphony No. 6",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 339358,
+      "id": "someid",
+      "name": "Symphony 6. in F Major, Op.68 \"Pastoral\": III. Lustiges Zusammensein der Landleute. Allegro",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven: Symphony No. 6",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 234614,
+      "id": "someid",
+      "name": "Symphony 6. in F Major, Op.68 \"Pastoral\": IV. Gewitter, Sturm. Allegro",
+      "preview_url": null
+    },
+    {
+      "album": "Beethoven: Symphony No. 6",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 631177,
+      "id": "someid",
+      "name": "Symphony 6. in F Major, Op.68 \"Pastoral\": V. Hirtengesang. Frohe und dankbare Gefühle nach dem Sturm. Allegretto",
+      "preview_url": null
+    },
+    {
+      "album": "Trois Quatuors Concertants Op.4 pour flûte, clarinette, cor et basson: Quatuor II",
+      "artists": [
+        "Vincenzo Gambaro",
+        "Quodlibet Winds"
+      ],
+      "duration_ms": 479546,
+      "id": "someid",
+      "name": "Trois Quatuors Concertants Op.4 pour flûte, clarinette, cor et basson: Quatuor II: Allegro brillante",
+      "preview_url": null
+    },
+    {
+      "album": "Inwood Improv: Rancho",
+      "artists": [
+        "Theodore Lee"
+      ],
+      "duration_ms": 236750,
+      "id": "someid",
+      "name": "Inwood Improv: Rancho",
+      "preview_url": null
+    },
+    {
+      "album": "2 Aquarelles",
+      "artists": [
+        "Frederick Delius",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 148030,
+      "id": "someid",
+      "name": "2 Aquarelles: Lento, ma non troppo",
+      "preview_url": null
+    },
+    {
+      "album": "The Sleeping Beauty, Op. 66: Fee de Lilas (Variation VI)",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 75163,
+      "id": "someid",
+      "name": "The Sleeping Beauty, Op. 66: Fee de Lilas (Variation VI)",
+      "preview_url": null
+    },
+    {
+      "album": "St. Paul's Suite",
+      "artists": [
+        "Gustav Holst",
+        "The City of Prague Philharmonic String Ensemble",
+        "Richard Hein"
+      ],
+      "duration_ms": 111328,
+      "id": "someid",
+      "name": "St. Paul’s Suite Op 29 No 2 II. Ostinato",
+      "preview_url": null
+    },
+    {
+      "album": "The Glory of Mozart",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "Jaromír Klepáč"
+      ],
+      "duration_ms": 140440,
+      "id": "someid",
+      "name": "Piano Sonata 11 in A: III. Rondo Alla Turca, K. 331",
+      "preview_url": null
+    },
+    {
+      "album": "Trois Quatuors Concertants Op.4 pour flûte, clarinette, cor et basson: Quatuor II",
+      "artists": [
+        "Vincenzo Gambaro",
+        "Quodlibet Winds"
+      ],
+      "duration_ms": 202977,
+      "id": "someid",
+      "name": "Trois Quatuors Concertants Op.4 pour flûte, clarinette, cor et basson: Quatuor II: Finale agitato",
+      "preview_url": null
+    },
+    {
+      "album": "2 Aquarelles",
+      "artists": [
+        "Frederick Delius",
+        "Czech Symphony Orchestra",
+        "Michaela Rózsa Růžičková"
+      ],
+      "duration_ms": 108629,
+      "id": "someid",
+      "name": "2 Aquarelles: Gaily, but not quick",
+      "preview_url": null
+    },
+    {
+      "album": "Inwood improv: Riverside",
+      "artists": [
+        "Theodore Lee"
+      ],
+      "duration_ms": 178147,
+      "id": "someid",
+      "name": "Inwood improv: Riverside",
+      "preview_url": null
+    }
+  ]
+}

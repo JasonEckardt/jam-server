@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from app import db
 from sqlalchemy import JSON
 from sqlalchemy.ext.mutable import MutableList
+import uuid
 
 
 class Queue(db.Model):

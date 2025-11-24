@@ -13,5 +13,5 @@ else
     echo -e "\nKilled process $PID on port $PORT"
 fi
 
-cd "$PROJECT_ROOT/docker"
+cd "$PROJECT_ROOT"
 docker compose down

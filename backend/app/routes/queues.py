@@ -36,7 +36,7 @@ def list_queues():
             {
                 "id": q.id,
                 "name": q.name,
-                "current_track": q.current_track,
+                "now_playing": q.now_playing,
                 "queue_length": len(q.tracks),
                 "created_at": q.created_at.isoformat(),
             }
@@ -47,7 +47,7 @@ def list_queues():
         {
             "id": q.id,
             "name": q.name,
-            "current_track": q.current_track,
+            "now_playing": q.now_playing,
             "queue_length": len(q.tracks),
             "created_at": q.created_at.isoformat(),
         }
@@ -130,6 +130,8 @@ def add_track(queue_id: str):
         return {"error": f"Failed to get track: {track_response['error']}"}, 401
 
     queue = db.session.get(Queue, queue_id)
+    if not queue:
+        return {"error": f"Queue {queue_id} does not exist"}, 404
     queue.tracks.append(track_id)
     db.session.commit()
 

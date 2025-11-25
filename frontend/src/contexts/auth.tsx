@@ -9,7 +9,7 @@ type AuthProviderProps = {
 
 type AuthProviderState = {
   data: any;
-  isLogged: boolean;
+  isLoggedIn: boolean;
   isInitialized: boolean;
   isLoading: boolean;
   refetch: () => void;
@@ -17,10 +17,10 @@ type AuthProviderState = {
 
 const initialState: AuthProviderState = {
   data: null,
-  isLogged: false,
+  isLoggedIn: false,
   isInitialized: false,
   isLoading: false,
-  refetch: () => {},
+  refetch: () => { },
 };
 
 const AuthProviderContext = createContext<AuthProviderState>(initialState);
@@ -30,11 +30,12 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
   const hasFetchedRef = useRef(false);
 
   // Only enable the query if on /me and we haven't fetched yet
+  // TODO: This might be causing issues with auth
   const shouldFetch = location.pathname === "/me" && !hasFetchedRef.current;
 
   const { data, isLoading, isError, isFetchedAfterMount, refetch } = useQuery<any, Error>({
     queryKey: ["me"],
-    queryFn: () => fetch("/me"),
+    queryFn: () => fetch("/api/me"),
     enabled: shouldFetch,
     retry: false,
   });
@@ -46,11 +47,8 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     }
   }, [isFetchedAfterMount, isError]);
 
-  console.log(data, isLoading, isFetchedAfterMount);
-
-  const isLogged = !!data && !isError;
-
-  const value = { data, isLogged, isInitialized: isFetchedAfterMount, isLoading, refetch };
+  const isLoggedIn = !!data && !isError;
+  const value = { data, isLoggedIn: isLoggedIn, isInitialized: isFetchedAfterMount, isLoading, refetch };
 
   return (
     <AuthProviderContext.Provider {...props} value={value}>

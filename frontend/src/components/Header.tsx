@@ -6,16 +6,31 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "./ui/button";
+import { useAuth } from "@/contexts/auth";
 
 const Header = () => {
   const url = window.location.pathname;
 
   // TODO: Create an isLoggedIn var and show Me only when logged in.
   // Optionally, show Admin button only to admin
+  const { isLoggedIn, data, isLoading } = useAuth();
+  const isAdmin = isLoggedIn && data?.role === "admin";
+
+  console.log("isLoggedIn:", isLoggedIn, "data:", data)
+
+  if (isLoading) {
+    return <header>Loading session...</header>
+  }
 
   // Navigation links array to be used in both desktop and mobile menus
   // Home is active on root url, other links active when url includes href
-  const navigationLinks = [{ href: "/", label: "Home" }, { href: "/playlists", label: "Library" }, { href: "/me", label: "Me" }, { href: "/admin", label: "Admin" }]
+  const navigationLinks = [{ href: "/", label: "Home" }, { href: "/library", label: "Library" }, { href: "/me", label: "Me" },
+  { href: "/admin", label: "Admin" }]
+    .filter(link => {
+      if (link.href === "/me" || link.href === "/library") return isLoggedIn;
+      if (link.href === "/admin") return isAdmin;
+      return true;
+    })
     .map(link => ({
       ...link,
       active: link.href === "/" ? url === "/" : url.includes(link.href)

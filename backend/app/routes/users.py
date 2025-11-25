@@ -21,12 +21,12 @@ def me():
 
     user_id = session.get("user_id")
     if not user_id:
-        raise Exception(f"user_id missing for {user}")
+        return {"error", "User ID missing from session"}, 401
 
     user_db = User.query.filter_by(user_id=user_id).first()
     if user_db:
         user["expires_at"] = user_db.expires_at.isoformat()
-
+    # TODO: Also append user["user_role"] to data.
     return user
 
 

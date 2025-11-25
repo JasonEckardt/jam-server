@@ -46,8 +46,9 @@ def callback():
         db.session.add(user)
 
     db.session.commit()
+    session["token_info"] = credentials
     session["user_id"] = spotify_uid
-    return redirect(f"{os.getenv('FRONTEND_URL')}/me")
+    return redirect("/me")
 
 
 @auth.route("/login")

@@ -4,7 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 export const ProtectedRoute = () => {
   const { isLogged, isInitialized } = useAuth();
 
-  if (isInitialized) {
+  if (!isInitialized) {
     return <div>Loading...</div>
   }
 

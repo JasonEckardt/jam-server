@@ -26,17 +26,13 @@ const initialState: AuthProviderState = {
 const AuthProviderContext = createContext<AuthProviderState>(initialState);
 
 export function AuthProvider({ children, ...props }: AuthProviderProps) {
-  const location = window.location;
   const hasFetchedRef = useRef(false);
-
-  // Only enable the query if on /me and we haven't fetched yet
-  // TODO: This might be causing issues with auth
-  const shouldFetch = location.pathname === "/me" && !hasFetchedRef.current;
 
   const { data, isLoading, isError, isFetchedAfterMount, refetch } = useQuery<any, Error>({
     queryKey: ["me"],
     queryFn: () => fetch("/me"),
-    enabled: shouldFetch,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     retry: false,
     staleTime: 5 * 60 * 1000, // Cache for 5 min to avoid repeated calls
   });

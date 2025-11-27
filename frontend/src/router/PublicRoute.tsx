@@ -8,5 +8,5 @@ export const PublicRoute = () => {
     return <div>Loading...</div>
   }
 
-  return !isLogged ? <Outlet /> : <Navigate to="/login" replace />;
+  return !isLogged ? <Outlet /> : <Navigate to="/me" replace />;
 };

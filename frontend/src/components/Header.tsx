@@ -7,6 +7,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/auth";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const url = window.location.pathname;
@@ -15,8 +16,7 @@ const Header = () => {
   // Optionally, show Admin button only to admin
   const { isLogged, data, isLoading } = useAuth();
   const isAdmin = isLogged && data?.role === "admin";
-
-  console.log("isLoggedIn:", isLogged, "data:", data)
+  const navigate = useNavigate()
 
   if (isLoading) {
     return <header>Loading session...</header>
@@ -111,9 +111,25 @@ const Header = () => {
         </div>
         {/* Right side */}
         {!url.includes("/login") && (
-          <Button asChild size="sm" className="bg-green-500 text-sm">
-            <a href="/login">Login</a>
-          </Button>
+          <>
+            {isLogged ? (
+              <button
+                onClick={() => navigate('/me')}
+                className="h-10 w-10 rounded-full overflow-hidden hover:opacity-80 transition-opacity border-2 border-green-500"
+                aria-label="Go to profile"
+              >
+                <img
+                  src={data?.images?.[0]?.url || '/default-avatar.png'}
+                  alt={data?.display_name || 'User'}
+                  className="h-full w-full object-cover"
+                />
+              </button>
+            ) : (
+              <Button asChild size="sm" className="bg-green-500 text-sm">
+                <a href="/login">Login</a>
+              </Button>
+            )}
+          </>
         )}
       </div>
     </header>

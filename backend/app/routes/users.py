@@ -88,7 +88,7 @@ def playlist_tracks(playlist_id):
 
 @users.route("/tracks")
 def top_tracks():
-    response, status_code = requests.get(
+    response, status_code = spotify.request_api(
         urls.user_top_items("tracks"), headers=urls.get_headers()
     )
 
@@ -97,5 +97,9 @@ def top_tracks():
             "error": "Failed to fetch top tracks",
         }, status_code
 
-    tracks = response.json().get("items", [])
-    return {"tracks": tracks}
+    tracks = response.get("items", [])
+    for track in tracks:
+        del track["album"]["available_markets"]
+        del track["available_markets"]
+
+    return {"tracks": tracks}, 200

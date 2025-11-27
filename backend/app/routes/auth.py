@@ -48,7 +48,7 @@ def callback():
     db.session.commit()
     session["token_info"] = credentials
     session["user_id"] = spotify_uid
-    return redirect("/me")
+    return redirect(f"{os.getenv('FRONTEND_URL')}/me")
 
 
 @auth.route("/login")
@@ -72,8 +72,8 @@ def login():
 
 @auth.route("/logout")
 def logout():
-    session.pop("user_id", None)
-    return redirect(f"{os.getenv('BACKEND_URL')}/login")
+    session.clear()
+    return redirect("/")
 
 
 # @auth.route("/login/admin")

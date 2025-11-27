@@ -24,7 +24,7 @@ const Header = () => {
 
   // Navigation links array to be used in both desktop and mobile menus
   // Home is active on root url, other links active when url includes href
-  const navigationLinks = [{ href: "/", label: "Home" }, { href: "/library", label: "Library" }, { href: "/me", label: "Me" },
+  const navigationLinks = [{ href: "/", label: "Home" }, { href: "/library", label: "Library" },
   { href: "/admin", label: "Admin" }]
     .filter(link => {
       if (link.href === "/me" || link.href === "/library") return isLogged;

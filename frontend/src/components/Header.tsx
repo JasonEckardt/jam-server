@@ -89,7 +89,7 @@ const Header = () => {
           {/* Main nav */}
           <div className="flex items-center gap-6">
             <a href="/" className="text-primary hover:text-primary/90">
-              <h1>Spotify Jam Server</h1>
+              <h1>Jam Server</h1>
             </a>
             {/* Navigation menu */}
             <NavigationMenu className="max-md:hidden">

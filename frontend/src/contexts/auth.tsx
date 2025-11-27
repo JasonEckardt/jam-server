@@ -9,7 +9,7 @@ type AuthProviderProps = {
 
 type AuthProviderState = {
   data: any;
-  isLoggedIn: boolean;
+  isLogged: boolean;
   isInitialized: boolean;
   isLoading: boolean;
   refetch: () => void;
@@ -17,7 +17,7 @@ type AuthProviderState = {
 
 const initialState: AuthProviderState = {
   data: null,
-  isLoggedIn: false,
+  isLogged: false,
   isInitialized: false,
   isLoading: false,
   refetch: () => { },
@@ -35,9 +35,10 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
 
   const { data, isLoading, isError, isFetchedAfterMount, refetch } = useQuery<any, Error>({
     queryKey: ["me"],
-    queryFn: () => fetch("/api/me"),
+    queryFn: () => fetch("/me"),
     enabled: shouldFetch,
     retry: false,
+    staleTime: 5 * 60 * 1000, // Cache for 5 min to avoid repeated calls
   });
 
   // Mark as fetched after first success or error
@@ -47,8 +48,9 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     }
   }, [isFetchedAfterMount, isError]);
 
-  const isLoggedIn = !!data && !isError;
-  const value = { data, isLoggedIn: isLoggedIn, isInitialized: isFetchedAfterMount, isLoading, refetch };
+  const isLogged = !!data && !isError;
+
+  const value = { data, isLogged, isInitialized: isFetchedAfterMount, isLoading, refetch };
 
   return (
     <AuthProviderContext.Provider {...props} value={value}>

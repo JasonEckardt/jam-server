@@ -13,10 +13,10 @@ const Header = () => {
 
   // TODO: Create an isLoggedIn var and show Me only when logged in.
   // Optionally, show Admin button only to admin
-  const { isLoggedIn, data, isLoading } = useAuth();
-  const isAdmin = isLoggedIn && data?.role === "admin";
+  const { isLogged, data, isLoading } = useAuth();
+  const isAdmin = isLogged && data?.role === "admin";
 
-  console.log("isLoggedIn:", isLoggedIn, "data:", data)
+  console.log("isLoggedIn:", isLogged, "data:", data)
 
   if (isLoading) {
     return <header>Loading session...</header>
@@ -27,7 +27,7 @@ const Header = () => {
   const navigationLinks = [{ href: "/", label: "Home" }, { href: "/library", label: "Library" }, { href: "/me", label: "Me" },
   { href: "/admin", label: "Admin" }]
     .filter(link => {
-      if (link.href === "/me" || link.href === "/library") return isLoggedIn;
+      if (link.href === "/me" || link.href === "/library") return isLogged;
       if (link.href === "/admin") return isAdmin;
       return true;
     })

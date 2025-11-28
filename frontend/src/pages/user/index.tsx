@@ -13,24 +13,20 @@ const UserPage = () => {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="flex flex-col items-center gap-6 text-center">
-        {/* Profile Picture */}
         <img
           src={profileImage}
           alt={data?.display_name || 'User'}
           className="h-48 w-48 rounded-full object-cover border-4 border-green-500"
         />
 
-        {/* Username */}
         <h1 className="text-3xl font-bold">
           {data?.display_name || 'User'}
         </h1>
 
-        {/* User Type */}
         <p className="text-lg text-gray-600">
-          User Type: <span className="font-semibold">{data?.is_admin ? 'Admin' : 'User'}</span>
+          User Role: <span className="font-semibold">{data?.user_role || 'User'}</span>
         </p>
 
-        {/* Sign Out Button */}
         <Button
           onClick={handleSignOut}
           className="bg-green-500 hover:bg-green-600 mt-4"

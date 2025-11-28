@@ -26,7 +26,7 @@ def me():
     user_db = User.query.filter_by(user_id=user_id).first()
     if user_db:
         user["expires_at"] = user_db.expires_at.isoformat()
-    # TODO: Also append user["user_role"] to data.
+        user["user_role"] = user_db.user_role.title()
     return user
 
 

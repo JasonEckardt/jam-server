@@ -1,9 +1,10 @@
 from app import db
 from app.api import spotify
 from app.models.user import User
+import config.spotify_urls as urls
 from datetime import datetime, timedelta, timezone
 from flask import Blueprint, redirect, request, session
-import config.spotify_urls as urls
+from sqlalchemy import exists
 import os
 import requests
 import urllib
@@ -26,11 +27,11 @@ def callback():
     headers = {"Authorization": f"Bearer {credentials['access_token']}"}
     user_profile = requests.get(urls.USER_PROFILE, headers=headers).json()
     spotify_uid = user_profile.get("id")
-
     expires_at = datetime.now(timezone.utc) + timedelta(
         seconds=credentials["expires_in"]
     )
-
+    # Set the first user as an Admin
+    is_first_user = not db.session.query(exists().where(User.id.isnot(None))).scalar()
     user = User.query.filter_by(user_id=spotify_uid).first()
     if user:
         user.access_token = credentials["access_token"]
@@ -42,6 +43,7 @@ def callback():
             access_token=credentials["access_token"],
             refresh_token=credentials["refresh_token"],
             expires_at=expires_at,
+            user_role="admin" if is_first_user else "user",
         )
         db.session.add(user)
 

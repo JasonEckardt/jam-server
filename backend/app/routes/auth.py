@@ -31,7 +31,7 @@ def callback():
         seconds=credentials["expires_in"]
     )
     # Set the first user as an Admin
-    is_first_user = not db.session.query(exists().where(User.id.isnot(None))).scalar()
+    admin_exists = User.query.filter_by(user_role='admin').first() is not None
     user = User.query.filter_by(user_id=spotify_uid).first()
     if user:
         user.access_token = credentials["access_token"]
@@ -43,7 +43,7 @@ def callback():
             access_token=credentials["access_token"],
             refresh_token=credentials["refresh_token"],
             expires_at=expires_at,
-            user_role="admin" if is_first_user else "user",
+            user_role="admin" if not admin_exists else "user",
         )
         db.session.add(user)
 

@@ -2,12 +2,22 @@ from app import db
 from app.api import spotify
 from app.models.queue import Queue
 from app.models.user import User
-from flask import Blueprint, request, session
+from flask import (
+    Blueprint,
+    current_app,
+    Response,
+    request,
+    session,
+)
 import config.spotify_urls as urls
+import json
 import re
-import uuid
+from threading import Lock
+import time
 
 queues = Blueprint("queues", __name__)
+queue_lock = Lock()
+queue_updates = {}
 
 
 def extract_track_id(url):
@@ -30,6 +40,10 @@ def get_or_create_queue(queue_id="main"):
 @queues.route("/queues/")
 def list_queues():
     queues = Queue.query.all()
+    if len(queues) == 0:
+        q = get_or_create_queue()
+        queues = [q]
+
     queues_list = []
     for q in queues:
         queues_list.append(
@@ -41,17 +55,7 @@ def list_queues():
                 "created_at": q.created_at.isoformat(),
             }
         )
-    if len(queues_list) == 0:
-        q = get_or_create_queue()
-    queues_list.append(
-        {
-            "id": q.id,
-            "name": q.name,
-            "now_playing": q.now_playing,
-            "queue_length": len(q.tracks),
-            "created_at": q.created_at.isoformat(),
-        }
-    )
+
     return {"queues": queues_list}, 200
 
 
@@ -134,6 +138,8 @@ def add_track(queue_id: str):
         return {"error": f"Queue {queue_id} does not exist"}, 404
     queue.tracks.append(track_id)
     db.session.commit()
+    with queue_lock:
+        queue_updates[queue_id] = time.time()
 
     return {"track_id": track_id}, 201
 
@@ -155,3 +161,46 @@ def clear_queue(queue_id):
 def remove_track(queue_id: str, track_id: str):
 
     return {"removed_track_id": track_id}, 204
+
+
+@queues.route("/queues/<string:queue_id>/update")
+def stream_queue_updates(queue_id: str):
+    # Capture the app instance before entering the generator
+    app = current_app._get_current_object()
+
+    def generate():
+        last_count = 0
+
+        while True:
+            try:
+                # Push app context for each iteration
+                with app.app_context():
+                    queue = db.session.get(Queue, queue_id)
+
+                    if queue:
+                        current_count = len(queue.tracks)
+
+                        # Send data on first iteration OR when count changes
+                        if last_count == 0 or current_count != last_count:
+                            data = json.dumps(
+                                {
+                                    "queue_id": queue.id,
+                                    "track_count": current_count,
+                                    "timestamp": time.time(),
+                                }
+                            )
+                            yield f"data: {data}\n\n"
+                            last_count = current_count
+
+            except Exception as e:
+                print(f"Error in SSE stream: {e}")
+                import traceback
+
+                traceback.print_exc()
+
+            time.sleep(1)
+
+    response = Response(generate(), mimetype="text/event-stream")
+    response.headers["Cache-Control"] = "no-cache"
+    response.headers["X-Accel-Buffering"] = "no"
+    return response

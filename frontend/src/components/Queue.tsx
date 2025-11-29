@@ -11,7 +11,6 @@ const Queue = () => {
       <Button
         className="bg-green-500"
         onClick={handleAddTrack}
-        disabled={queue?.tracks.some((t: Track) => t.pending)}
       >
         Add to Queue
       </Button>

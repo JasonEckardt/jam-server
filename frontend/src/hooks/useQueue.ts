@@ -37,7 +37,8 @@ const useQueue = (): UseQueueHookProps => {
     },
   });
 
-  const queue = queryClient.getQueryData(["queue", queueId])
+  // Read queue from cache to get optimistic updates
+  const queue = queryClient.getQueryData(["queue", queueId]);
 
   const { mutate: addToQueue } = useMutation({
     mutationKey: ["addToQueue"],
@@ -107,9 +108,7 @@ const useQueue = (): UseQueueHookProps => {
   };
 
   useEffect(() => {
-    getQueue();
-
-    // Set up SSE connection
+    // Set up SSE connection - it will send initial snapshot once
     const eventSource = new EventSource(`/api/queues/${queueId}/update`);
     eventSourceRef.current = eventSource;
 
@@ -117,8 +116,15 @@ const useQueue = (): UseQueueHookProps => {
       console.log("Queue update received:", event.data);
       const data = JSON.parse(event.data);
 
-      // Refetch queue data when update is received
-      getQueue();
+      if (data.type === 'snapshot') {
+        // Initial snapshot on connect - load once, fast
+        console.log("Received initial queue snapshot");
+        queryClient.setQueryData(["queue", queueId], data.queue);
+      } else if (data.type === 'update') {
+        // Lightweight notification - refetch to get changes
+        console.log("Queue changed, refetching...");
+        getQueue();
+      }
     };
 
     eventSource.onerror = (error) => {
@@ -136,7 +142,7 @@ const useQueue = (): UseQueueHookProps => {
         console.log("SSE connection closed");
       }
     };
-  }, []);
+  }, [queueId, getQueue, queryClient]);
 
   // Remove pending tracks after 15 seconds (timeout fallback)
   useEffect(() => {

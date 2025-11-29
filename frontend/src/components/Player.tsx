@@ -30,12 +30,11 @@ const Player = () => {
             <div className="flex gap-4">
               <div className="relative">
                 <img
-                  src={nowPlaying.images[0]?.url || '/placeholder-album.png'}
-                  alt={`${nowPlaying.album} album cover`}
-                  className={`w-32 h-32 rounded-md object-cover ${nowPlaying.pending ? 'opacity-50' : ''
-                    }`}
+                  src={nowPlaying?.images?.[0]?.url || '/placeholder-album.png'}
+                  alt={`${nowPlaying?.album || 'Album'} cover`}
+                  className={`w-32 h-32 rounded-md object-cover ${nowPlaying?.pending ? 'opacity-50' : ''}`}
                 />
-                {nowPlaying.pending && (
+                {nowPlaying?.pending && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Loader2 className="w-8 h-8 text-white animate-spin" />
                   </div>
@@ -46,7 +45,7 @@ const Player = () => {
                   {nowPlaying.name}
                 </p>
                 <p className={`text-gray-600 ${nowPlaying.pending ? 'text-gray-400' : ''}`}>
-                  {nowPlaying.artists.join(", ")}
+                  {nowPlaying?.artists?.join(", ") || "Unknown Artist"}
                 </p>
                 <p className="text-sm text-gray-500 mt-1">{nowPlaying.album}</p>
               </div>

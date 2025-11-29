@@ -1,5 +1,6 @@
 from app import db
 from app.api import spotify
+from app.models.track import Track
 from app.models.queue import Queue
 from app.models.user import User
 from flask import (
@@ -163,44 +164,65 @@ def remove_track(queue_id: str, track_id: str):
     return {"removed_track_id": track_id}, 204
 
 
-@queues.route("/queues/<string:queue_id>/update")
-def stream_queue_updates(queue_id: str):
-    # Capture the app instance before entering the generator
+@queues.route("/queues/<queue_id>/update")
+def queue_updates(queue_id):
     app = current_app._get_current_object()
 
     def generate():
-        last_count = 0
+        # Send full snapshot ONCE
+        with app.app_context():
+            queue = db.session.get(Queue, queue_id)
 
+            if queue:
+                # Fetch full track objects from database
+                tracks_data = []
+                for track_id in queue.tracks:
+                    track = db.session.get(Track, track_id)
+                    if track:
+                        tracks_data.append(
+                            {
+                                "id": track.id,
+                                "name": track.name,
+                                "artists": (
+                                    json.loads(track.artists) if track.artists else []
+                                ),
+                                "duration_ms": (
+                                    int(track.duration_ms) if track.duration_ms else 0
+                                ),
+                                "images": (
+                                    json.loads(track.images) if track.images else []
+                                ),
+                            }
+                        )
+
+                initial_snapshot = {
+                    "type": "snapshot",
+                    "queue": {
+                        "queue_id": queue.id,
+                        "name": queue.name,
+                        "tracks": tracks_data,
+                    },
+                    "timestamp": time.time(),
+                }
+                yield f"data: {json.dumps(initial_snapshot)}\n\n"
+
+        # Then send lightweight updates (just notification)
         while True:
             try:
-                # Push app context for each iteration
                 with app.app_context():
-                    queue = db.session.get(Queue, queue_id)
-
-                    if queue:
-                        current_count = len(queue.tracks)
-
-                        # Send data on first iteration OR when count changes
-                        if last_count == 0 or current_count != last_count:
-                            data = json.dumps(
-                                {
-                                    "queue_id": queue.id,
-                                    "track_count": current_count,
-                                    "timestamp": time.time(),
-                                }
-                            )
-                            yield f"data: {data}\n\n"
-                            last_count = current_count
-
+                    update = {
+                        "type": "update",
+                        "queue_id": queue_id,
+                        "timestamp": time.time(),
+                    }
+                    yield f"data: {json.dumps(update)}\n\n"
             except Exception as e:
-                print(f"Error in SSE stream: {e}")
-                import traceback
-
-                traceback.print_exc()
+                print(f"Error: {e}")
 
             time.sleep(1)
 
-    response = Response(generate(), mimetype="text/event-stream")
-    response.headers["Cache-Control"] = "no-cache"
-    response.headers["X-Accel-Buffering"] = "no"
-    return response
+    return Response(
+        generate(),
+        mimetype="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )

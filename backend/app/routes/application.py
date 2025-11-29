@@ -13,4 +13,4 @@ def index():
 
 @application.route("/status")
 def status():
-    return "Party Jam server v0.4.2 running"
+    return "Party Jam server v0.5.0 running"

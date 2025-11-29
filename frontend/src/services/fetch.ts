@@ -17,6 +17,7 @@ export async function fetch<P = any, R = any>(
     params: method === "GET" ? params : undefined,
     data: method !== "GET" ? body : undefined,
     headers,
+    withCredentials: true,
   };
 
   const { data } = await api.request<R>(config);

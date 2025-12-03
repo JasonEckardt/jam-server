@@ -1,9 +1,11 @@
 import useQueue, { type Track } from "@/hooks/useQueue";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { io } from "socket.io-client";
 
 const Queue = () => {
   const { url, queue, setUrl, handleAddTrack } = useQueue();
+  const socket = io("/api/queues/some_queue/state");
 
   return (
     <div className="flex max-w-4xl gap-2">
@@ -15,6 +17,7 @@ const Queue = () => {
         Add to Queue
       </Button>
     </div>
+
   );
 };
 

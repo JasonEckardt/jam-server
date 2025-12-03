@@ -1,228 +1,119 @@
-from app import db
-from app.api import spotify
-from app.models.track import Track
+from flask import Blueprint, request, session
+from flask_socketio import emit, join_room
+from app import db, socketio
 from app.models.queue import Queue
 from app.models.user import User
-from flask import (
-    Blueprint,
-    current_app,
-    Response,
-    request,
-    session,
-)
-import config.spotify_urls as urls
-import json
 import re
 from threading import Lock
-import time
 
-queues = Blueprint("queues", __name__)
+queues_bp = Blueprint("queues", __name__)
 queue_lock = Lock()
-queue_updates = {}
 
 
 def extract_track_id(url):
+    """Extract Spotify track ID from a URL."""
     match = re.search(r"spotify\.com/track/([A-Za-z0-9_-]+)", url)
-    if match:
-        return match.group(1)
-    return None
+    return match.group(1) if match else None
 
 
-def get_or_create_queue(queue_id="main"):
-    queue = db.session.get(Queue, queue_id)
+def get_queue(queue_id):
+    return db.session.get(Queue, queue_id)
+
+
+@socketio.on("join_queue")
+def ws_join_queue(data):
+    """Client joins a queue; send full snapshot once."""
+    queue_id = data["queue_id"]
+
+    join_room(queue_id)
+
+    queue = get_queue(queue_id)
     if not queue:
-        # we may want to ask the admin for session name
-        queue = Queue(id=queue_id, name="Main Session", tracks=[])
-        db.session.add(queue)
-        db.session.commit()
-    return queue
+        emit("error", {"error": f"Queue {queue_id} not found"})
+        return
 
-
-@queues.route("/queues/")
-def list_queues():
-    queues = Queue.query.all()
-    if len(queues) == 0:
-        q = get_or_create_queue()
-        queues = [q]
-
-    queues_list = []
-    for q in queues:
-        queues_list.append(
-            {
-                "id": q.id,
-                "name": q.name,
-                "now_playing": q.now_playing,
-                "queue_length": len(q.tracks),
-                "created_at": q.created_at.isoformat(),
-            }
-        )
-
-    return {"queues": queues_list}, 200
-
-
-@queues.route("/queues/<string:queue_id>", methods=["GET"])
-def get_queue(queue_id: str):
-    queue = db.session.get(Queue, queue_id)
-    if not queue:
-        return {"error": f"Queue {queue_id} was not found"}, 404
-    queue_data = []
-    for track_id in queue.tracks:
-        track, status_code = spotify.request_api(
-            urls.track(track_id), headers=urls.get_headers()
-        )
-        if status_code != 200:
-            return {"error": f"Failed to add track: {track['error']}"}
-        queue_data.append(
-            {
-                "id": track.get("id"),
-                "name": track.get("name"),
-                "artists": [a.get("name") for a in track.get("artists", [])],
-                "album": track.get("album", {}).get("name"),
-                "duration_ms": track.get("duration_ms"),
-                "images": track.get("album", {}).get("images", []),
-            }
-        )
-    now_playing = queue_data[0] if queue_data else None
-    return {
-        "queue_id": queue.id,
-        "name": queue.name,
-        "now_playing": now_playing,
-        "tracks": queue_data,
-    }, 200
-
-
-@queues.route("/queues/new/<string:queue_name>", methods=["POST"])
-def create_queue(queue_name: str):
-    queue_id = "main"
-    queue = Queue(id=queue_id, name=queue_name, tracks=[])
-    if queue:
-        return {"error": f"Queue {queue_name}, {queue_id} already exists."}, 409
-    db.session.add(queue)
-    db.session.commit()
-    return {"queue_id": queue.id, "name": queue.name, "tracks": queue.tracks}, 201
-
-
-@queues.route("/queues/<string:queue_id>/tracks", methods=["POST"])
-def add_track(queue_id: str):
-    data = request.get_json(force=True)
-    url = data.get("url")
-    if not url:
-        return {"error": "URL not provided"}, 400
-
-    track_id = extract_track_id(url)
-    if not track_id:
-        return {"error": "Invalid track URL"}, 400
-
-    user_id = session.get("user_id")
-    if not user_id:
-        return {"error": "User not logged in"}, 401
-
-    user = User.query.filter_by(user_id=user_id).first()
-    if not user:
-        return {"error": "User not found"}, 404
-
-    token = spotify.get_current_user_token()
-    if not token or user.is_expired():
-        token = spotify.refresh_access_token()
-
-    if not token:
-        return {"error": "Unable to obtain Spotify token"}, 401
-
-    track_response, status_code = spotify.request_api(
-        urls.track(track_id), headers={"Authorization": f"Bearer {token}"}
+    emit(
+        "queue_snapshot",
+        {"queue_id": queue.id, "tracks": queue.tracks, "name": queue.name},
     )
-    if status_code != 200:
-        return {"error": f"Failed to get track: {track_response['error']}"}, 401
 
-    queue = db.session.get(Queue, queue_id)
+
+@socketio.on("add_track")
+def ws_add_track(data):
+    """Client requests to add a track."""
+    queue_id = data["queue_id"]
+    track_id = data["track_id"]
+
+    queue = get_queue(queue_id)
     if not queue:
-        return {"error": f"Queue {queue_id} does not exist"}, 404
-    queue.tracks.append(track_id)
-    db.session.commit()
+        emit("error", {"error": f"Queue {queue_id} not found"})
+        return
+
     with queue_lock:
-        queue_updates[queue_id] = time.time()
+        queue.tracks.append(track_id)
+        db.session.commit()
 
-    return {"track_id": track_id}, 201
+    # Broadcast patch to everyone (including sender)
+    emit("queue_patch", {"event": "add", "track_id": track_id}, room=queue_id)
 
 
-@queues.route("/queues/<queue_id>/clear", methods=["POST"])
-def clear_queue(queue_id):
-    # TODO: Make this admin only command
-    queue = Queue.query.filter_by(id=queue_id).first()
+@socketio.on("remove_track")
+def ws_remove_track(data):
+    queue_id = data["queue_id"]
+    track_id = data["track_id"]
+
+    queue = get_queue(queue_id)
     if not queue:
-        return {"error": "Queue not found"}, 404
+        emit("error", {"error": f"Queue {queue_id} not found"})
+        return
 
-    queue.tracks = []
-    db.session.commit()
+    with queue_lock:
+        if track_id in queue.tracks:
+            queue.tracks.remove(track_id)
+            db.session.commit()
 
-    return f"Queue {queue_id} cleared", 200
-
-
-@queues.route("/queues/<queue_id>/tracks/<track_id>", methods=["DELETE"])
-def remove_track(queue_id: str, track_id: str):
-
-    return {"removed_track_id": track_id}, 204
+    emit("queue_patch", {"event": "remove", "track_id": track_id}, room=queue_id)
 
 
-@queues.route("/queues/<queue_id>/update")
-def queue_updates(queue_id):
-    app = current_app._get_current_object()
+@socketio.on("move_track")
+def ws_move_track(data):
+    """Reorder tracks in the queue."""
+    queue_id = data["queue_id"]
+    old_index = data["from"]
+    new_index = data["to"]
 
-    def generate():
-        # Send full snapshot ONCE
-        with app.app_context():
-            queue = db.session.get(Queue, queue_id)
+    queue = get_queue(queue_id)
+    if not queue:
+        emit("error", {"error": f"Queue {queue_id} not found"})
+        return
 
-            if queue:
-                # Fetch full track objects from database
-                tracks_data = []
-                for track_id in queue.tracks:
-                    track = db.session.get(Track, track_id)
-                    if track:
-                        tracks_data.append(
-                            {
-                                "id": track.id,
-                                "name": track.name,
-                                "artists": (
-                                    json.loads(track.artists) if track.artists else []
-                                ),
-                                "duration_ms": (
-                                    int(track.duration_ms) if track.duration_ms else 0
-                                ),
-                                "images": (
-                                    json.loads(track.images) if track.images else []
-                                ),
-                            }
-                        )
+    with queue_lock:
+        try:
+            track = queue.tracks.pop(old_index)
+            queue.tracks.insert(new_index, track)
+            db.session.commit()
+        except IndexError:
+            emit("error", {"error": "Invalid index"})
+            return
 
-                initial_snapshot = {
-                    "type": "snapshot",
-                    "queue": {
-                        "queue_id": queue.id,
-                        "name": queue.name,
-                        "tracks": tracks_data,
-                    },
-                    "timestamp": time.time(),
-                }
-                yield f"data: {json.dumps(initial_snapshot)}\n\n"
-
-        # Then send lightweight updates (just notification)
-        while True:
-            try:
-                with app.app_context():
-                    update = {
-                        "type": "update",
-                        "queue_id": queue_id,
-                        "timestamp": time.time(),
-                    }
-                    yield f"data: {json.dumps(update)}\n\n"
-            except Exception as e:
-                print(f"Error: {e}")
-
-            time.sleep(1)
-
-    return Response(
-        generate(),
-        mimetype="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    emit(
+        "queue_patch",
+        {"event": "move", "from": old_index, "to": new_index},
+        room=queue_id,
     )
+
+
+@socketio.on("clear_queue")
+def ws_clear_queue(data):
+    queue_id = data["queue_id"]
+
+    queue = get_queue(queue_id)
+    if not queue:
+        emit("error", {"error": f"Queue {queue_id} not found"})
+        return
+
+    with queue_lock:
+        queue.tracks = []
+        db.session.commit()
+
+    emit("queue_patch", {"event": "clear"}, room=queue_id)

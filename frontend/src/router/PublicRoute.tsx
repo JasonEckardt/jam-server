@@ -2,7 +2,11 @@ import { useAuth } from "@/contexts/auth";
 import { Navigate, Outlet } from "react-router-dom";
 
 export const PublicRoute = () => {
-  const { isLogged } = useAuth();
+  const { isLogged, isInitialized } = useAuth();
 
-  return !isLogged ? <Outlet /> : <Navigate to="/" replace />;
+  if (!isInitialized) {
+    return <div>Loading...</div>
+  }
+
+  return !isLogged ? <Outlet /> : <Navigate to="/me" replace />;
 };

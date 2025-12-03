@@ -6,16 +6,31 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "./ui/button";
+import { useAuth } from "@/contexts/auth";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const url = window.location.pathname;
 
   // TODO: Create an isLoggedIn var and show Me only when logged in.
   // Optionally, show Admin button only to admin
+  const { isLogged, data, isLoading } = useAuth();
+  const isAdmin = isLogged && data?.role === "admin";
+  const navigate = useNavigate()
+
+  if (isLoading) {
+    return <header>Loading session...</header>
+  }
 
   // Navigation links array to be used in both desktop and mobile menus
   // Home is active on root url, other links active when url includes href
-  const navigationLinks = [{ href: "/", label: "Home" }, { href: "/playlists", label: "Library" }, { href: "/me", label: "Me" }, { href: "/admin", label: "Admin" }]
+  const navigationLinks = [{ href: "/", label: "Home" }, { href: "/library", label: "Library" },
+  { href: "/admin", label: "Admin" }]
+    .filter(link => {
+      if (link.href === "/me" || link.href === "/library") return isLogged;
+      if (link.href === "/admin") return isAdmin;
+      return true;
+    })
     .map(link => ({
       ...link,
       active: link.href === "/" ? url === "/" : url.includes(link.href)
@@ -74,7 +89,7 @@ const Header = () => {
           {/* Main nav */}
           <div className="flex items-center gap-6">
             <a href="/" className="text-primary hover:text-primary/90">
-              <h1>Spotify Jam Server</h1>
+              <h1>Jam Server</h1>
             </a>
             {/* Navigation menu */}
             <NavigationMenu className="max-md:hidden">
@@ -96,9 +111,25 @@ const Header = () => {
         </div>
         {/* Right side */}
         {!url.includes("/login") && (
-          <Button asChild size="sm" className="bg-green-500 text-sm">
-            <a href="/login">Login</a>
-          </Button>
+          <>
+            {isLogged ? (
+              <button
+                onClick={() => navigate('/me')}
+                className="h-10 w-10 rounded-full overflow-hidden hover:opacity-80 transition-opacity border-2 border-green-500"
+                aria-label="Go to profile"
+              >
+                <img
+                  src={data?.images?.[0]?.url || '/default-avatar.png'}
+                  alt={data?.display_name || 'User'}
+                  className="h-full w-full object-cover"
+                />
+              </button>
+            ) : (
+              <Button asChild size="sm" className="bg-green-500 text-sm">
+                <a href="/login">Login</a>
+              </Button>
+            )}
+          </>
         )}
       </div>
     </header>

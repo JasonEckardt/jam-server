@@ -14,6 +14,13 @@ pipeline {
       }
     }
 
+    stage('Cleanup Old Containers') {
+      steps {
+        sh 'docker compose down -v || true'
+        sh 'docker container prune -f || true'
+      }
+    }
+
     stage('Start Services') {
       steps {
         sh 'docker compose up -d'

@@ -9,6 +9,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
+        checkout scm
         echo "Building branch: ${env.BRANCH_NAME ?: 'main'}"
         echo "Build number: ${env.BUILD_NUMBER}"
       }
@@ -24,7 +25,6 @@ pipeline {
     stage('Start Services') {
       steps {
         sh 'docker compose up -d'
-        // Wait for services to be healthy
         sh 'sleep 5'
       }
     }
@@ -55,20 +55,16 @@ pipeline {
 
   post {
     always {
-      // Shut down services
       sh 'docker compose down'
 
-      // Archive test results
       junit allowEmptyResults: true,
             testResults: 'test-results/results.xml',
             skipPublishingChecks: true
 
-      // Archive any logs or artifacts
       archiveArtifacts artifacts: 'test-results/**/*',
                        allowEmptyArchive: true,
                        fingerprint: true
 
-      // Clean up Python cache files but keep venv
       sh '''
         find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
         find . -type f -name "*.pyc" -delete 2>/dev/null || true

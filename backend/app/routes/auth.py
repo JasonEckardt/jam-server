@@ -4,7 +4,6 @@ from app.models.user import User
 import config.spotify_urls as urls
 from datetime import datetime, timedelta, timezone
 from flask import Blueprint, redirect, request, session
-from sqlalchemy import exists
 import os
 import requests
 import urllib
@@ -31,7 +30,7 @@ def callback():
         seconds=credentials["expires_in"]
     )
     # Set the first user as an Admin
-    admin_exists = User.query.filter_by(user_role='admin').first() is not None
+    admin_exists = User.query.filter_by(user_role="admin").first() is not None
     user = User.query.filter_by(user_id=spotify_uid).first()
     if user:
         user.access_token = credentials["access_token"]

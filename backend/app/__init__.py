@@ -5,10 +5,12 @@ pymysql.install_as_MySQLdb()
 from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
+from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 import os
 
 db = SQLAlchemy()
+socketio = SocketIO()
 
 
 def create_app(test_config=None):
@@ -32,20 +34,21 @@ def create_app(test_config=None):
         app.config.update(test_config)
 
     db.init_app(app)
+    socketio.init_app(app)
     Migrate(app, db)
+
+    from .routes import queues
 
     from .routes.application import application
     from .routes.auth import auth
     from .routes.devices import devices
     from .routes.player import player
-    from .routes.queues import queues
     from .routes.users import users
 
     app.register_blueprint(application)
     app.register_blueprint(auth)
     app.register_blueprint(devices)
     app.register_blueprint(player)
-    app.register_blueprint(queues)
     app.register_blueprint(users)
 
     return app

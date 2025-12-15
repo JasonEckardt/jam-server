@@ -50,7 +50,7 @@ pipeline {
     always {
       sh 'docker compose down -v || true'
       sh 'docker container prune -f || true'
-      sh 'rm -rf ./tmp || true'
+      sh 'sudo rm -rf ./tmp || true'
 
       junit allowEmptyResults: true,
             testResults: 'test-results/results.xml',

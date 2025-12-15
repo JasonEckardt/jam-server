@@ -49,8 +49,8 @@ pipeline {
   post {
     always {
       sh 'docker compose down -v || true'
-      sh 'docker container prune -f || true'
       sh 'docker run --rm -v $(pwd):/workspace -w /workspace mysql sh -c "rm -rf tmp || true"'
+      sh 'docker container prune -f || true'
 
       junit allowEmptyResults: true,
             testResults: 'test-results/results.xml',

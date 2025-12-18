@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    BUILD_TAG_LOWER = "${BUILD_TAG}".toLowerCase().replaceAll('[^a-z0-9-]', '-')
+    BUILD_TAG_LOWER = "${BUILD_TAG}".toLowerCase().replaceAll('[^a-z0-9-]', '_')
     PYTHONPATH = "${WORKSPACE}/backend"
     VENV_DIR = 'backend/.venv'
   }

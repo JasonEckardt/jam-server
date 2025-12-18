@@ -2,8 +2,9 @@ pipeline {
   agent any
 
   environment {
-    VENV_DIR = 'backend/.venv'
+    BUILD_TAG_LOWER = "${BUILD_TAG}".toLowerCase()
     PYTHONPATH = "${WORKSPACE}/backend"
+    VENV_DIR = 'backend/.venv'
   }
 
   stages {
@@ -12,12 +13,13 @@ pipeline {
         checkout scm
         echo "Building branch: ${env.BRANCH_NAME ?: 'main'}"
         echo "Build number: ${env.BUILD_NUMBER}"
+        echo "Docker Compose name: ${BUILD_TAG_LOWER}"
       }
     }
 
     stage('Start Services') {
       steps {
-        sh "docker compose --project-name '${BUILD_TAG}' up -d"
+        sh "docker compose --project-name '${BUILD_TAG_LOWER}' up -d"
         sh 'sleep 5'
       }
     }

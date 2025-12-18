@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    BUILD_TAG_LOWER = "${BUILD_TAG}".toLowerCase()
+    BUILD_TAG_LOWER = "${BUILD_TAG}".toLowerCase().replaceAll('[^a-z0-9-]', '_')
     PYTHONPATH = "${WORKSPACE}/backend"
     VENV_DIR = 'backend/.venv'
   }
@@ -19,7 +19,15 @@ pipeline {
 
     stage('Start Services') {
       steps {
-        sh "docker compose --project-name '${BUILD_TAG_LOWER}' up -d"
+        sh "docker compose -f docker-compose-ci.yml --project-name '${BUILD_TAG_LOWER}' up -d"
+        script {
+          def mysqlPort = sh(
+            script: "docker compose -f docker-compose-ci.yml --project-name '${BUILD_TAG_LOWER}' port mysql 3306 | cut -d: -f2",
+            returnStdout: true
+          ).trim()
+          env.MYSQL_PORT = mysqlPort
+          echo "MySQL starting on port ${mysqlPort}..."
+        }
         sh 'sleep 5'
       }
     }

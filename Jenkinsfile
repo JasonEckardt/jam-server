@@ -51,6 +51,7 @@ pipeline {
           ${VENV_DIR}/bin/python -m pytest backend/tests/ \
             --junitxml=test-results/results.xml \
             --maxfail=5 \
+            -n 2 \
             -v
         '''
       }

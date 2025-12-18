@@ -33,6 +33,9 @@ pipeline {
     }
 
     stage('Install Dependencies') {
+      options {
+       timeout(time: 10, unit: 'MINUTES')
+      }
       steps {
         sh '''
           python3 -m venv ${VENV_DIR}
@@ -48,7 +51,6 @@ pipeline {
           ${VENV_DIR}/bin/python -m pytest backend/tests/ \
             --junitxml=test-results/results.xml \
             --maxfail=5 \
-            -n 1 \
             -v
         '''
       }

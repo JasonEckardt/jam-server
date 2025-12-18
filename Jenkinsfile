@@ -33,6 +33,9 @@ pipeline {
     }
 
     stage('Install Dependencies') {
+      options {
+       timeout(time: 10, unit: 'MINUTES')
+      }
       steps {
         sh '''
           python3 -m venv ${VENV_DIR}
@@ -58,7 +61,6 @@ pipeline {
   post {
     always {
       sh "docker compose -f docker-compose-ci.yml --project-name '${BUILD_TAG_LOWER}' down -v || true"
-      sh 'docker run --rm -v $(pwd):/workspace -w /workspace mysql sh -c "rm -rf tmp || true"'
       sh 'docker container prune -f || true'
 
       junit allowEmptyResults: true,

@@ -9,18 +9,13 @@ services:
       MYSQL_PASSWORD: spotifypass
     ports:
       - '127.0.0.1::3306'
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 5s
-      retries: 10
-      interval: 3s
     volumes:
       - mysql_data:/var/lib/mysql
     deploy:
       resources:
         limits:
-          cpus: '1.5'
-          memory: 1G
+          cpus: '1.0'
+          memory: 768M
         reservations:
           cpus: '0.5'
           memory: 512M

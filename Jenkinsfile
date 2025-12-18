@@ -25,10 +25,10 @@ pipeline {
             script: "docker compose -f docker-compose-ci.yml --project-name '${BUILD_TAG_LOWER}' port mysql 3306 | cut -d: -f2",
             returnStdout: true
           ).trim()
+          env.MYSQL_PORT = mysqlPort
+          echo "MySQL starting on port ${mysqlPort}..."
         }
-        env.MYSQL_PORT = mysqlPort
         sh 'sleep 5'
-        echo "MySQL available on port ${mysqlPort}"
       }
     }
 

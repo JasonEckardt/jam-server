@@ -17,7 +17,7 @@ pipeline {
 
     stage('Start Services') {
       steps {
-        sh 'docker compose up -d'
+        sh "docker compose --project-name '${BUILD_TAG}' up -d"
         sh 'sleep 5'
       }
     }

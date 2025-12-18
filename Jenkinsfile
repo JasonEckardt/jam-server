@@ -48,6 +48,7 @@ pipeline {
           ${VENV_DIR}/bin/python -m pytest backend/tests/ \
             --junitxml=test-results/results.xml \
             --maxfail=5 \
+            -n 2 \
             -v
         '''
       }
@@ -56,7 +57,7 @@ pipeline {
 
   post {
     always {
-      sh 'docker compose down -v || true'
+      sh "docker compose -f docker-compose-ci.yml --project-name '${BUILD_TAG_LOWER}' down -v || true"
       sh 'docker run --rm -v $(pwd):/workspace -w /workspace mysql sh -c "rm -rf tmp || true"'
       sh 'docker container prune -f || true'
 

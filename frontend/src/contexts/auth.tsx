@@ -20,23 +20,21 @@ const initialState: AuthProviderState = {
   isLogged: false,
   isInitialized: false,
   isLoading: false,
-  refetch: () => {},
+  refetch: () => { },
 };
 
 const AuthProviderContext = createContext<AuthProviderState>(initialState);
 
 export function AuthProvider({ children, ...props }: AuthProviderProps) {
-  const location = window.location;
   const hasFetchedRef = useRef(false);
-
-  // Only enable the query if on /me and we haven't fetched yet
-  const shouldFetch = location.pathname === "/me" && !hasFetchedRef.current;
 
   const { data, isLoading, isError, isFetchedAfterMount, refetch } = useQuery<any, Error>({
     queryKey: ["me"],
     queryFn: () => fetch("/me"),
-    enabled: shouldFetch,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     retry: false,
+    staleTime: 5 * 60 * 1000, // Cache for 5 min to avoid repeated calls
   });
 
   // Mark as fetched after first success or error
@@ -45,8 +43,6 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
       hasFetchedRef.current = true;
     }
   }, [isFetchedAfterMount, isError]);
-
-  console.log(data, isLoading, isFetchedAfterMount);
 
   const isLogged = !!data && !isError;
 

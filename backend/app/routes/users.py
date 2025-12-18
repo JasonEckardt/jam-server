@@ -17,16 +17,16 @@ def me():
     headers = {"Authorization": f"Bearer {token}"}
     user, status_code = spotify.request_api(urls.USER_PROFILE, headers)
     if status_code != 200:
-        return {"Failed to login: {user}"}, status_code
+        return {"error": f"Failed to login: {user}"}, status_code
 
     user_id = session.get("user_id")
     if not user_id:
-        raise Exception(f"user_id missing for {user}")
+        return {"error": "User ID missing from session"}, 401
 
     user_db = User.query.filter_by(user_id=user_id).first()
     if user_db:
         user["expires_at"] = user_db.expires_at.isoformat()
-
+        user["user_role"] = user_db.user_role.title()
     return user
 
 
@@ -88,7 +88,7 @@ def playlist_tracks(playlist_id):
 
 @users.route("/tracks")
 def top_tracks():
-    response, status_code = requests.get(
+    response, status_code = spotify.request_api(
         urls.user_top_items("tracks"), headers=urls.get_headers()
     )
 
@@ -97,5 +97,9 @@ def top_tracks():
             "error": "Failed to fetch top tracks",
         }, status_code
 
-    tracks = response.json().get("items", [])
-    return {"tracks": tracks}
+    tracks = response.get("items", [])
+    for track in tracks:
+        del track["album"]["available_markets"]
+        del track["available_markets"]
+
+    return {"tracks": tracks}, 200

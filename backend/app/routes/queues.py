@@ -64,9 +64,10 @@ def ws_join_queue(data):
 
     queue = get_queue(queue_id)
     if not queue:
-        print(f"Queue {queue_id} not found")
-        emit("error", {"error": f"Queue {queue_id} not found"})
-        return
+        print(f"Queue {queue_id} not found in DB. Creating it...")
+        queue = Queue(id=queue_id, name="Main Jam Session", tracks=[], users=[])
+        db.session.add(queue)
+        db.session.commit()
 
     # Get access token (adjust based on your auth implementation)
     access_token = session.get("access_token") or data.get("access_token")

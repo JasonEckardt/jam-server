@@ -24,12 +24,15 @@ def callback():
     if "error" in credentials:
         return {"error": f"Failed to get access token: {credentials['error']}"}, 400
 
-    headers = {"Authorization": f"Bearer {credentials['access_token']}"}
-    user_profile = requests.get(urls.USER_PROFILE, headers=headers).json()
-    spotify_uid = user_profile.get("id")
     expires_at = datetime.now(timezone.utc) + timedelta(
         seconds=credentials["expires_in"]
     )
+    credentials["expires_at"] = int(time.time()) + credentials["expires_in"]
+
+    headers = {"Authorization": f"Bearer {credentials['access_token']}"}
+    user_profile = requests.get(urls.USER_PROFILE, headers=headers).json()
+    spotify_uid = user_profile.get("id")
+
     # Set the first user as an Admin
     admin_exists = User.query.filter_by(user_role="admin").first() is not None
     user = User.query.filter_by(user_id=spotify_uid).first()

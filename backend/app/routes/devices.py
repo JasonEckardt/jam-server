@@ -17,7 +17,9 @@ def list_devices():
 
 @devices.route("/devices/select/<string:id>", methods=["POST"])
 def devices_select(id: str) -> dict:
-    devices_response = spotify.request_api(urls.DEVICES, headers=urls.get_headers())
+    devices_response, code = spotify.request_api(
+        urls.DEVICES, headers=urls.get_headers()
+    )
 
     devices_list = devices_response.get("devices", [])
     if not devices_list:

@@ -1,136 +1,43 @@
-import { useEffect, useState } from "react";
 import useQueue, { type Track } from "@/hooks/useQueue";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Loader2 } from "lucide-react";
-import { io, Socket } from "socket.io-client";
 
 const Queue = () => {
-  const { url, queue, setUrl, setQueue } = useQueue();
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [queueId] = useState("some_queue"); // Could be dynamic based on session
+  // Access token is handled by Flask session on the backend
+  // The backend checks: session.get("access_token") or data.get("access_token")
+  const accessToken = undefined;
+
+  const {
+    url,
+    queue,
+    setUrl,
+    handleAddTrack,
+    handleRemoveTrack,
+    isConnected
+  } = useQueue(accessToken);
 
   const nowPlaying: Track | null = queue?.tracks?.[0] || null;
   const upNext: Track[] = queue?.tracks?.slice(1) || [];
 
-  // Initialize socket connection
-  useEffect(() => {
-    const newSocket = io("/api/queues", {
-      transports: ["websocket", "polling"]
-    });
-
-    setSocket(newSocket);
-
-    // Join the queue
-    newSocket.emit("join_queue", { queue_id: queueId });
-
-    // Handle initial queue snapshot
-    newSocket.on("queue_snapshot", (snapshot: { tracks: Track[] }) => {
-      setQueue({ tracks: snapshot.tracks });
-    });
-
-    // Handle queue patches (real-time updates)
-    newSocket.on("queue_patch", (patch: any) => {
-      switch (patch.event) {
-        case "add":
-          setQueue((currentQueue) => ({
-            tracks: [...(currentQueue?.tracks || []), patch.track]
-          }));
-          break;
-
-        case "remove":
-          setQueue((currentQueue) => ({
-            tracks: (currentQueue?.tracks || []).filter(
-              (track) => track.id !== patch.track_id
-            )
-          }));
-          break;
-
-        case "move":
-          setQueue((currentQueue) => {
-            const tracks = [...(currentQueue?.tracks || [])];
-            const [movedTrack] = tracks.splice(patch.from, 1);
-            tracks.splice(patch.to, 0, movedTrack);
-            return { tracks };
-          });
-          break;
-
-        case "clear":
-          setQueue({ tracks: [] });
-          break;
-
-        case "skip":
-          setQueue((currentQueue) => ({
-            tracks: (currentQueue?.tracks || []).slice(1)
-          }));
-          break;
-
-        default:
-          console.warn("Unknown patch event:", patch.event);
-      }
-    });
-
-    // Handle full queue updates (fallback)
-    newSocket.on("queue_updated", (data: { queue: Track[] }) => {
-      setQueue({ tracks: data.queue });
-    });
-
-    // Cleanup on unmount
-    return () => {
-      newSocket.emit("leave_queue", { queue_id: queueId });
-      newSocket.close();
-    };
-  }, [queueId, setQueue]);
-
-  // Send add track request to server
-  const handleAddTrack = () => {
-    if (!socket || !url) return;
-
-    // Add optimistic update (optional)
-    const tempTrack: Track = {
-      id: `temp-${Date.now()}`,
-      tempId: `temp-${Date.now()}`,
-      name: "Loading...",
-      artists: [],
-      album: "",
-      duration_ms: 0,
-      images: [],
-      pending: true
-    };
-
-    setQueue((currentQueue) => ({
-      tracks: [...(currentQueue?.tracks || []), tempTrack]
-    }));
-
-    // Send mutation request to server
-    socket.emit("add_track", {
-      queue_id: queueId,
-      url: url
-    });
-
-    setUrl("");
-  };
-
+  // Optional: Add skip track functionality to the hook if needed
+  // For now, we can just remove the first track
   const handleSkipTrack = () => {
-    if (!socket) return;
-
-    socket.emit("skip_track", {
-      queue_id: queueId
-    });
-  };
-
-  const handleRemoveTrack = (trackId: string) => {
-    if (!socket) return;
-
-    socket.emit("remove_track", {
-      queue_id: queueId,
-      track_id: trackId
-    });
+    if (nowPlaying) {
+      handleRemoveTrack(nowPlaying.id);
+    }
   };
 
   return (
     <div className="space-y-4">
+      {/* Connection status indicator (optional) */}
+      {!isConnected && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 rounded">
+          Connecting to server...
+        </div>
+      )}
+
       <div className="flex max-w-4xl gap-2">
         <Input
           type="text"
@@ -142,7 +49,7 @@ const Queue = () => {
         <Button
           className="bg-green-500 hover:bg-green-600"
           onClick={handleAddTrack}
-          disabled={!url || !socket}
+          disabled={!url || !isConnected}
         >
           Add to Queue
         </Button>
@@ -158,6 +65,7 @@ const Queue = () => {
                 variant="outline"
                 size="sm"
                 onClick={handleSkipTrack}
+                disabled={!isConnected}
               >
                 Skip
               </Button>
@@ -213,7 +121,7 @@ const Queue = () => {
                       {index + 1}
                     </span>
                     <div className="relative">
-                      {track.images[0]?.url ? (
+                      {track.images?.[0]?.url ? (
                         <img
                           src={track.images[0].url}
                           alt={`${track.album} album cover`}
@@ -235,7 +143,7 @@ const Queue = () => {
                         {track.name}
                       </p>
                       <p className="text-sm text-gray-600 truncate">
-                        {track.artists.join(", ")}
+                        {track.artists?.join(", ") || "Unknown Artist"}
                       </p>
                     </div>
                     <span className="text-sm text-gray-500">
@@ -253,6 +161,7 @@ const Queue = () => {
                       size="sm"
                       onClick={() => handleRemoveTrack(track.id)}
                       className="text-red-500 hover:text-red-700"
+                      disabled={!isConnected}
                     >
                       ✕
                     </Button>

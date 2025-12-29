@@ -14,7 +14,7 @@ from app import create_app
 def test_env(monkeypatch):
     monkeypatch.setenv("SECRET_KEY", "test-secret")
     monkeypatch.setenv("CORS_ORIGINS", "*")
-    monkeypatch.setenv("FRONTEND_URL", "http://localhost:3000")
+    monkeypatch.setenv("FRONTEND_URL", "http://localhost:5173")
     monkeypatch.setenv("BACKEND_URL", "http://localhost:5000")
     monkeypatch.setenv("SPOTIFY_CLIENT_ID", "dummy")
     monkeypatch.setenv("SPOTIFY_REDIRECT_URI", "http://localhost/callback")

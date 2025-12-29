@@ -27,28 +27,42 @@ def create_app(test_config=None):
 
     app.secret_key = os.getenv("SECRET_KEY")
 
-    # TODO: dev setting? probably not production ready
+    # Session config
     app.config.update(SESSION_COOKIE_SAMESITE="Lax", SESSION_COOKIE_SECURE=False)
-    CORS(app, supports_credentials=True, origins=[os.getenv("FRONTEND_URL")])
+
+    # CORS config
+    frontend_url = os.getenv("FRONTEND_URL")
+    if not frontend_url:
+        print("FRONTEND_URL is not set! Using default http://localhost:5173")
+        frontend_url = "http://localhost:5173"
+    CORS(app, supports_credentials=True, origins=[frontend_url])
+
+    # Initialize extensions
+    db.init_app(app)
+    socketio.init_app(
+        app,
+        cors_allowed_origins=[frontend_url],
+        logger=True,
+        engineio_logger=True,
+    )
+
     if test_config:
         app.config.update(test_config)
 
-    db.init_app(app)
-    socketio.init_app(app)
     Migrate(app, db)
-
-    from .routes import queues
 
     from .routes.application import application
     from .routes.auth import auth
     from .routes.devices import devices
     from .routes.player import player
     from .routes.users import users
+    from .routes.queues import queues
 
     app.register_blueprint(application)
     app.register_blueprint(auth)
     app.register_blueprint(devices)
     app.register_blueprint(player)
     app.register_blueprint(users)
+    app.register_blueprint(queues)
 
     return app

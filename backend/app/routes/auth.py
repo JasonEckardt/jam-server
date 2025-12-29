@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 from flask import Blueprint, redirect, request, session
 import os
 import requests
+import time
 import urllib
 import uuid
 
@@ -54,6 +55,8 @@ def callback():
 
 @auth.route("/login")
 def login():
+    if os.getenv("FRONTEND_URL") is None:
+        return {"error": "FRONTEND_URL environment variable is not set"}, 400
     temp_admin_scope = " user-read-playback-state user-modify-playback-state"
 
     authentication_request_params = {
@@ -75,6 +78,29 @@ def login():
 def logout():
     session.clear()
     return redirect("/")
+
+
+@auth.route("/token")
+def get_current_token():
+    token_info = session.get("token_info")
+
+    if not token_info:
+        return ({"error": "Not logged in"}), 401
+
+    # Optional: Check if token is expired
+    # (Spotify tokens last 1 hour. You can add refresh logic here later)
+    now = int(time.time())
+    is_expired = token_info.get("expires_at", 0) - now < 60
+
+    if is_expired:
+        # For now, just return 401 so frontend knows to re-login
+        # Later, you can implement auto-refresh using the refresh_token in DB
+        return ({"error": "Token expired"}), 401
+
+    return {
+        "access_token": token_info.get("access_token"),
+        "user_id": session.get("user_id"),
+    }
 
 
 # @auth.route("/login/admin")

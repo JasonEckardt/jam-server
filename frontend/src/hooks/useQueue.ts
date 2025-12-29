@@ -23,7 +23,6 @@ export interface Track {
   tempId?: string;
 }
 
-// REMOVED: accessToken argument (we fetch it internally now)
 const useQueue = (): UseQueueHookProps => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [url, setUrl] = useState<string>("");
@@ -34,9 +33,8 @@ const useQueue = (): UseQueueHookProps => {
   const queryClient = useQueryClient();
 
   const queueId = "main";
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://127.0.0.1:5000";
 
-  // 1. NEW: Fetch the token from the Backend (Bridge) on mount
   useEffect(() => {
     const fetchSession = async () => {
       try {

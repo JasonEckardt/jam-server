@@ -33,8 +33,8 @@ def create_app(test_config=None):
     # CORS config
     frontend_url = os.getenv("FRONTEND_URL")
     if not frontend_url:
-        print("FRONTEND_URL is not set! Using default http://localhost:5173")
-        frontend_url = "http://localhost:5173"
+        print("FRONTEND_URL is not set! Using localhost")
+        frontend_url = "http://127.0.0.1:5173"
     CORS(app, supports_credentials=True, origins=[frontend_url])
 
     # Initialize extensions

@@ -5,9 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Loader2 } from "lucide-react";
 
 const Queue = () => {
-  // Access token is handled by Flask session on the backend
-  // The backend checks: session.get("access_token") or data.get("access_token")
-  const accessToken = undefined;
 
   const {
     url,
@@ -16,7 +13,7 @@ const Queue = () => {
     handleAddTrack,
     handleRemoveTrack,
     isConnected
-  } = useQueue(accessToken);
+  } = useQueue();
 
   const nowPlaying: Track | null = queue?.tracks?.[0] || null;
   const upNext: Track[] = queue?.tracks?.slice(1) || [];

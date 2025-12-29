@@ -13,10 +13,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 def test_env(monkeypatch):
     monkeypatch.setenv("SECRET_KEY", "test-secret")
     monkeypatch.setenv("CORS_ORIGINS", "*")
-    monkeypatch.setenv("FRONTEND_URL", "http://localhost:5173")
-    monkeypatch.setenv("BACKEND_URL", "http://localhost:5000")
+    monkeypatch.setenv("FRONTEND_URL", "http://127.0.0.1:5173")
+    monkeypatch.setenv("BACKEND_URL", "http://127.0.0.1:5000")
     monkeypatch.setenv("SPOTIFY_CLIENT_ID", "dummy")
-    monkeypatch.setenv("SPOTIFY_REDIRECT_URI", "http://localhost/callback")
+    monkeypatch.setenv("SPOTIFY_REDIRECT_URI", "http://127.0.0.1/callback")
     monkeypatch.setenv("SPOTIFY_CLIENT_SECRET", "dummy_secret")
 
 

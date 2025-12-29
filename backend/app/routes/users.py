@@ -17,11 +17,11 @@ def me():
     headers = {"Authorization": f"Bearer {token}"}
     user, status_code = spotify.request_api(urls.USER_PROFILE, headers)
     if status_code != 200:
-        return {"Failed to login: {user}"}, status_code
+        return {"error": f"Failed to login: {user}"}, status_code
 
     user_id = session.get("user_id")
     if not user_id:
-        return {"error", "User ID missing from session"}, 401
+        return {"error": "User ID missing from session"}, 401
 
     user_db = User.query.filter_by(user_id=user_id).first()
     if user_db:

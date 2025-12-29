@@ -1,27 +1,28 @@
 {
   "display_name": "TechBase",
-  "expires_at": "2025-11-18T18:12:10",
+  "expires_at": "2025-12-14T03:26:31",
   "external_urls": {
-    "spotify": "https://open.spotify.com/user/ymt"
+    "spotify": "https://open.spotify.com/user/1ras9vfqgo"
   },
   "followers": {
     "href": null,
     "total": 2
   },
-  "href": "https://api.spotify.com/v1/users/ymt",
-  "id": "ymt",
+  "href": "https://api.spotify.com/v1/users/1ras9vfqgo",
+  "id": "1ras9vfqgo",
   "images": [
     {
       "height": 300,
-      "url": "https://i.scdn.co/image/ab6",
+      "url": "https://i.scdn.co/image/ab00003b8208b8c",
       "width": 300
     },
     {
       "height": 64,
-      "url": "https://i.scdn.co/image/ab6",
+      "url": "https://i.scdn.co/image/ab00003b8208b8c",
       "width": 64
     }
   ],
   "type": "user",
-  "uri": "spotify:user:ymt"
+  "uri": "spotify:user:1ras9vfqgo",
+  "user_role": ""
 }

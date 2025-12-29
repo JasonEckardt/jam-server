@@ -65,4 +65,8 @@ def create_app(test_config=None):
     app.register_blueprint(users)
     app.register_blueprint(queues)
 
+    from app.models.queue import Queue
+    from app.models.track import Track
+    from app.models.user import User
+
     return app

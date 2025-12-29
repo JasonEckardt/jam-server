@@ -1,0 +1,34 @@
+{
+  "devices": [
+    {
+      "id": "5a716c76d4525c2897dc6a26f7bc7fe23ca4eaf7",
+      "is_active": true,
+      "is_private_session": true,
+      "is_restricted": false,
+      "name": "Device 1",
+      "supports_volume": false,
+      "type": "Smartphone",
+      "volume_percent": 57
+    },
+    {
+      "id": "c86dea1b60da40070bffd9cc4393093ec7458954",
+      "is_active": true,
+      "is_private_session": true,
+      "is_restricted": false,
+      "name": "Device 2",
+      "supports_volume": false,
+      "type": "Computer",
+      "volume_percent": 30
+    },
+    {
+      "id": "c5090131b4ff7e11fbbec6f5a9032515e6efe658",
+      "is_active": true,
+      "is_private_session": false,
+      "is_restricted": false,
+      "name": "Device 3",
+      "supports_volume": false,
+      "type": "Computer",
+      "volume_percent": 85
+    }
+  ]
+}

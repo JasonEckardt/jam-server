@@ -21,7 +21,7 @@ export function Library() {
         <div className="w-8 h-8 rounded-full bg-neutral-900 flex items-center justify-center">
           <span className="text-lg">👤</span>
         </div>
-        <h2 className="text-2xl font-bold">TechBase</h2>
+        <h2 className="text-2xl font-bold">TechBase</h2> {/* Should be user.name var, ai slop...*/}
       </div>
 
       <div className="space-y-8">
@@ -50,7 +50,7 @@ export function Library() {
                   {playlist.name}
                 </h4>
                 <p className="text-xs text-neutral-400 line-clamp-2">
-                  {playlist.description || `By ${playlist.owner.display_name}`}
+                  {playlist.description || `By ${playlist.owner.display_name}`} {/* After clicking the playlist, it should fetch tracks and open another page.*/}
                 </p>
               </div>
             ))}

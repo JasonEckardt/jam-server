@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 from flask import Blueprint, redirect, request, session
 import os
 import requests
+import time
 import urllib
 import uuid
 
@@ -23,12 +24,15 @@ def callback():
     if "error" in credentials:
         return {"error": f"Failed to get access token: {credentials['error']}"}, 400
 
-    headers = {"Authorization": f"Bearer {credentials['access_token']}"}
-    user_profile = requests.get(urls.USER_PROFILE, headers=headers).json()
-    spotify_uid = user_profile.get("id")
     expires_at = datetime.now(timezone.utc) + timedelta(
         seconds=credentials["expires_in"]
     )
+    credentials["expires_at"] = int(time.time()) + credentials["expires_in"]
+
+    headers = {"Authorization": f"Bearer {credentials['access_token']}"}
+    user_profile = requests.get(urls.USER_PROFILE, headers=headers).json()
+    spotify_uid = user_profile.get("id")
+
     # Set the first user as an Admin
     admin_exists = User.query.filter_by(user_role="admin").first() is not None
     user = User.query.filter_by(user_id=spotify_uid).first()
@@ -54,6 +58,8 @@ def callback():
 
 @auth.route("/login")
 def login():
+    if os.getenv("FRONTEND_URL") is None:
+        return {"error": "FRONTEND_URL environment variable is not set"}, 400
     temp_admin_scope = " user-read-playback-state user-modify-playback-state"
 
     authentication_request_params = {
@@ -75,6 +81,29 @@ def login():
 def logout():
     session.clear()
     return redirect("/")
+
+
+@auth.route("/token")
+def get_current_token():
+    token_info = session.get("token_info")
+
+    if not token_info:
+        return ({"error": "Not logged in"}), 401
+
+    # Optional: Check if token is expired
+    # (Spotify tokens last 1 hour. You can add refresh logic here later)
+    now = int(time.time())
+    is_expired = token_info.get("expires_at", 0) - now < 60
+
+    if is_expired:
+        # For now, just return 401 so frontend knows to re-login
+        # Later, you can implement auto-refresh using the refresh_token in DB
+        return ({"error": "Token expired"}), 401
+
+    return {
+        "access_token": token_info.get("access_token"),
+        "user_id": session.get("user_id"),
+    }
 
 
 # @auth.route("/login/admin")

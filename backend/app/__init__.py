@@ -5,10 +5,12 @@ pymysql.install_as_MySQLdb()
 from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
+from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 import os
 
 db = SQLAlchemy()
+socketio = SocketIO()
 
 
 def create_app(test_config=None):
@@ -25,28 +27,44 @@ def create_app(test_config=None):
 
     app.secret_key = os.getenv("SECRET_KEY")
 
-    # TODO: dev setting? probably not production ready
+    # Session config
     app.config.update(SESSION_COOKIE_SAMESITE="Lax", SESSION_COOKIE_SECURE=False)
-    CORS(app, supports_credentials=True, origins=[os.getenv("FRONTEND_URL")])
+
+    # CORS config
+    frontend_url = os.getenv("FRONTEND_URL")
+    if not frontend_url:
+        frontend_url = "http://127.0.0.1:5173"
+        print(f"FRONTEND_URL is not set! Defaulting to {frontend_url}")
+    print(f"CORS accepting connections from: {frontend_url}")
+    CORS(app, supports_credentials=True, origins=[frontend_url])
+
+    # Initialize extensions
+    db.init_app(app)
+    socketio.init_app(
+        app,
+        cors_allowed_origins=[frontend_url],
+        logger=True,
+        engineio_logger=True,
+    )
+
     if test_config:
         app.config.update(test_config)
 
-    db.init_app(app)
     Migrate(app, db)
 
     from .routes.application import application
     from .routes.auth import auth
     from .routes.devices import devices
     from .routes.player import player
-    from .routes.queues import queues
     from .routes.users import users
+    from .routes.queues import queues
 
     app.register_blueprint(application)
     app.register_blueprint(auth)
     app.register_blueprint(devices)
     app.register_blueprint(player)
-    app.register_blueprint(queues)
     app.register_blueprint(users)
+    app.register_blueprint(queues)
 
     from app.models.queue import Queue
     from app.models.track import Track

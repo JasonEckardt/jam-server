@@ -24,4 +24,4 @@ Steps to reproduce the behavior:
 4. See error
 
 ## Screenshots
-If applicable, add screenshots to help explain your problem.
+If applicable, add screenshots to help explain your problem. Please include the URL in your screenshot.
